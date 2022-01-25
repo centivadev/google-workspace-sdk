@@ -10,7 +10,11 @@ The Google Workspace SDK is an open source [Composer](https://getcomposer.org/) 
 >
 > We do not maintain a roadmap of community feature requests, however we invite you to contribute and we will gladly review your merge requests.
 
+## Dependencies
+
 **Note:** This package will require the `glamstack/google-auth-sdk` package in order to operate. This is already configured as a required package in the composer.json file and should be automatically loaded when installing this package.
+
+> All configurations for this package will be configured under the `glamstack-google-config.php` file that will be loaded when the `glamstack/google-auth-sdk` package is installed. For further guidance please see the [Glamstack/google-auth-sdk README.md](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk/-/blob/main/README.md)
 
 ### Maintainers
 
