@@ -150,7 +150,7 @@ $google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient();
 
 ### GET Request
 
-The endpoints start with a leading `/` after `https://admin.googleapis.com/admin/directory/v1`. The Google Workspace API documentation provides the endpoint verbatim.
+The endpoints start with a leading `/` after `https://admin.googleapis.com/admin/directory/v1`.
 
 For examples, the [List Google Workspace Users](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list) API Documentation shows the endpoint
 
