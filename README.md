@@ -321,7 +321,7 @@ $response->status->serverError; // bool
 $response->status->clientError; // bool
 ```
 
-#### API Response Headers
+### API Response Headers
 
 ```php
 $response = $this->google_workspace_api->get('/projects/'.$user_key);
