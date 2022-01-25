@@ -474,7 +474,7 @@ See the [Log Outputs](#log-outputs) below for how the SDK handles errors and log
 
 ## Issue Tracking and Bug Reports
 
-Please visit our [issue tracker](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk/-/issues) and create an issue or comment on an existing issue.
+Please visit our [issue tracker](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-workspace-sdk/-/issues) and create an issue or comment on an existing issue.
 
 ## Contributing
 
