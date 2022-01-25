@@ -365,7 +365,7 @@ $response->json;
 {"kind":"admin#directory#user","id":"114522752583947996869","etag":"\"nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE\/MgKWL9SwIVWCY7rRA988mR8yR-k\"","primaryEmail":"dwheeler@gitlab-test.com","name":{"givenName":"Dillon","familyName":"Wheeler","fullName":"Dillon Wheeler"},"isAdmin":true,"isDelegatedAdmin":false,"lastLoginTime":"2022-01-18T15:26:16.000Z","creationTime":"2021-12-08T13:15:43.000Z","agreedToTerms":true,"suspended":false,"archived":false,"changePasswordAtNextLogin":false,"ipWhitelisted":false,"emails":[{"address":"dwheeler@gitlab-test.com","type":"work"},{"address":"dwheeler@gitlab-test.com","primary":true},{"address":"dwheeler@gitlab-test.com.test-google-a.com"}],"phones":[{"value":"5555555555","type":"work"}],"languages":[{"languageCode":"en","preference":"preferred"}],"nonEditableAliases":["dwheeler@gitlab-test.com.test-google-a.com"],"customerId":"C000aaaaa","orgUnitPath":"\/","isMailboxSetup":true,"isEnrolledIn2Sv":false,"isEnforcedIn2Sv":false,"includeInGlobalAddressList":true}"
 ```
 
-#### API Response Object
+### API Response Object
 
 ```php
 $response = $this->google_workspace_api->get('/projects/'.$user_key);
