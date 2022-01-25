@@ -59,31 +59,34 @@ $records = $google_workspace_api->get('/users',[
 
 // Get a specific user from Google Workspace
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get
-$record = $google_workspace_api->get('/users/'.$userKey);
+$user_key = 'klibby@example.com';
+$record = $google_workspace_api->get('/users/'.$user_key);
 
 // Create new Google Workspace User
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/insert
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User
 $record = $google_workspace_api->post('/users', [
     'name' => [
-            'familyName' => 'LastName',
-            'givenName' => 'FirstName'
+            'familyName' => 'Libby',
+            'givenName' => 'Kate'
         ],
-    'password' => 'randomLongSecurePa$$word',
-    'primaryEmail' => 'firstname_lastname@example.com'
+    'password' => 'ac!dBurnM3ss3sWithTheB4$t',
+    'primaryEmail' => 'klibby@example.com'
 ]);
 
 // Update an existing Google Workspace User
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/update
-$record = $google_workspace_api->put('/users/'.$userKey, [
+$user_key = 'klibby@example.com';
+$record = $google_workspace_api->put('/users/'.$user_key, [
     'name' => [
-        'givenName' => 'NewLastName'
+        'givenName' => 'Libby-Murphy'
     ]
 ]);
 
 // Delete a Google Workspace User
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete
-$record = $google_workspace_api->delete('/users/'.$userKey);
+$user_key = 'klibby@example.com';
+$record = $google_workspace_api->delete('/users/'.$user_key);
 ```
 
 ## Installation
@@ -180,6 +183,7 @@ $records = $google_workspace_api->get('/users');
 
 // Get a specific Google Workspace User
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get
+$user_key = 'klibby@example.com';
 $record = $google_workspace_api->get('/users/'.$userKey);
 ```
 
@@ -214,11 +218,11 @@ You can learn more about request data in the [Laravel HTTP Client documentation]
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User
 $record = $google_workspace_api->post('/users', [
     'name' => [
-            'familyName' => 'LastName',
-            'givenName' => 'FirstName'
+            'familyName' => 'Libby',
+            'givenName' => 'Kate'
         ],
-    'password' => 'randomLongSecurePa$$word',
-    'primaryEmail' => 'firstname_lastname@example.com'
+    'password' => 'ac!dBurnM3ss3sWithTheB4$t',
+    'primaryEmail' => 'klibby@example.com'
 ]);
 ```
 
@@ -231,9 +235,10 @@ In most applications, this will be a variable that you get from your database or
 ```php
 // Update an existing Google Workspace User
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/update
-$record = $google_workspace_api->put('/users/'.$userKey, [
+$user_key = 'klibby@example.com';
+$record = $google_workspace_api->put('/users/'.$user_key, [
     'name' => [
-        'givenName' => 'NewLastName'
+        'givenName' => 'Libby-Murphy'
     ]
 ]);
 ```
@@ -247,7 +252,8 @@ Keep in mind that `delete()` methods will return different status codes dependin
 ```php
 // Delete a Google Workspace User
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete
-$record = $google_workspace_api->delete('/users/'.$userKey);
+$user_key = 'klibby@example.com';
+$record = $google_workspace_api->delete('/users/'.$user_key);
 ```
 
 ### Class Methods
@@ -362,7 +368,7 @@ $response->json;
 ```
 
 ```json
-{"kind":"admin#directory#user","id":"114522752583947996869","etag":"\"nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE\/MgKWL9SwIVWCY7rRA988mR8yR-k\"","primaryEmail":"dwheeler@gitlab-test.com","name":{"givenName":"Dillon","familyName":"Wheeler","fullName":"Dillon Wheeler"},"isAdmin":true,"isDelegatedAdmin":false,"lastLoginTime":"2022-01-18T15:26:16.000Z","creationTime":"2021-12-08T13:15:43.000Z","agreedToTerms":true,"suspended":false,"archived":false,"changePasswordAtNextLogin":false,"ipWhitelisted":false,"emails":[{"address":"dwheeler@gitlab-test.com","type":"work"},{"address":"dwheeler@gitlab-test.com","primary":true},{"address":"dwheeler@gitlab-test.com.test-google-a.com"}],"phones":[{"value":"5555555555","type":"work"}],"languages":[{"languageCode":"en","preference":"preferred"}],"nonEditableAliases":["dwheeler@gitlab-test.com.test-google-a.com"],"customerId":"C000aaaaa","orgUnitPath":"\/","isMailboxSetup":true,"isEnrolledIn2Sv":false,"isEnforcedIn2Sv":false,"includeInGlobalAddressList":true}"
+{"kind":"admin#directory#user","id":"1111111111111","etag":"\"nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE\/MgKWL9SwIVWCY7rRA988mR8yR-k\"","primaryEmail":"klibby@example.com","name":{"givenName":"Kate","familyName":"Libby","fullName":"Kate Libby"},"isAdmin":true,"isDelegatedAdmin":false,"lastLoginTime":"2022-01-18T15:26:16.000Z","creationTime":"2021-12-08T13:15:43.000Z","agreedToTerms":true,"suspended":false,"archived":false,"changePasswordAtNextLogin":false,"ipWhitelisted":false,"emails":[{"address":"klibby@example.com","type":"work"},{"address":"klibby@example.com","primary":true},{"address":"klibby@example.com.test-google-a.com"}],"phones":[{"value":"5555555555","type":"work"}],"languages":[{"languageCode":"en","preference":"preferred"}],"nonEditableAliases":["klibby@example.com.test-google-a.com"],"customerId":"C000aaaaa","orgUnitPath":"\/","isMailboxSetup":true,"isEnrolledIn2Sv":false,"isEnforcedIn2Sv":false,"includeInGlobalAddressList":true}"
 ```
 
 ### API Response Object
@@ -375,13 +381,13 @@ $response->object;
 ```php
 {#1256
   +"kind": "admin#directory#user"
-  +"id": "114522752583947996869"
+  +"id": "1111111111111"
   +"etag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""
-  +"primaryEmail": "dwheeler@gitlab-test.com"
+  +"primaryEmail": "klibby@example.com"
   +"name": {#1242
-    +"givenName": "Dillon"
-    +"familyName": "Wheeler"
-    +"fullName": "Dillon Wheeler"
+    +"givenName": "Kate"
+    +"familyName": "Libby"
+    +"fullName": "Kate Libby"
   }
   +"isAdmin": true
   +"isDelegatedAdmin": false
@@ -394,15 +400,15 @@ $response->object;
   +"ipWhitelisted": false
   +"emails": array:3 [
     0 => {#1253
-      +"address": "dwheeler@gitlab.com"
+      +"address": "klibby@example.com"
       +"type": "work"
     }
     1 => {#1258
-      +"address": "dwheeler@gitlab-test.com"
+      +"address": "klibby@example.com"
       +"primary": true
     }
     2 => {#1259
-      +"address": "dwheeler@gitlab-test.com.test-google-a.com"
+      +"address": "klibby@example.com.test-google-a.com"
     }
   ]
   +"phones": array:1 [
@@ -418,7 +424,7 @@ $response->object;
     }
   ]
   +"nonEditableAliases": array:1 [
-    0 => "dwheeler@gitlab-test.com.test-google-a.com"
+    0 => "klibby@example-test.com.test-google-a.com"
   ]
   +"customerId": "C000aaaaa"
   +"orgUnitPath": "/"
