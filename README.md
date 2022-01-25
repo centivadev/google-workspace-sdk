@@ -354,7 +354,7 @@ $content_type = $headers['Content-Type'];
 application/json
 ```
 
-#### API Response JSON
+### API Response JSON
 
 ```php
 $response = $this->google_workspace_api->get('/projects/'.$user_key);
