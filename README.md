@@ -429,7 +429,7 @@ $response->object;
 }
 ```
 
-#### API Response Status
+### API Response Status
 
 See the [Laravel HTTP Client documentation](https://laravel.com/docs/8.x/http-client#error-handling) to learn more about the different status booleans.
 
