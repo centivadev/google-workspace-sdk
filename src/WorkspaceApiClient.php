@@ -5,10 +5,8 @@ namespace Glamstack\GoogleWorkspace;
 use Glamstack\GoogleAuth\AuthClient;
 use Glamstack\GoogleWorkspace\Traits\ResponseLog;
 use Illuminate\Http\Client\Response;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 
 class WorkspaceApiClient
