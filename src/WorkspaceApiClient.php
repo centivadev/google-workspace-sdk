@@ -205,7 +205,7 @@ class WorkspaceApiClient
                 $this->error_message = 'The Google Domain has not been defined ' .
                 'in config/glamstack-google.php or provided during the ' .
                 'initialization of the WorkspaceApiClient class. Without the ' .
-                'domain, Google Workspace API call cannot be requested.';
+                'domain, Google Workspace API calls cannot be requested.';
 
                 Log::stack((array) config(self::DEFAULT_LOG_PATH))
                     ->critical($this->error_message, [
@@ -215,7 +215,7 @@ class WorkspaceApiClient
                         'message' => $this->error_message,
                         'connection_key' => $this->connection_key,
                     ]);
-                abort(501, $this->error_message); 
+                abort(501, $this->error_message);
             }
         } else {
             $this->domain = $domain;
@@ -241,6 +241,21 @@ class WorkspaceApiClient
             if($this->connection_config['customer_id']){
                 $this->customer_id = $this->connection_config['customer_id'];
             } else {
+                $this->error_message = 'The Google Customer ID has not been defined ' .
+                'in config/glamstack-google.php or provided during the ' .
+                'initialization of the WorkspaceApiClient class. Without the ' .
+                'Customer Id, Google Workspace API calls cannot be requested.';
+
+                Log::stack((array) config(self::DEFAULT_LOG_PATH))
+                    ->critical($this->error_message, [
+                        'event_type' => 'google-workspace-customer-id-config-missing-error',
+                        'class' => get_class(),
+                        'status_code' => '501',
+                        'message' => $this->error_message,
+                        'connection_key' => $this->connection_key,
+                    ]);
+                abort(501, $this->error_message);
+            }
         } else {
             $this->customer_id = $customer_id;
         }
