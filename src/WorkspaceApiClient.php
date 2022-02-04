@@ -198,14 +198,26 @@ class WorkspaceApiClient
     protected function setDomain(?string $domain): void
     {
         if ($domain == null) {
-            $this->domain = $this->connection_config['domain'];
+            if($this->connection_config['domain']){
+                $this->domain = $this->connection_config['domain'];
+            }else{
+                $this->error_message = 'The Google Domain has not been defined ' .
+                'in config/glamstack-google.php or provided during the ' .
+                'initialization of the WorkspaceApiClient class. Without the ' .
+                'domain, Google Workspace API call cannot be requested.';
+
+                Log::stack((array) config('glamstack-gitlab.log_channels'))
+                    ->critical($this->error_message, [
+                        'event_type' => 'google-workspace-domain-config-missing-error',
+                        'class' => get_class(),
+                        'status_code' => '501',
+                        'message' => $this->error_message,
+                        'connection_key' => $this->connection_key,
+                    ]);
+                abort(501, $this->error_message); 
+            }
         } else {
             $this->domain = $domain;
-        }
-
-        if($this->domain == null){
-            $this->error_message = 'The Google Domain has not been set';
-            dd($this->error_message);
         }
     }
 
