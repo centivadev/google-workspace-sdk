@@ -846,11 +846,7 @@ class WorkspaceApiClient
      */
     protected function getNextPageToken(Response $response): string
     {
-        if (property_exists($response->object(), 'nextPageToken')) {
-            $next_page_token = $response->object()->nextPageToken;
-        } else {
-            dd($response->object());
-        }
+        $next_page_token = $response->object()->nextPageToken;
         return $next_page_token;
     }
 
