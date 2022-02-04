@@ -13,7 +13,7 @@ class WorkspaceApiClient
 {
     // Standard parameters for building the ApiClient
     const BASE_URL = 'https://admin.googleapis.com/admin/directory/v1';
-    const CONFIG_FILE_PATH = 'glamstack-google-config';
+    const CONFIG_FILE_PATH = 'glamstack-google';
 
     private string $auth_token;
     private string $connection_key;
