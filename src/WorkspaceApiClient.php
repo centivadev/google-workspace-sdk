@@ -66,6 +66,9 @@ class WorkspaceApiClient
         // Set the connection key used for getting the correct configuration
         $this->setConnectionKey($connection_key);
 
+        // Load the connection configuration to array in memory
+        $this->setConnectionConfig();
+
         // Initialize the Google Auth Client
         $google_auth = new \Glamstack\GoogleAuth\AuthClient(
             $this->connection_key
