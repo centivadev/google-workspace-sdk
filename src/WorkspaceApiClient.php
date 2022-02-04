@@ -13,7 +13,7 @@ class WorkspaceApiClient
 {
     // Standard parameters for building the ApiClient
     const BASE_URL = 'https://admin.googleapis.com/admin/directory/v1';
-    const CONFIG_FILE_PATH = 'glamstack-google-config.';
+    const CONFIG_FILE_PATH = 'glamstack-google-config';
 
     private string $auth_token;
     private string $connection_key;
@@ -103,9 +103,7 @@ class WorkspaceApiClient
     {
         if ($connection_key == null) {
             /** @phpstan-ignore-next-line */
-            $this->connection_key = config(
-                self::CONFIG_FILE_PATH . 'auth.default_connection'
-            );
+            $this->connection_key = config(self::CONFIG_FILE_PATH . '.auth.default_connection');
         } else {
             $this->connection_key = $connection_key;
         }
