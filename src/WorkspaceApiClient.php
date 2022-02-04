@@ -114,6 +114,38 @@ class WorkspaceApiClient
         }
     }
 
+   /**
+     * Set the connection_config class property array
+     *
+     * Define an array in the class using the connection configuration in the
+     * glamstack-google.php connections array. If connection key is not specified,
+     * an error log will be created and a 501 abort error will be thrown.
+     *
+     * @return void
+     */
+    protected function setConnectionConfig(): void
+    {
+        if (array_key_exists($this->connection_key, config('glamstack-google.connections'))) {
+            $this->connection_config = config('glamstack-google.connections.' . $this->connection_key);
+        } else {
+            $error_message = 'The Google connection key is not defined in ' .
+                '`config/glamstack-google.php` connections array. Without this ' .
+                'array config, there is no API configuration to connect with.';
+
+            Log::stack((array) config('glamstack-google.auth.log_channels'))
+                ->critical($error_message, [
+                    'event_type' => 'google-api-config-missing-error',
+                    'class' => get_class(),
+                    'status_code' => '501',
+                    'message' => $error_message,
+                    'connection_key' => $this->connection_key,
+                ]);
+
+            abort(501, $error_message);
+        }
+    }
+
+
     /**
      * Set the request headers for the GitLab API request
      *
