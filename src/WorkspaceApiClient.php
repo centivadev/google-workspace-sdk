@@ -784,12 +784,12 @@ class WorkspaceApiClient
 
         // If there are more pages to GET
         if ($next_page_exists) {
-            // Set the `$next_page_token` variable to the `$next_response` 
+            // Set the `$next_page_token` variable to the `$next_response`
             // `nextPageToken` element of the object
             $next_page_token = $this->getNextPageToken($next_response);
         }
-        // Else there is not a third page of data and we no longer need to 
-        // proceed 
+        // Else there is not a third page of data and we no longer need to
+        // proceed
         else {
             $next_page_token = null;
             // dd('setting next page token to null');
@@ -805,19 +805,27 @@ class WorkspaceApiClient
                 $next_response
             );
 
+            // Collect the response body from the subsequent GET request's response
             $next_response_body = collect(
                 $this->getResponseBody($next_response)
             )->flatten();
 
+            // Set the `next_response_body` to an array
             $next_response_body_array = $next_response_body->toArray();
 
+            // Add the `next_response_body` array to the `records` array
             $records = array_merge($records, $next_response_body_array);
 
+            // Check if there is another page
             $next_page_exists = $this->checkForPagination($next_response);
 
+            // If there is another page set the `next_page_token` variable
+            // to the `nextPageToken` from the response.
             if ($next_page_exists) {
                 $next_page_token = $this->getNextPageToken($next_response);
-            } else {
+            }
+            // Else there is not another page so set the `next_page_token` to null
+            else {
                 $next_page_token = null;
             }
         }
