@@ -65,4 +65,36 @@ trait ResponseLog{
                 'status_code' => $response->status->code,
             ]);
     }
+
+    /**
+     * Create a notice log entry for an API call for client errors (4xx status)
+     *
+     * @param string $method
+     *      The lowercase name of the method that calls this function (ex. `get`)
+     *
+     * @param string $url
+     *      The URL of the API call including the concatenated base URL and URI
+     *
+     * @param object $response
+     *      The HTTP response formatted with $this->parseApiResponse()
+     *
+     * @return void
+     */
+    public function logClientError(string $method, string $url, object $response) : void
+    {
+        $message = Str::upper($method).' '.$response->status->code.' '.$url;
+
+        Log::stack((array) $this->connection_config['log_channels'])
+            ->notice($message, [
+                'api_endpoint' => $url,
+                'api_method' => Str::upper($method),
+                'class' => get_class(),
+                'connection_key' => $this->connection_key,
+                'event_type' => 'google-workspace-api-response-client-error',
+                'google_error_type' => $response->object->error ?? null,
+                'google_error_description' =>  $response->object->error_description ?? null,
+                'message' => $message,
+                'status_code' => $response->status->code,
+            ]);
+    }
 }
