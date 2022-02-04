@@ -403,7 +403,7 @@ class WorkspaceApiClient
 
         if ($response->status->successful == false) {
             if (property_exists($response->object, 'error')) {
-                abort($response->status->code, 'Google Workspace SDK Error. ' . $response->object->error_description);
+                abort($response->status->code, 'Google Workspace GET SDK Error. ' . $response->object->error_description);
             } else {
                 abort(500, 'The Google Workspace SDK failed due to an unknown reason in the GET method.');
             }
