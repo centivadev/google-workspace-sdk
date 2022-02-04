@@ -191,7 +191,7 @@ class WorkspaceApiClient
         if ($customer_id == null) {
             // dd($this->connection_key);
             $this->customer_id = config(
-                self::CONFIG_PATH . 'connections.' .
+                self::CONFIG_FILE_PATH . 'connections.' .
                 $this->connection_key . '.customer_id'
             );
         } else {
