@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Glamstack\GoogleAuth\AuthClient;
 
-class GoogleWorkspaceApiClient
+class WorkspaceApiClient
 {
     // Standard parameters for building the ApiClient
     const BASE_URL = 'https://admin.googleapis.com/admin/directory/v1';
@@ -309,7 +309,7 @@ class GoogleWorkspaceApiClient
         $response = Http::withToken($this->auth_token)
             ->withHeaders($this->request_headers)
             ->get(self::BASE_URL . $uri, $request_data);
-
+        // dd($response->object());
         // Check if the data is paginated
         $isPaginated = $this->checkForPagination($response);
 
@@ -669,6 +669,7 @@ class GoogleWorkspaceApiClient
 
         // Check if there are more pages to GET
         $next_page_exists = $this->checkForPagination($next_response);
+        // dd($next_page_exists);
 
         // If there are more pages to GET
         if ($next_page_exists) {
@@ -680,12 +681,13 @@ class GoogleWorkspaceApiClient
         // proceed 
         else {
             $next_page_token = null;
+            // dd('setting next page token to null');
         }
 
         // If there is a third page then continue through all data until the
         // API response does not contain the `nextPageToken` element in the
         // returned object
-        do {
+        if($next_page_token){
             $next_response = $this->getNextPageResults(
                 $uri,
                 $request_data,
@@ -707,7 +709,7 @@ class GoogleWorkspaceApiClient
             } else {
                 $next_page_token = null;
             }
-        } while ($next_page_token != null);
+        }
 
         return $records;
     }
@@ -725,7 +727,12 @@ class GoogleWorkspaceApiClient
      */
     protected function getNextPageToken(Response $response): string
     {
-        $next_page_token = $response->object()->nextPageToken;
+        if(property_exists($response->object(), 'nextPageToken')){
+            $next_page_token = $response->object()->nextPageToken;
+
+        }else{
+            dd($response->object());
+        }
         return $next_page_token;
     }
 
