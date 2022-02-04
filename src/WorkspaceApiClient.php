@@ -17,8 +17,8 @@ class WorkspaceApiClient
 
     private string $auth_token;
     private string $connection_key;
-    private string $domain;
     private string $customer_id;
+    private string $domain;
     private array $request_headers;
     private array $required_parameters;
 
