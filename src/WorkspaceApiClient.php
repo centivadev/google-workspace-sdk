@@ -161,7 +161,7 @@ class WorkspaceApiClient
     {
         if ($domain == null) {
             $this->domain = config(
-                self::CONFIG_PATH . 'connections.' .
+                self::CONFIG_FILE_PATH . 'connections.' .
                 $this->connection_key . '.domain'
             );
         } else {
