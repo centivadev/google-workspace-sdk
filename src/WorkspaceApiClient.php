@@ -237,18 +237,12 @@ class WorkspaceApiClient
     protected function setCustomerId(?string $customer_id): void
     {
         if ($customer_id == null) {
-            // dd($this->connection_key);
-            $this->customer_id = config(
-                self::CONFIG_FILE_PATH . 'connections.' .
-                $this->connection_key . '.customer_id'
-            );
+            // If the customer_id in connection_config is not null
+            if($this->connection_config['customer_id']){
+                $this->customer_id = $this->connection_config['customer_id'];
+            } else {
         } else {
             $this->customer_id = $customer_id;
-        }
-
-        if($this->customer_id == null){
-            $this->error_message = 'The Google Customer ID has not been set';
-            dd($this->error_message);
         }
     }
 
