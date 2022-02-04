@@ -104,7 +104,7 @@ class WorkspaceApiClient
         if ($connection_key == null) {
             /** @phpstan-ignore-next-line */
             $this->connection_key = config(
-                self::CONFIG_PATH . 'auth.default_connection'
+                self::CONFIG_FILE_PATH . 'auth.default_connection'
             );
         } else {
             $this->connection_key = $connection_key;
