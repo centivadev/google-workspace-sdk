@@ -713,8 +713,6 @@ class WorkspaceApiClient
     /**
      * Check if pagination is used in the Google Workspace GET response.
      *
-     * @see GOOGLE PAGINATION EXAMPLE
-     *
      * @param Response $response
      *      API response from Google Workspace GET request
      *
