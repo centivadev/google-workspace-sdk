@@ -366,39 +366,47 @@ class WorkspaceApiClient
         // Append the Google Domain and Google Customer ID to the request data
         $request_data = array_merge($request_data, $this->required_parameters);
 
-        $response = Http::withToken($this->auth_token)
-            ->withHeaders($this->request_headers)
-            ->get(self::BASE_URL . $uri, $request_data);
-        // dd($response->object());
-        // Check if the data is paginated
-        $isPaginated = $this->checkForPagination($response);
+        try {
+            // Get the initial GET response
+            $response = Http::withToken($this->auth_token)
+                ->withHeaders($this->request_headers)
+                ->get(self::BASE_URL . $uri, $request_data);
 
-        if ($isPaginated) {
+            // Check if the data is paginated
+            $isPaginated = $this->checkForPagination($response);
 
-            // Get the paginated results
-            $paginated_results = $this->getPaginatedResults(
-                $uri,
-                $request_data,
-                $response
-            );
+            // If the response is paginated
+            if ($isPaginated) {
+                // Get the paginated results
+                $paginated_results = $this->getPaginatedResults(
+                    $uri,
+                    $request_data,
+                    $response
+                );
 
-            // The $paginated_results will be returned as an object of objects
-            // which needs to be converted to a flat object for standardizing
-            // the response returned. This needs to be a separate function
-            // instead of casting to an object due to return body complexities
-            // with nested array and object mixed notation.
-            $response->paginated_results = $this->convertPaginatedResponseToObject($paginated_results);
+                // The $paginated_results will be returned as an object of objects
+                // which needs to be converted to a flat object for standardizing
+                // the response returned. This needs to be a separate function
+                // instead of casting to an object due to return body complexities
+                // with nested array and object mixed notation.
+                $response->paginated_results = $this->convertPaginatedResponseToObject($paginated_results);
 
-            // Unset the body and json elements of the original Guzzle Response
-            // Object. These will be reset with the paginated results.
-            unset($response->body);
-            unset($response->json);
+                // Unset the body and json elements of the original Guzzle Response
+                // Object. These will be reset with the paginated results.
+                unset($response->body);
+                unset($response->json);
+            }
+
+            // Parse the API response and return a Glamstack standardized response
+            $parsed_api_response = $this->parseApiResponse($response, $isPaginated);
+
+            $this->logInfo('get', $this->base_url . $uri, $response->status->code);
+
+            return $parsed_api_response;
+        } catch (\Illuminate\Http\Client\RequestException $exception) {
+            $this->logClientError('get', $uri, $response);
+            abort($response->status->code, 'Google Workspace SDK Error. ' . $response->object->error_description);
         }
-
-        // Parse the API response and return a Glamstack standardized response
-        $parsed_api_response = $this->parseApiResponse($response, $isPaginated);
-
-        return $parsed_api_response;
     }
 
     /**
