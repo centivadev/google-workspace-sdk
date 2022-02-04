@@ -13,7 +13,7 @@ class WorkspaceApiClient
 {
     // Standard parameters for building the ApiClient
     const BASE_URL = 'https://admin.googleapis.com/admin/directory/v1';
-    const CONFIG_PATH = 'glamstack-google-config.';
+    const CONFIG_FILE_PATH = 'glamstack-google-config.';
 
     private string $auth_token;
     private string $connection_key;
@@ -68,7 +68,7 @@ class WorkspaceApiClient
 
         // Authenticate with Google OAuth2 Server auth_token
         $this->auth_token = $google_auth->authenticate();
- 
+
         // Set the request headers to be used by the API client
         $this->setRequestHeaders();
 
