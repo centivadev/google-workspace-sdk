@@ -603,9 +603,9 @@ class WorkspaceApiClient
      *      (Optional) Optional request data to send with the Google Workspace
      *      API PUT request
      *
-     * @return object|string
+     * @return object
      */
-    public function put(string $uri, array $request_data = []): object|string
+    public function put(string $uri, array $request_data = []): object
     {
         // Append to Google Domain and Google Customer ID to the request data
         $request_data = array_merge($request_data, $this->required_parameters);
@@ -617,6 +617,16 @@ class WorkspaceApiClient
         // Parse the API request's response and return a Glamstack standardized
         // response
         $response = $this->parseApiResponse($request);
+
+        $this->logInfo('put', self::BASE_URL . $uri, $response->status->code);
+
+        if ($response->status->successful == false) {
+            if (property_exists($response->object, 'error')) {
+                abort($response->status->code, 'Google Workspace PUT SDK Error. ' . $response->object->error_description);
+            } else {
+                abort(500, 'The Google Workspace SDK failed due to an unknown reason in the PUT method.');
+            }
+        }
 
         return $response;
     }
