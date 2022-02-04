@@ -198,10 +198,7 @@ class WorkspaceApiClient
     protected function setDomain(?string $domain): void
     {
         if ($domain == null) {
-            $this->domain = config(
-                self::CONFIG_FILE_PATH . 'connections.' .
-                $this->connection_key . '.domain'
-            );
+            $this->domain = $this->connection_config['domain'];
         } else {
             $this->domain = $domain;
         }
