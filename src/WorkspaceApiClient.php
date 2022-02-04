@@ -34,15 +34,17 @@ class WorkspaceApiClient
      *
      * @see https://support.google.com/a/answer/162106
      *
-     * @param ?string $connection_key (Optional) The connection key to use from
-     * the configuration file to set the appropriate Google Auth and Google
-     * Workspace settings.
-     * Default: `workspace`
+     * @param ?string $connection_key
+     *      (Optional) The connection key to use from the configuration file to
+     *      set the appropriate Google Auth and Google Workspace settings.
      *
-     * @param ?string $domain (Optional) The Google Domain to call the API with
+     *      Default: `workspace`
      *
-     * @param ?string $customer_id (Optional) The Google Customer ID to call
-     * the Google API with
+     * @param ?string $domain
+     *      (Optional) The Google Domain to call the API with
+     *
+     * @param ?string $customer_id
+     *      (Optional) The Google Customer ID to call the Google API with
      */
     function __construct(
         string $connection_key = null,
