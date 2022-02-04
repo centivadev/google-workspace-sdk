@@ -1,6 +1,6 @@
 <?php
 
-namespace Glamstack\GoogleAuth\Traits;
+namespace Glamstack\GoogleWorkspace\Traits;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
