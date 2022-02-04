@@ -56,8 +56,7 @@ class WorkspaceApiClient
         string $connection_key = null,
         string $domain = null,
         string $customer_id = null
-    )
-    {
+    ) {
         // TODO: This is not going to work if there is a custom api_scope or
         // filepath to pass in for the Google Auth Client. Potential options
         // are to add more possible construct methods to this class or accept
@@ -103,8 +102,8 @@ class WorkspaceApiClient
      * SDK with a different connection key which is passed into this function to
      * set the class variable to the provided key.
      *
-     * @param ?string $connection_key (Optional) The connection key to use from the
-     * configuration file.
+     * @param ?string $connection_key
+     *      (Optional) The connection key to use from the configuration file.
      *
      * @return void
      */
@@ -118,7 +117,7 @@ class WorkspaceApiClient
         }
     }
 
-   /**
+    /**
      * Set the connection_config class property array
      *
      * Define an array in the class using the connection configuration in the
@@ -191,21 +190,21 @@ class WorkspaceApiClient
      * which is passed into this function to set the class variable to the
      * provided domain
      *
-     * @param ?string $domain (Optional) The domain to use for the Google
-     * Workspace API request
+     * @param ?string $domain
+     *      (Optional) The domain to use for the Google Workspace API request
      *
      * @return void
      */
     protected function setDomain(?string $domain): void
     {
         if ($domain == null) {
-            if($this->connection_config['domain']){
+            if ($this->connection_config['domain']) {
                 $this->domain = $this->connection_config['domain'];
-            }else{
+            } else {
                 $this->error_message = 'The Google Domain has not been defined ' .
-                'in config/glamstack-google.php or provided during the ' .
-                'initialization of the WorkspaceApiClient class. Without the ' .
-                'domain, Google Workspace API calls cannot be requested.';
+                    'in config/glamstack-google.php or provided during the ' .
+                    'initialization of the WorkspaceApiClient class. Without the ' .
+                    'domain, Google Workspace API calls cannot be requested.';
 
                 Log::stack((array) config(self::DEFAULT_LOG_PATH))
                     ->critical($this->error_message, [
@@ -229,8 +228,8 @@ class WorkspaceApiClient
      * a different customer_id which is passed into this function to set the
      * class variable to the provided customer_id
      *
-     * @param ?string $customer_id (Optional) The customer ID to use for the
-     * Google Workspace API request
+     * @param ?string $customer_id
+     *      (Optional) The customer ID to use for the Google Workspace API request
      *
      * @return void
      */
@@ -238,13 +237,13 @@ class WorkspaceApiClient
     {
         if ($customer_id == null) {
             // If the customer_id in connection_config is not null
-            if($this->connection_config['customer_id']){
+            if ($this->connection_config['customer_id']) {
                 $this->customer_id = $this->connection_config['customer_id'];
             } else {
                 $this->error_message = 'The Google Customer ID has not been defined ' .
-                'in config/glamstack-google.php or provided during the ' .
-                'initialization of the WorkspaceApiClient class. Without the ' .
-                'Customer Id, Google Workspace API calls cannot be requested.';
+                    'in config/glamstack-google.php or provided during the ' .
+                    'initialization of the WorkspaceApiClient class. Without the ' .
+                    'Customer Id, Google Workspace API calls cannot be requested.';
 
                 Log::stack((array) config(self::DEFAULT_LOG_PATH))
                     ->critical($this->error_message, [
@@ -352,12 +351,14 @@ class WorkspaceApiClient
      * }
      * ```
      *
-     * @param string $uri The URI of the Google Workspace API request with 
-     * a leading slash after `https://admin.googleapis.com/admin/directory/v1`
+     * @param string $uri
+     *      The URI of the Google Workspace API request with a leading slash
+     *      after `https://admin.googleapis.com/admin/directory/v1`
      *
-     * @param array $request_data (Optional) Optional request data to send with
-     * the Google Workspace API GET request
-     * 
+     * @param array $request_data
+     *      (Optional) Optional request data to send with the Google Workspace
+     *      API GET request
+     *
      * @return object|string
      */
     public function get(string $uri, array $request_data = []): object|string
@@ -406,8 +407,8 @@ class WorkspaceApiClient
      *
      * This method is called from other services to perform a POST request and
      * return a structured object.
-     * 
-     * Example Usage: 
+     *
+     * Example Usage:
      * ```php
      * $google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient();
      * $google_workspace_api->post('/users/',
@@ -421,7 +422,7 @@ class WorkspaceApiClient
      *     ]
      * );
      * ```
-     * 
+     *
      * Example Response:
      * ```php
      * {#1214
@@ -465,11 +466,13 @@ class WorkspaceApiClient
      * }
      * ```
      *
-     * @param string $uri The URI of the Google Workspace API request with
-     * a leading slash after `https://admin.googleapis.com/admin/directory/v1`
+     * @param string $uri
+     *      The URI of the Google Workspace API request with a leading slash
+     *      after `https://admin.googleapis.com/admin/directory/v1`
      *
-     * @param array $request_data (Optional) Optional request data to send with
-     * the Google Workspace API POST request
+     * @param array $request_data
+     *      (Optional) Optional request data to send with the Google Workspace
+     *      API POST request
      *
      * @return object|string
      */
@@ -571,11 +574,13 @@ class WorkspaceApiClient
      * }
      * ```
      *
-     * @param string $uri The URI of the Google Workspace API request with
-     * a leading slash after `https://admin.googleapis.com/admin/directory/v1`
+     * @param string $uri
+     *      The URI of the Google Workspace API request with a leading slash
+     *      after `https://admin.googleapis.com/admin/directory/v1`
      *
-     * @param array $request_data (Optional) Optional request data to send with
-     * the Google Workspace API PUT request
+     * @param array $request_data
+     *      (Optional) Optional request data to send with the Google Workspace
+     *      API PUT request
      *
      * @return object|string
      */
@@ -638,11 +643,13 @@ class WorkspaceApiClient
 
      * ```
      *
-     * @param string $uri The URI of the Google Workspace API request with
-     * a leading slash after `https://admin.googleapis.com/admin/directory/v1`
+     * @param string $uri
+     *      The URI of the Google Workspace API request with a leading slash
+     *      after `https://admin.googleapis.com/admin/directory/v1`
      *
-     * @param array $request_data (Optional) Optional request data to send with
-     * the Google Workspace API DELETE request
+     * @param array $request_data
+     *      (Optional) Optional request data to send with the Google Workspace
+     *      API DELETE request
      *
      * @return object|string
      */
@@ -664,12 +671,14 @@ class WorkspaceApiClient
 
     /**
      * Check if pagination is used in the Google Workspace GET response.
-     * 
+     *
      * @see GOOGLE PAGINATION EXAMPLE
      *
-     * @param Response $response API response from Google Workspace GET request
+     * @param Response $response
+     *      API response from Google Workspace GET request
      *
-     * @return bool True if pagination is required | False if not
+     * @return bool
+     *      True if pagination is required | False if not
      */
     protected function checkForPagination(Response $response): bool
     {
@@ -685,13 +694,15 @@ class WorkspaceApiClient
      * Helper method for getting Google Workspace GET responses that require
      * pagination
      *
-     * @param string $uri The URI of the Google Workspace API request with
-     * a leading slash after `https://admin.googleapis.com/admin/directory/v1`
+     * @param string $uri
+     *      The URI of the Google Workspace API request with a leading slash
+     *      after `https://admin.googleapis.com/admin/directory/v1`
      *
-     * @param array $request_data Request data to send with the Google 
-     * Workspace API GET request
+     * @param array $request_data
+     *      Request data to send with the Google Workspace API GET request
      *
-     * @param Response $response API response from Google Workspace GET request
+     * @param Response $response
+     *      API response from Google Workspace GET request
      *
      * @return array
      */
@@ -746,7 +757,7 @@ class WorkspaceApiClient
         // If there is a third page then continue through all data until the
         // API response does not contain the `nextPageToken` element in the
         // returned object
-        if($next_page_token){
+        if ($next_page_token) {
             $next_response = $this->getNextPageResults(
                 $uri,
                 $request_data,
@@ -779,17 +790,16 @@ class WorkspaceApiClient
      *
      * @see https://cloud.google.com/apis/design/design_patterns#list_pagination
      *
-     * @param Response $response Google Workspace API GET Request Guzzle 
-     * response
+     * @param Response $response
+     *      Google Workspace API GET Request Guzzle response
      *
      * @return string
      */
     protected function getNextPageToken(Response $response): string
     {
-        if(property_exists($response->object(), 'nextPageToken')){
+        if (property_exists($response->object(), 'nextPageToken')) {
             $next_page_token = $response->object()->nextPageToken;
-
-        }else{
+        } else {
             dd($response->object());
         }
         return $next_page_token;
@@ -799,13 +809,15 @@ class WorkspaceApiClient
      * Helper function to get the next page of a Google Workspace API GET
      * request.
      *
-     * @param string $uri The URI of the Google Workspace API request with
-     * a leading slash after `https://admin.googleapis.com/admin/directory/v1`
+     * @param string $uri
+     *      The URI of the Google Workspace API request with a leading slash
+     *      after `https://admin.googleapis.com/admin/directory/v1`
      *
-     * @param array $request_data Request data to send with the Google 
-     * Workspace API GET request.
+     * @param array $request_data
+     *      Request data to send with the Google Workspace API GET request.
      *
-     * @param Response $response API response from Google Workspace GET request
+     * @param Response $response
+     *      API response from Google Workspace GET request
      *
      * @return Response
      */
@@ -813,10 +825,9 @@ class WorkspaceApiClient
         string $uri,
         array $request_data,
         Response $response
-    ): Response
-    {
+    ): Response {
 
-        // Set the Google Workspace Query parameter `pageToken` to the 
+        // Set the Google Workspace Query parameter `pageToken` to the
         // responses `nextPageToken` element
         $next_page = [
             'pageToken' => $this->getNextPageToken($response)
@@ -836,7 +847,8 @@ class WorkspaceApiClient
     /**
      * Helper method to get just the response data from the Response object
      *
-     * @param Response $response API response from Google Workspace GET request
+     * @param Response $response
+     *      API response from Google Workspace GET request
      *
      * @return object
      */
@@ -864,7 +876,7 @@ class WorkspaceApiClient
      * Convert API Response Headers to Object
      * This method is called from the parseApiResponse method to prettify the
      * Guzzle Headers that are an array with nested array for each value, and
-     * converts the single array values into strings and converts to an object 
+     * converts the single array values into strings and converts to an object
      * for easier and consistent accessibility with the parseApiResponse format.
      *
      * Example $header_response:
@@ -917,7 +929,7 @@ class WorkspaceApiClient
      *   +"X-XSS-Protection": "0"
      *   +"X-Frame-Options": "SAMEORIGIN"
      *   +"X-Content-Type-Options": "nosniff"
-     *   +"Alt-Svc": (truncated) 
+     *   +"Alt-Svc": (truncated)
      * }
      * ```
      *
@@ -940,10 +952,11 @@ class WorkspaceApiClient
     /**
      * Convert paginated API response array into an object
      *
-     * @param array $paginatedResponse Combined object returns from multiple pages of
-     * API responses
+     * @param array $paginatedResponse
+     *      Combined object returns from multiple pages of API responses
      *
-     * @return object Object of the API responses combined.
+     * @return object
+     *      Object of the API responses combined.
      */
     protected function convertPaginatedResponseToObject(
         array $paginatedResponse
@@ -1042,11 +1055,14 @@ class WorkspaceApiClient
      *
      * @see https://laravel.com/docs/8.x/http-client#making-requests
      *
-     * @param object $response Response object from API results
+     * @param object $response
+     *      Response object from API results
      *
-     * @param false $paginated If the response is paginated or not
+     * @param false $paginated
+     *      If the response is paginated or not
      *
-     * @return object Custom response returned for consistency
+     * @return object
+     *      Custom response returned for consistency
      */
     protected function parseApiResponse(object $response, bool $paginated = false): object
     {
