@@ -2,15 +2,19 @@
 
 namespace Glamstack\GoogleWorkspace;
 
+use Glamstack\GoogleAuth\AuthClient;
+use Glamstack\GoogleWorkspace\Traits\ResponseLog;
 use Illuminate\Http\Client\Response;
-use \Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Glamstack\GoogleAuth\AuthClient;
+
 
 class WorkspaceApiClient
 {
+    use ResponseLog;
+
     // Standard parameters for building the ApiClient
     const BASE_URL = 'https://admin.googleapis.com/admin/directory/v1';
     const CONFIG_FILE_PATH = 'glamstack-google';
