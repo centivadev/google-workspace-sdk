@@ -16,6 +16,7 @@ class WorkspaceApiClient
     const CONFIG_FILE_PATH = 'glamstack-google';
 
     private string $auth_token;
+    private array $connection_config;
     private string $connection_key;
     private string $customer_id;
     private string $domain;
