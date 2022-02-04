@@ -399,11 +399,11 @@ class WorkspaceApiClient
         // Parse the API response and return a Glamstack standardized response
         $parsed_api_response = $this->parseApiResponse($response, $isPaginated);
 
-        $this->logInfo('get', self::BASE_URL . $uri, $response->status->code);
+        $this->logResponse('get', self::BASE_URL . $uri, $parsed_api_response);
 
-        if ($response->status->successful == false) {
-            if (property_exists($response->object, 'error')) {
-                abort($response->status->code, 'Google Workspace GET SDK Error. ' . $response->object->error_description);
+        if ($parsed_api_response->status->successful == false) {
+            if (property_exists($parsed_api_response->object, 'error')) {
+                abort($parsed_api_response->status->code, 'Google Workspace GET SDK Error. ' . $parsed_api_response->object->error_description);
             } else {
                 abort(500, 'The Google Workspace SDK failed due to an unknown reason in the GET method.');
             }
@@ -500,7 +500,7 @@ class WorkspaceApiClient
         // response
         $response = $this->parseApiResponse($request);
 
-        $this->logInfo('post', self::BASE_URL . $uri, $response->status->code);
+        $this->logResponse('post', self::BASE_URL . $uri, $response);
 
         if ($response->status->successful == false) {
             if (property_exists($response->object, 'error')) {
@@ -618,7 +618,7 @@ class WorkspaceApiClient
         // response
         $response = $this->parseApiResponse($request);
 
-        $this->logInfo('put', self::BASE_URL . $uri, $response->status->code);
+        $this->logResponse('put', self::BASE_URL . $uri, $response);
 
         if ($response->status->successful == false) {
             if (property_exists($response->object, 'error')) {
@@ -697,7 +697,7 @@ class WorkspaceApiClient
         // response
         $response = $this->parseApiResponse($request);
 
-        $this->logInfo('delete', self::BASE_URL . $uri, $response->status->code);
+        $this->logResponse('delete', self::BASE_URL . $uri, $response);
 
         if ($response->status->successful == false) {
             if (property_exists($response->object, 'error')) {
