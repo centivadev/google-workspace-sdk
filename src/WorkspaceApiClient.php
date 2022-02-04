@@ -136,7 +136,7 @@ class WorkspaceApiClient
                 '`config/glamstack-google.php` connections array. Without this ' .
                 'array config, there is no API configuration to connect with.';
 
-            Log::stack((array) config('glamstack-google.auth.log_channels'))
+            Log::stack((array) config(self::DEFAULT_LOG_PATH))
                 ->critical($error_message, [
                     'event_type' => 'google-api-config-missing-error',
                     'class' => get_class(),
@@ -207,7 +207,7 @@ class WorkspaceApiClient
                 'initialization of the WorkspaceApiClient class. Without the ' .
                 'domain, Google Workspace API call cannot be requested.';
 
-                Log::stack((array) config('glamstack-gitlab.log_channels'))
+                Log::stack((array) config(self::DEFAULT_LOG_PATH))
                     ->critical($this->error_message, [
                         'event_type' => 'google-workspace-domain-config-missing-error',
                         'class' => get_class(),
