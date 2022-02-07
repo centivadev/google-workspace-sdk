@@ -43,24 +43,10 @@ class WorkspaceApiClient
      *      set the appropriate Google Auth and Google Workspace settings.
      *
      *      Default: `workspace`
-     *
-     * @param ?string $domain
-     *      (Optional) The Google Domain to call the API with
-     *
-     * @param ?string $customer_id
-     *      (Optional) The Google Customer ID to call the Google API with
      */
     function __construct(
         string $connection_key = null,
-        string $domain = null,
-        string $customer_id = null
     ) {
-        // TODO: This is not going to work if there is a custom api_scope or
-        // filepath to pass in for the Google Auth Client. Potential options
-        // are to add more possible construct methods to this class or accept
-        // that if you are calling this class you can not set the AuthClient
-        // settings outside of the config file.
-
         // Set the connection key used for getting the correct configuration
         $this->setConnectionKey($connection_key);
 
@@ -78,12 +64,7 @@ class WorkspaceApiClient
         // Set the request headers to be used by the API client
         $this->setRequestHeaders();
 
-        // Set the Google Domain based on the connection_key class variable
-        $this->setDomain($domain);
 
-        // Set the Google Customer ID based on the connection_key class
-        // variable
-        $this->setCustomerId($customer_id);
 
         // Set the required parameters for Google Workspace API calls
         $this->setRequiredParameters();
