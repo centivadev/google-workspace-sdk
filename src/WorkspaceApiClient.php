@@ -120,8 +120,8 @@ class WorkspaceApiClient
      */
     protected function setConnectionConfig(): void
     {
-        if (array_key_exists($this->connection_key, config('glamstack-google.connections'))) {
-            $this->connection_config = config('glamstack-google.connections.' . $this->connection_key);
+        if (array_key_exists($this->connection_key, config(self::CONFIG_FILE_NAME . '.connections'))) {
+            $this->connection_config = config(self::CONFIG_FILE_NAME . '.connections.' . $this->connection_key);
         } else {
             $error_message = 'The Google connection key is not defined in ' .
                 '`config/glamstack-google.php` connections array. Without this ' .
