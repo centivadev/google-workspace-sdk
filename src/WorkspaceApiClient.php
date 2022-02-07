@@ -663,8 +663,10 @@ class WorkspaceApiClient
     }
 
     /**
-     * Helper method for getting Google Workspace GET responses that require
-     * pagination
+     * Get Paginated Results for GET Requests 
+     * 
+     * This helper method loops through Google Workspace GET responses that 
+     * require pagination and combines into a single array.
      *
      * @param string $uri
      *      The URI of the Google Workspace API request with a leading slash
@@ -674,7 +676,7 @@ class WorkspaceApiClient
      *      Request data to send with the Google Workspace API GET request
      *
      * @param Response $response
-     *      API response from Google Workspace GET request
+     *      API response from Google Workspace GET request ($this->get())
      *
      * @return array
      */
@@ -712,22 +714,19 @@ class WorkspaceApiClient
         // Check if there are more pages to GET
         $next_page_exists = $this->checkForPagination($next_response);
 
-        // If there are more pages to GET
+        // If there are more pages to GET, set the `$next_page_token` variable 
+        // to the `$next_response` `nextPageToken` element of the object
         if ($next_page_exists) {
-            // Set the `$next_page_token` variable to the `$next_response`
-            // `nextPageToken` element of the object
             $next_page_token = $this->getNextPageToken($next_response);
-        }
-        // Else there is not a third page of data and we no longer need to
-        // proceed
-        else {
+        } else {
             $next_page_token = null;
-            // dd('setting next page token to null');
         }
 
-        // If there is a third page then continue through all data until the
-        // API response does not contain the `nextPageToken` element in the
-        // returned object
+        // FIXME: Evaluate a do/while refactor based on okta-sdk
+
+        // If there is an additional (ex. third) page then continue through all 
+        // data until the API response does not contain the `nextPageToken` 
+        // element in the returned object
         if ($next_page_token) {
             $next_response = $this->getNextPageResults(
                 $uri,
