@@ -104,21 +104,16 @@ class WorkspaceApiClient
         if (array_key_exists($this->connection_key, config(self::CONFIG_FILE_NAME . '.connections'))) {
             $this->connection_config = config(self::CONFIG_FILE_NAME . '.connections.' . $this->connection_key);
         } else {
-            $error_message = 'The Google connection key is not defined in the ' .
+            $this->error_message = 'The Google connection key is not defined in the ' .
                 '`config/' . self::CONFIG_FILE_NAME . '` connections array. ' .
                 ' Without this array config, there is no API configuration to ' .
                 'connect with.';
+            $this->error_event_type = 'google-api-config-missing-error';
 
-            Log::stack((array) $this->connection_config['log_channels'])
-                ->critical($error_message, [
-                    'event_type' => 'google-api-config-missing-error',
-                    'class' => get_class(),
-                    'status_code' => '501',
-                    'message' => $error_message,
-                    'connection_key' => $this->connection_key,
-                ]);
+            $this->logMissingConfigError();
 
-            abort(501, $error_message);
+            // FIXME: Add boolean for rather to abort or not
+            abort(501, $this->error_message);
         }
     }
 
