@@ -457,13 +457,13 @@ class WorkspaceApiClient
         // FIXME: Add connection config variable for throw exception. This should 
         // be able to fail silently and return error code in response and handled 
         // by the application. 
-        if ($response->status->successful == false) {
-            if (property_exists($response->object, 'error')) {
-                abort($response->status->code, 'Google Workspace POST SDK Error. ' . $response->object->error_description);
-            } else {
-                abort(500, 'The Google Workspace SDK failed due to an unknown reason in the POST method.');
-            }
-        }
+        // if ($response->status->successful == false) {
+        //     if (property_exists($response->object, 'error')) {
+        //         abort($response->status->code, 'Google Workspace POST SDK Error. ' . $response->object->error_description);
+        //     } else {
+        //         abort(500, 'The Google Workspace SDK failed due to an unknown reason in the POST method.');
+        //     }
+        // }
 
         return $response;
     }
