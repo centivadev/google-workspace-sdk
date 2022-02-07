@@ -207,14 +207,11 @@ class WorkspaceApiClient
     }
 
     /**
-     * Set the customer_id class variable. The customer_id variable by default
-     * will be set to the `customer_id` element of the `workspace` in the
-     * configuration file. This can be overridden when initializing the SDK with
-     * a different customer_id which is passed into this function to set the
-     * class variable to the provided customer_id
-     *
-     * @param ?string $customer_id
-     *      (Optional) The customer ID to use for the Google Workspace API request
+     * Set the `customer_id` class variable
+     * 
+     * The customer_id variable will be set to the `customer_id` element of the
+     * connection key in the config file. If the the value is not set (null), 
+     * an error will be logged and a 501 abort will be returned.
      *
      * @return void
      */
