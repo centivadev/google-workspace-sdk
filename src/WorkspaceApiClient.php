@@ -70,10 +70,11 @@ class WorkspaceApiClient
     }
 
     /**
-     * Set the connection_key class variable. The connection_key variable by default
-     * will be set to `workspace`. This can be overridden when initializing the
-     * SDK with a different connection key which is passed into this function to
-     * set the class variable to the provided key.
+     * Set the `connection_key` class variable.
+     *
+     * The `connection_key` variable will be set to `workspace` by default. This
+     * can be overridden in the construct when initializing the SDK which is
+     * then passed to this method.
      *
      * @param ?string $connection_key
      *      (Optional) The connection key to use from the configuration file.
@@ -83,7 +84,6 @@ class WorkspaceApiClient
     protected function setConnectionKey(?string $connection_key): void
     {
         if ($connection_key == null) {
-            /** @phpstan-ignore-next-line */
             $this->connection_key = config(self::CONFIG_FILE_NAME . '.auth.default_connection');
         } else {
             $this->connection_key = $connection_key;
