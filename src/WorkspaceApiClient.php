@@ -225,7 +225,7 @@ class WorkspaceApiClient
                 'Customer Id, Google Workspace API calls cannot be requested.';
             $this->error_event_type = 'google-workspace-customer-id-config-missing-error';
 
-            $this->googleMissingConfigError();
+            $this->logMissingConfigError();
 
             abort(501, $this->error_message);
         }
