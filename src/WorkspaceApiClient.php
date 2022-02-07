@@ -127,7 +127,7 @@ class WorkspaceApiClient
                 '`config/glamstack-google.php` connections array. Without this ' .
                 'array config, there is no API configuration to connect with.';
 
-            Log::stack((array) config(self::DEFAULT_LOG_PATH))
+            Log::stack((array) $this->connection_config['log_channels'])
                 ->critical($error_message, [
                     'event_type' => 'google-api-config-missing-error',
                     'class' => get_class(),
