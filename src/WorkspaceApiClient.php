@@ -60,6 +60,7 @@ class WorkspaceApiClient
 
         // Authenticate with Google OAuth2 Server auth_token
         $this->auth_token = $google_auth->authenticate();
+        $this->generateAuthToken();
 
         // Set the request headers to be used by the API client
         $this->setRequestHeaders();
