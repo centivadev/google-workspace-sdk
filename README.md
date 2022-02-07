@@ -38,7 +38,7 @@ This builds upon the simplicity of the Laravel HTTP Client that is powered by th
 We have additional classes and methods for the endpoints that GitLab Access Manager uses frequently that we will iterate upon over time.
 
 ```php
-$google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient();
+$google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();
 
 // Retrieves a paginated list of either deleted users or all users in a domain.
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list
@@ -148,7 +148,7 @@ You can make an API request to any of the resource endpoints in the [Google Work
 
 ```php
 // Initialize the SDK
-$google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient();
+$google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();
 ```
 
 ### GET Request
@@ -263,7 +263,7 @@ The examples above show basic inline usage that is suitable for most use cases. 
 ```php
 <?php
 
-use Glamstack\GoogleWorkspace\ApiClient;
+use Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient;
 
 class GoogleWorkspaceUserService
 {
@@ -271,7 +271,7 @@ class GoogleWorkspaceUserService
 
     public function __construct()
     {
-        $this->google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient();
+        $this->google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();
     }
 
     public function listUsers(array $query = []) : object
@@ -470,7 +470,8 @@ $response->status->code;
 
 The HTTP status code for the API response is included in each log entry in the message and in the JSON `status_code`. Any internal SDK errors also included an equivalent status code depending on the type of error. The `message` includes the SDK friendly message. If an exception is thrown, the `reference`
 
-If a `5xx` error is returned from the API, the `ApiClient` `handleException` method will return a response.
+If a `5xx` error is returned from the API, the `GoogleWorkspaceApiClient` 
+`handleException` method will return a response.
 
 See the [Log Outputs](#log-outputs) below for how the SDK handles errors and logging.
 
