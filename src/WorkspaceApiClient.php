@@ -544,12 +544,14 @@ class WorkspaceApiClient
             ->withHeaders($this->request_headers)
             ->put(self::BASE_URL . $uri, $request_data);
 
-        // Parse the API request's response and return a Glamstack standardized
-        // response
+        // Parse the API request's response and return a Glamstack response
         $response = $this->parseApiResponse($request);
 
         $this->logResponse('put', self::BASE_URL . $uri, $response);
 
+        // FIXME: Add connection config variable for throw exception. This should 
+        // be able to fail silently and return error code in response and handled 
+        // by the application. 
         if ($response->status->successful == false) {
             if (property_exists($response->object, 'error')) {
                 abort($response->status->code, 'Google Workspace PUT SDK Error. ' . $response->object->error_description);
