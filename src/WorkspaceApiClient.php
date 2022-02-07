@@ -193,14 +193,9 @@ class WorkspaceApiClient
                 'initialization of the WorkspaceApiClient class. Without the ' .
                 'domain, Google Workspace API calls cannot be requested.';
 
-            Log::stack((array) $this->connection_config['log_channels'])
-                ->critical($this->error_message, [
-                    'event_type' => 'google-workspace-domain-config-missing-error',
-                    'class' => get_class(),
-                    'status_code' => '501',
-                    'message' => $this->error_message,
-                    'connection_key' => $this->connection_key,
-                ]);
+            $this->error_event_type = 'google-workspace-domain-config-missing-error';
+
+            $this->logMissingConfigError();
             abort(501, $this->error_message);
         }
     }
