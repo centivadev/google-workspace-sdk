@@ -315,48 +315,7 @@ class WorkspaceApiClient
      *       +"fullName": "Kate Libby"
      *     }
      *     +"isAdmin": true
-     *     +"isDelegatedAdmin": false
-     *     +"lastLoginTime": "2022-01-21T17:44:13.000Z"
-     *     +"creationTime": "2021-12-08T13:15:43.000Z"
-     *     +"agreedToTerms": true
-     *     +"suspended": false
-     *     +"archived": false
-     *     +"changePasswordAtNextLogin": false
-     *     +"ipWhitelisted": false
-     *     +"emails": array:3 [
-     *       0 => {#1260
-     *         +"address": "klibby@example.com"
-     *         +"type": "work"
-     *       }
-     *       1 => {#1259
-     *         +"address": "klibby@example-test.com"
-     *         +"primary": true
-     *       }
-     *       2 => {#1255
-     *         +"address": "klibby@example.com.test-google-a.com"
-     *       }
-     *     ]
-     *     +"phones": array:1 [
-     *       0 => {#1214
-     *         +"value": "5555555555"
-     *         +"type": "work"
-     *       }
-     *     ]
-     *     +"languages": array:1 [
-     *       0 => {#1271
-     *         +"languageCode": "en"
-     *         +"preference": "preferred"
-     *       }
-     *     ]
-     *     +"nonEditableAliases": array:1 [
-     *       0 => "klibby@example.com.test-google-a.com"
-     *     ]
-     *     +"customerId": "C000nnnnn"
-     *     +"orgUnitPath": "/"
-     *     +"isMailboxSetup": true
-     *     +"isEnrolledIn2Sv": false
-     *     +"isEnforcedIn2Sv": false
-     *     +"includeInGlobalAddressList": true
+     *     (truncated)
      *   }
      *   +"status": {#1269
      *     +"code": 200
@@ -575,32 +534,7 @@ class WorkspaceApiClient
      *     +"name": {#1255
      *       +"familyName": "Libby-Murphy"
      *     }
-     *     +"isAdmin": false
-     *     +"isDelegatedAdmin": false
-     *     +"lastLoginTime": "1970-01-01T00:00:00.000Z"
-     *     +"creationTime": "2022-01-24T17:35:54.000Z"
-     *     +"agreedToTerms": false
-     *     +"suspended": false
-     *     +"archived": false
-     *     +"changePasswordAtNextLogin": false
-     *     +"ipWhitelisted": false
-     *     +"emails": array:2 [
-     *       0 => {#1260
-     *         +"address": "klibby@example.com"
-     *         +"primary": true
-     *       }
-     *       1 => {#1248
-     *         +"address": "klibby@example.com.test-google-a.com"
-     *       }
-     *     ]
-     *     +"nonEditableAliases": array:1 [
-     *       0 => "klibby@example.com.test-google-a.com"
-     *     ]
-     *     +"customerId": "C000nnnnn"
-     *     +"orgUnitPath": "/"
-     *     +"isMailboxSetup": false
-     *     +"includeInGlobalAddressList": true
-     *     +"recoveryEmail": ""
+     *     (truncated)
      *   }
      *   +"status": {#1251
      *     +"code": 200
