@@ -564,11 +564,11 @@ class WorkspaceApiClient
     }
 
     /**
-     * Google Workspace API DELETE Request. Google will utilize DELETE request
-     * for removing an existing resource from the workspace.
-     *
-     * This method is called from other services to perform a DELETE request
-     * and return a structured object.
+     * Google Workspace API DELETE Request
+     * 
+     * Google will utilize DELETE request for removing an existing resource from
+     * the workspace. This method is called from other services to perform a 
+     * DELETE request and return a structured object.
      *
      * Example Usage:
      * ```php
@@ -603,7 +603,6 @@ class WorkspaceApiClient
      *     +"clientError": false
      *   }
      * }
-
      * ```
      *
      * @param string $uri
@@ -625,12 +624,14 @@ class WorkspaceApiClient
             ->withHeaders($this->request_headers)
             ->delete(self::BASE_URL . $uri, $request_data);
 
-        // Parse the API request's response and return a Glamstack standardized
-        // response
+        // Parse the API request's response and return a Glamstack response
         $response = $this->parseApiResponse($request);
 
         $this->logResponse('delete', self::BASE_URL . $uri, $response);
 
+        // FIXME: Add connection config variable for throw exception. This should 
+        // be able to fail silently and return error code in response and handled 
+        // by the application. 
         if ($response->status->successful == false) {
             if (property_exists($response->object, 'error')) {
                 abort($response->status->code, 'Google Workspace DELETE SDK Error. ' . $response->object->error_description);
