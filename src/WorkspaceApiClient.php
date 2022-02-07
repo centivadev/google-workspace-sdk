@@ -449,8 +449,7 @@ class WorkspaceApiClient
             ->withHeaders($this->request_headers)
             ->post(self::BASE_URL . $uri, $request_data);
 
-        // Parse the API request's response and return a Glamstack standardized
-        // response
+        // Parse the API request's response and return a Glamstack response
         $response = $this->parseApiResponse($request);
 
         $this->logResponse('post', self::BASE_URL . $uri, $response);
