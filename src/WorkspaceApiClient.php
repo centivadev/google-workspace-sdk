@@ -176,14 +176,11 @@ class WorkspaceApiClient
     }
 
     /**
-     * Set the domain class variable. The domain variable by default will be
-     * set to the `domain` element of the `workspace` in the configuration file.
-     * This can be overridden when initialing the SDK with a different domain
-     * which is passed into this function to set the class variable to the
-     * provided domain
-     *
-     * @param ?string $domain
-     *      (Optional) The domain to use for the Google Workspace API request
+     * Set the `domain` class variable
+     * 
+     * The domain class variable will be set to the `domain` element of the 
+     * connection key in the config file. If the the value is not set (null), 
+     * an error will be logged and a 501 abort will be returned.
      *
      * @return void
      */
