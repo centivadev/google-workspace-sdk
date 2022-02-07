@@ -27,10 +27,9 @@ class WorkspaceApiClient
     private array $required_parameters;
 
     /**
-     * This function takes care of the initialization of the
-     * `Glamstack\GoogleAuth\AuthClient` class and authentication with Google's
-     * OAuth2 servers to retrieve an API token to be used with Google API
-     * endpoints.
+     * This function takes care of the initialization of authentication using
+     * the `Glamstack\GoogleAuth\AuthClient` class to connect to Google OAuth2
+     * servers to retrieve an API token to be used with Google API endpoints.
      *
      * @see https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/gitlab-sdk/-/blob/main/README.md
      *
