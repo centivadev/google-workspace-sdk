@@ -53,13 +53,7 @@ class WorkspaceApiClient
         // Load the connection configuration to array in memory
         $this->setConnectionConfig();
 
-        // Initialize the Google Auth Client
-        $google_auth = new \Glamstack\GoogleAuth\AuthClient(
-            $this->connection_key
-        );
-
-        // Authenticate with Google OAuth2 Server auth_token
-        $this->auth_token = $google_auth->authenticate();
+        // Generate the Google OAuth token using the `google-auth-sdk`
         $this->generateAuthToken();
 
         // Set the request headers to be used by the API client
