@@ -698,7 +698,6 @@ class WorkspaceApiClient
 
         // Check if there are more pages to GET
         $next_page_exists = $this->checkForPagination($next_response);
-        // dd($next_page_exists);
 
         // If there are more pages to GET
         if ($next_page_exists) {
