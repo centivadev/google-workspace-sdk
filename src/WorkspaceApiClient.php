@@ -259,6 +259,23 @@ class WorkspaceApiClient
     }
 
     /**
+     * Set the `required_parameters` class variable. The array will consists of
+     * the `domain` and `customer` parameters that are used for Google
+     * Workspace API calls.
+     *
+     * @return void
+     */
+    protected function setRequiredParameters(): void
+    {
+        // Set the required_parameters class variable that will be appended
+        // to all API request query parameters
+        $this->required_parameters = [
+            'domain' => $this->domain,
+            'customer' => $this->customer_id
+        ];
+    }
+
+    /**
      * Google API GET Request
      *
      * Example Usage:
