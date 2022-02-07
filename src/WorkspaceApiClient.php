@@ -945,7 +945,7 @@ class WorkspaceApiClient
     }
 
     /**
-     * Parse the API response and return custom formatted response for consistency
+     * Parse the API response and return custom format for consistency
      *
      * Example Response:
      * ```php
