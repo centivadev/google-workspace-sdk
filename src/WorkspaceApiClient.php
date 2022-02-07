@@ -208,9 +208,9 @@ class WorkspaceApiClient
 
     /**
      * Set the `customer_id` class variable
-     * 
+     *
      * The customer_id variable will be set to the `customer_id` element of the
-     * connection key in the config file. If the the value is not set (null), 
+     * connection key in the config file. If the the value is not set (null),
      * an error will be logged and a 501 abort will be returned.
      *
      * @return void
