@@ -215,34 +215,8 @@ class WorkspaceApiClient
      *
      * @return void
      */
-    protected function setCustomerId(?string $customer_id): void
+    protected function setCustomerId(): void
     {
-        // If the `customer_id` parameter is not null set the `customer_id`
-        // class level variable to the provided `customer_id`
-        if ($customer_id != null) {
-            $this->customer_id = $customer_id;
-        }
-        // Else the `customer_id` class value will be set to the configuration
-        // file `customer_id`
-        else {
-            if ($this->connection_config['customer_id']) {
-                $this->customer_id = $this->connection_config['customer_id'];
-            } else {
-                $this->error_message = 'The Google Customer ID has not been defined ' .
-                    'in config/glamstack-google.php or provided during the ' .
-                    'initialization of the WorkspaceApiClient class. Without the ' .
-                    'Customer Id, Google Workspace API calls cannot be requested.';
-
-                Log::stack((array) $this->connection_config['log_channels'])
-                    ->critical($this->error_message, [
-                        'event_type' => 'google-workspace-customer-id-config-missing-error',
-                        'class' => get_class(),
-                        'status_code' => '501',
-                        'message' => $this->error_message,
-                        'connection_key' => $this->connection_key,
-                    ]);
-                abort(501, $this->error_message);
-            }
         }
     }
 
