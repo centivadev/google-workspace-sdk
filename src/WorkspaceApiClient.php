@@ -91,11 +91,12 @@ class WorkspaceApiClient
     }
 
     /**
-     * Set the connection_config class property array
+     * Set the `connection_config` class property array
      *
      * Define an array in the class using the connection configuration in the
-     * glamstack-google.php connections array. If connection key is not specified,
-     * an error log will be created and a 501 abort error will be thrown.
+     * glamstack-google.php connections array. If connection key does not exist
+     * in the conections array, an error log will be created and a 501 abort
+     * error will be thrown.
      *
      * @return void
      */
