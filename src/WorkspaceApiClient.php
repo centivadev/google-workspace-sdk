@@ -917,7 +917,6 @@ class WorkspaceApiClient
         $headers = [];
 
         foreach ($header_response as $header_key => $header_value) {
-            // if($header_key != '')
             $headers[$header_key] = implode(" ", $header_value);
         }
 
