@@ -459,11 +459,11 @@ class WorkspaceApiClient
     }
 
     /**
-     * Google Workspace API PUT Request. Google will utilize PUT request for
-     * updating an existing resource.
-     *
-     * This method is called from other services to perform a PUT request and
-     * return a structured object
+     * Google Workspace API PUT Request 
+     * 
+     * Google will utilize PUT request for updating an existing resource. This 
+     * method is called from other services to perform a PUT request and return 
+     * a structured object
      *
      * Example Usage:
      * ```php
