@@ -50,7 +50,7 @@ class WorkspaceApiClient
         // Set the connection key used for getting the correct configuration
         $this->setConnectionKey($connection_key);
 
-        // Load the connection configuration to array in memory
+        // Define the connection configuration array as a class variable
         $this->setConnectionConfig();
 
         // Generate the Google OAuth token using the `google-auth-sdk`
@@ -59,7 +59,11 @@ class WorkspaceApiClient
         // Set the request headers to be used by the API client
         $this->setRequestHeaders();
 
+        // Set the Google Domain using the connection configuration
+        $this->setDomain();
 
+        // Set the Google Customer ID using the connection configuration
+        $this->setCustomerId();
 
         // Set the required parameters for Google Workspace API calls
         $this->setRequiredParameters();
