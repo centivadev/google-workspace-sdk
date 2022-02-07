@@ -184,34 +184,25 @@ class WorkspaceApiClient
      *
      * @return void
      */
-    protected function setDomain(?string $domain): void
+    protected function setDomain(): void
     {
-        // If the `domain` parameter is not null set the `domain`
-        // class level variable to the provided `domain`
-        if ($domain != null) {
-            $this->domain = $domain;
-        }
-        // Else the `domain` class value will be set to the configuration
-        // file `domain`
-        else {
-            if ($this->connection_config['domain']) {
-                $this->domain = $this->connection_config['domain'];
-            } else {
-                $this->error_message = 'The Google Domain has not been defined ' .
-                    'in config/glamstack-google.php or provided during the ' .
-                    'initialization of the WorkspaceApiClient class. Without the ' .
-                    'domain, Google Workspace API calls cannot be requested.';
+        if ($this->connection_config['domain']) {
+            $this->domain = $this->connection_config['domain'];
+        } else {
+            $this->error_message = 'The Google Domain has not been defined ' .
+                'in config/' . self::CONFIG_FILE_NAME . ' or provided during the ' .
+                'initialization of the WorkspaceApiClient class. Without the ' .
+                'domain, Google Workspace API calls cannot be requested.';
 
-                Log::stack((array) $this->connection_config['log_channels'])
-                    ->critical($this->error_message, [
-                        'event_type' => 'google-workspace-domain-config-missing-error',
-                        'class' => get_class(),
-                        'status_code' => '501',
-                        'message' => $this->error_message,
-                        'connection_key' => $this->connection_key,
-                    ]);
-                abort(501, $this->error_message);
-            }
+            Log::stack((array) $this->connection_config['log_channels'])
+                ->critical($this->error_message, [
+                    'event_type' => 'google-workspace-domain-config-missing-error',
+                    'class' => get_class(),
+                    'status_code' => '501',
+                    'message' => $this->error_message,
+                    'connection_key' => $this->connection_key,
+                ]);
+            abort(501, $this->error_message);
         }
     }
 
