@@ -355,10 +355,10 @@ class WorkspaceApiClient
     }
 
     /**
-     * Google Workspace API POST Request. Google will utilize POST request for
-     * inserting a new resource.
-     *
-     * This method is called from other services to perform a POST request and
+     * Google Workspace API POST Request
+     * 
+     * Google will utilize POST request for inserting a new resource. This 
+     * method is called from other services to perform a POST request and
      * return a structured object.
      *
      * Example Usage:
@@ -379,7 +379,7 @@ class WorkspaceApiClient
      * Example Response:
      * ```php
      * {#1214
-     *   +"headers": {#1233
+     *   +"headers": {
      *     +"ETag": (truncated)
      *     +"Content-Type": "application/json; charset=UTF-8"
      *     +"Vary": "Origin X-Origin Referer"
@@ -391,8 +391,8 @@ class WorkspaceApiClient
      *     +"X-Content-Type-Options": "nosniff"
      *     +"Alt-Svc": (truncated)
      *   }
-     *   +"json": (truncated)
-     *   +"object": {#1231
+     *   +"json": (truncated) // FIXME:
+     *   +"object": {
      *     +"kind": "admin#directory#user"
      *     +"id": "115712261629077226469"
      *     +"etag": (truncated)
@@ -408,7 +408,7 @@ class WorkspaceApiClient
      *     +"orgUnitPath": "/"
      *     +"isMailboxSetup": false
      *   }
-     *   +"status": {#1260
+     *   +"status": {
      *     +"code": 200
      *     +"ok": true
      *     +"successful": true
@@ -444,6 +444,9 @@ class WorkspaceApiClient
 
         $this->logResponse('post', self::BASE_URL . $uri, $response);
 
+        // FIXME: Add connection config variable for throw exception. This should 
+        // be able to fail silently and return error code in response and handled 
+        // by the application. 
         if ($response->status->successful == false) {
             if (property_exists($response->object, 'error')) {
                 abort($response->status->code, 'Google Workspace POST SDK Error. ' . $response->object->error_description);
