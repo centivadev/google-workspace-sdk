@@ -123,7 +123,25 @@ class WorkspaceApiClient
         }
     }
 
+    /**
+     * Utilize the `GoogleAuth` SDK to generate Google OAuth API token.
+     *
+     * @see https://gitlab.com/glamstack/google-auth-sdk
+     *
+     * @return void
+     */
+    protected function generateAuthToken()
+    {
+        // Initialize the Google Auth Client
+        /** @phpstan-ignore-next-line */
+        $google_auth = new \Glamstack\GoogleAuth\AuthClient(
+            $this->connection_key
+        );
 
+        // Authenticate with Google OAuth2 Server auth_token
+        /** @phpstan-ignore-next-line */
+        $this->auth_token = $google_auth->authenticate();
+    }
     /**
      * Set the request headers for the GitLab API request
      *
