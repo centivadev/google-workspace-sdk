@@ -105,9 +105,10 @@ class WorkspaceApiClient
         if (array_key_exists($this->connection_key, config(self::CONFIG_FILE_NAME . '.connections'))) {
             $this->connection_config = config(self::CONFIG_FILE_NAME . '.connections.' . $this->connection_key);
         } else {
-            $error_message = 'The Google connection key is not defined in ' .
-                '`config/glamstack-google.php` connections array. Without this ' .
-                'array config, there is no API configuration to connect with.';
+            $error_message = 'The Google connection key is not defined in the ' .
+                '`config/' . self::CONFIG_FILE_NAME . '` connections array. ' .
+                ' Without this array config, there is no API configuration to ' .
+                'connect with.';
 
             Log::stack((array) $this->connection_config['log_channels'])
                 ->critical($error_message, [
