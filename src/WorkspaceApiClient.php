@@ -216,6 +216,18 @@ class WorkspaceApiClient
      */
     protected function setCustomerId(): void
     {
+        if ($this->connection_config['customer_id']) {
+            $this->customer_id = $this->connection_config['customer_id'];
+        } else {
+            $this->error_message = 'The Google Customer ID has not been defined ' .
+                'in config/'  . self::CONFIG_FILE_NAME . ' or provided during the ' .
+                'initialization of the WorkspaceApiClient class. Without the ' .
+                'Customer Id, Google Workspace API calls cannot be requested.';
+            $this->error_event_type = 'google-workspace-customer-id-config-missing-error';
+
+            $this->googleMissingConfigError();
+
+            abort(501, $this->error_message);
         }
     }
 
