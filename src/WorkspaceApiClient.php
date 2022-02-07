@@ -228,8 +228,14 @@ class WorkspaceApiClient
      */
     protected function setCustomerId(?string $customer_id): void
     {
-        if ($customer_id == null) {
-            // If the customer_id in connection_config is not null
+        // If the `customer_id` parameter is not null set the `customer_id`
+        // class level variable to the provided `customer_id`
+        if ($customer_id != null) {
+            $this->customer_id = $customer_id;
+        }
+        // Else the `customer_id` class value will be set to the configuration
+        // file `customer_id`
+        else {
             if ($this->connection_config['customer_id']) {
                 $this->customer_id = $this->connection_config['customer_id'];
             } else {
@@ -248,8 +254,6 @@ class WorkspaceApiClient
                     ]);
                 abort(501, $this->error_message);
             }
-        } else {
-            $this->customer_id = $customer_id;
         }
     }
 
