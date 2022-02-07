@@ -130,4 +130,20 @@ trait ResponseLog{
             ]);
     }
 
+    /**
+     * Create an error log entry when an configuration parameter is missing.
+     *
+     * @return void
+     */
+    public function logMissingConfigError(): void
+    {
+        Log::stack((array) $this->connection_config['log_channels'])
+            ->critical($this->error_message, [
+                'event_type' => $this->error_event_type,
+                'class' => get_class(),
+                'status_code' => '501',
+                'message' => $this->error_message,
+                'connection_key' => $this->connection_key,
+            ]);
+    }
 }
