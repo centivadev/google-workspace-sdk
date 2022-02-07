@@ -243,13 +243,13 @@ class WorkspaceApiClient
      * ```php
      * $google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient();
      * $user_key = 'klibby@example.com`;
-     * $google_workspace_api->get('/users/'.$user_key);
+     * $google_workspace_api->get('/users/' . $user_key);
      * ```
      *
      * Example Response:
      * ```php
-     * {#1268
-     *   +"headers": {#1216
+     * {
+     *   +"headers": {
      *     +"ETag": (truncated)
      *     +"Content-Type": "application/json; charset=UTF-8"
      *     +"Vary": "Origin X-Origin Referer"
@@ -261,8 +261,8 @@ class WorkspaceApiClient
      *     +"X-Content-Type-Options": "nosniff"
      *     +"Alt-Svc": (truncated)
      *   }
-     *   +"json": (truncated)
-     *   +"object": {#1251
+     *   +"json": (truncated) // FIXME
+     *   +"object": {
      *     +"kind": "admin#directory#user"
      *     +"id": "114522752583947996869"
      *     +"etag": (truncated)
@@ -275,7 +275,7 @@ class WorkspaceApiClient
      *     +"isAdmin": true
      *     (truncated)
      *   }
-     *   +"status": {#1269
+     *   +"status": {
      *     +"code": 200
      *     +"ok": true
      *     +"successful": true
@@ -285,6 +285,8 @@ class WorkspaceApiClient
      *   }
      * }
      * ```
+     *
+     * @see https://developers.google.com/admin-sdk/directory/reference/rest
      *
      * @param string $uri
      *      The URI of the Google Workspace API request with a leading slash
@@ -318,11 +320,12 @@ class WorkspaceApiClient
                 $response
             );
 
-            // The $paginated_results will be returned as an object of objects
+            // The `$paginated_results` will be returned as an array of objects
             // which needs to be converted to a flat object for standardizing
             // the response returned. This needs to be a separate function
             // instead of casting to an object due to return body complexities
             // with nested array and object mixed notation.
+            /** @phpstan-ignore-next-line */
             $response->paginated_results = $this->convertPaginatedResponseToObject($paginated_results);
 
             // Unset the body and json elements of the original Guzzle Response
@@ -332,10 +335,14 @@ class WorkspaceApiClient
         }
 
         // Parse the API response and return a Glamstack standardized response
+        /** @phpstan-ignore-next-line */
         $parsed_api_response = $this->parseApiResponse($response, $isPaginated);
 
         $this->logResponse('get', self::BASE_URL . $uri, $parsed_api_response);
 
+        // FIXME: Add connection config variable for throw exception. This should 
+        // be able to fail silently and return error code in response and handled 
+        // by the application. 
         if ($parsed_api_response->status->successful == false) {
             if (property_exists($parsed_api_response->object, 'error')) {
                 abort($parsed_api_response->status->code, 'Google Workspace GET SDK Error. ' . $parsed_api_response->object->error_description);
