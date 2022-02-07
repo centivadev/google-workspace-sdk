@@ -8,7 +8,6 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-
 class WorkspaceApiClient
 {
     use ResponseLog;
@@ -22,9 +21,11 @@ class WorkspaceApiClient
     private string $connection_key;
     private string $customer_id;
     private string $domain;
+    private string $error_event_type;
     private string $error_message;
     private array $request_headers;
     private array $required_parameters;
+
 
     /**
      * This function takes care of the initialization of authentication using
