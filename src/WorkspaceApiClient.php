@@ -764,8 +764,7 @@ class WorkspaceApiClient
     }
 
     /**
-     * Helper method to get the `nextPageToken` element from the GET Response
-     * object
+     * Get the `nextPageToken` element from the GET Response object
      *
      * @see https://cloud.google.com/apis/design/design_patterns#list_pagination
      *
