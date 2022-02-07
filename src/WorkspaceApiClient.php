@@ -820,7 +820,7 @@ class WorkspaceApiClient
     }
 
     /**
-     * Helper method to get just the response data from the Response object
+     * Get the response data from the Response object and remove erroneous data
      *
      * @param Response $response
      *      API response from Google Workspace GET request
@@ -839,7 +839,7 @@ class WorkspaceApiClient
         unset($response_object->kind);
         unset($response_object->etag);
 
-        // If the response contains the `nextPageToken` element unset that
+        // Unset the `nextPageToken` element if it exists
         if ($contains_next_page) {
             unset($response_object->nextPageToken);
         }
