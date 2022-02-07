@@ -801,7 +801,6 @@ class WorkspaceApiClient
         array $request_data,
         Response $response
     ): Response {
-
         // Set the Google Workspace Query parameter `pageToken` to the
         // responses `nextPageToken` element
         $next_page = [
@@ -815,6 +814,8 @@ class WorkspaceApiClient
         $records = Http::withToken($this->auth_token)
             ->withHeaders($this->request_headers)
             ->get(self::BASE_URL . $uri, $request_body);
+
+        $this->logResponse('get', self::BASE_URL . $uri, $records);
 
         return $records;
     }
