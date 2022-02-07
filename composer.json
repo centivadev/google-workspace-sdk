@@ -14,9 +14,9 @@
         }
     ],
     "require": {
-        "php": ">=8.0",
-        "laravel/framework": ">=8.0",
-        "glamstack/google-auth-sdk": "*"
+        "php": "^8.0",
+        "laravel/framework": "^8.0 || ^9.0",
+        "glamstack/google-auth-sdk": "2.2.1"
     },
     "require-dev": {
         "nunomaduro/larastan": "^1.0",
