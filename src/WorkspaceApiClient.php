@@ -190,7 +190,14 @@ class WorkspaceApiClient
      */
     protected function setDomain(?string $domain): void
     {
-        if ($domain == null) {
+        // If the `domain` parameter is not null set the `domain`
+        // class level variable to the provided `domain`
+        if ($domain != null) {
+            $this->domain = $domain;
+        }
+        // Else the `domain` class value will be set to the configuration
+        // file `domain`
+        else {
             if ($this->connection_config['domain']) {
                 $this->domain = $this->connection_config['domain'];
             } else {
@@ -209,8 +216,6 @@ class WorkspaceApiClient
                     ]);
                 abort(501, $this->error_message);
             }
-        } else {
-            $this->domain = $domain;
         }
     }
 
