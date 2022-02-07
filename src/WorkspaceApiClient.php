@@ -85,13 +85,8 @@ class WorkspaceApiClient
         // variable
         $this->setCustomerId($customer_id);
 
-
-        // Set the required_parameters class variable that will be appended
-        // to all API request query parameters
-        $this->required_parameters = [
-            'domain' => $this->domain,
-            'customer' => $this->customer_id
-        ];
+        // Set the required parameters for Google Workspace API calls
+        $this->setRequiredParameters();
     }
 
     /**
