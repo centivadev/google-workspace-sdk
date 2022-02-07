@@ -781,8 +781,7 @@ class WorkspaceApiClient
     }
 
     /**
-     * Helper function to get the next page of a Google Workspace API GET
-     * request.
+     * Get the next page of a Google Workspace API GET request
      *
      * @param string $uri
      *      The URI of the Google Workspace API request with a leading slash
