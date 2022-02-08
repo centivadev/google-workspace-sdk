@@ -803,7 +803,7 @@ class WorkspaceApiClient
             ->withHeaders($this->request_headers)
             ->get(self::BASE_URL . $uri, $request_body);
 
-        $this->logResponse('get', self::BASE_URL . $uri, $records);
+        $this->logResponse('get', self::BASE_URL . $uri, $this->parseApiResponse($records));
 
         return $records;
     }
