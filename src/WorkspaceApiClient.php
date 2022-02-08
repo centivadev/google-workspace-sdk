@@ -802,8 +802,8 @@ class WorkspaceApiClient
         $records = Http::withToken($this->auth_token)
             ->withHeaders($this->request_headers)
             ->get(self::BASE_URL . $uri, $request_body);
-        $new_response = $this->parseApiResponse($records);
-        $this->logResponse('get', self::BASE_URL . $uri, $new_response);
+        $parsed_response = $this->parseApiResponse($records);
+        $this->logResponse('get', self::BASE_URL . $uri, $parsed_response);
 
         return $records;
     }
