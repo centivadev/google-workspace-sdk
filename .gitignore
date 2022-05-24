@@ -3,7 +3,7 @@
 /vendor
 composer.lock
 .idea/
-.build
+build
 /storage/keys/glamstack-google/*
 .env.testing
 .env
