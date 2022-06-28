@@ -225,6 +225,16 @@ abstract class BaseClient
         }
     }
 
+    protected function appendRequiredHeaders($request_data)
+    {
+        $required_parameters = [
+            'domain' => $this->domain,
+            'customer' => $this->customer_id
+        ];
+
+        return array_merge($request_data, $required_parameters);
+    }
+
     /**
      * Check if pagination is used in the Google Cloud GET response.
      *
