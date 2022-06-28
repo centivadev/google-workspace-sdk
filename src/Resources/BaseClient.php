@@ -251,4 +251,21 @@ abstract class BaseClient
     {
         return $this->domain;
     }
+
+    /**
+     * Set the project_id class level variable
+     *
+     * @return void
+     */
+    protected function setDomain(): void
+    {
+        if ($this->api_client->connection_key) {
+            $this->domain = config(
+                $this->api_client->config_path . '.connections.' .
+                $this->api_client->connection_key . '.domain'
+            );
+        } else {
+            $this->domain = $this->api_client->connection_config['domain'];
+        }
+    }
 }
