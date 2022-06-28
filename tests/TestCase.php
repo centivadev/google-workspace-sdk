@@ -16,11 +16,11 @@ class TestCase extends Orchestra
         if(!is_dir(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys')){
             mkdir(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys');
         }
-        if (!is_dir(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google')){
-            mkdir(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google');
+        if (!is_dir(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google-workspace')){
+            mkdir(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google-workspace');
         }
-        if (!is_link(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google/gcp_project_1.json')) {
-            symlink(__DIR__ . '/../storage/keys/glamstack-google/test.json', __DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google/gcp_project_1.json');
+        if (!is_link(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google-workspace/test.json')) {
+            symlink(__DIR__ . '/../storage/keys/glamstack-google-workspace/test.json', __DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google-workspace/test.json');
         }
     }
 
