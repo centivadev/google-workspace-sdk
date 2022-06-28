@@ -206,4 +206,22 @@ abstract class BaseClient
         }
     }
 
+    /**
+     * Get the json_key from the connection_config array
+     *
+     * json_key i9s not required to be set so if not set return null
+     *
+     * @param array $connection_config
+     *      The connection config array provided during initialization of the SDK
+     *
+     * @return mixed|null
+     */
+    protected function getConfigArrayJsonKey(array $connection_config): mixed
+    {
+        if (array_key_exists('json_key', $connection_config)) {
+            return $connection_config['json_key'];
+        } else {
+            return null;
+        }
+    }
 }
