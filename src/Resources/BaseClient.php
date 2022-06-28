@@ -89,4 +89,24 @@ abstract class BaseClient
             dd('no api_scopes set error');
         }
     }
+
+    /**
+     * Get the subject_email from the configuration file
+     *
+     * Subject email is not required so if not set then return null
+     *
+     * @param string $connection_key
+     *      The connection key provided during initialization of the SDK
+     *
+     * @return string|null
+     */
+    protected function getConfigSubjectEmail(string $connection_key): string|null
+    {
+        $config_path = $this->api_client->config_path . '.connections.' . $connection_key;
+        if (array_key_exists('subject_email', config($config_path))) {
+            return config($config_path . '.subject_email');
+        } else {
+            return null;
+        }
+    }
 }
