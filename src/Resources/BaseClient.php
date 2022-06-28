@@ -70,4 +70,23 @@ abstract class BaseClient
             'json_key_file_path' => $this->getConfigJsonFilePath($connection_key),
         ];
     }
+
+    /**
+     * Get the api_scopes from the configuration file
+     *
+     * @param string $connection_key
+     *     The connection key provided during initialization of the SDK
+     *
+     * @return array
+     */
+    protected function getConfigApiScopes(string $connection_key): array
+    {
+        if (config($this->api_client->config_path . '.connections.' . $connection_key . '.api_scopes')) {
+            return config($this->api_client->config_path . '.connections.' .
+                $connection_key . '.api_scopes');
+        } else {
+            //TODO: return error
+            dd('no api_scopes set error');
+        }
+    }
 }
