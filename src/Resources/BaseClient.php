@@ -247,4 +247,8 @@ abstract class BaseClient
         }
     }
 
+    protected function getDomain(): string
+    {
+        return $this->domain;
+    }
 }
