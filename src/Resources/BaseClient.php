@@ -11,4 +11,46 @@ use Illuminate\Support\Facades\Http;
 
 abstract class BaseClient
 {
+    use ResponseLog;
+
+    protected ApiClient $api_client;
+    protected string $customer_id;
+    protected string $domain;
+    protected array $log_channels;
+    private string $auth_token;
+
+    /**
+     * @throws Exception
+     */
+    public function __construct(
+        ApiClient $api_client
+    )
+    {
+        // Initialize Google Auth SDK
+        $this->api_client = $api_client;
+
+        $this->setCustomerId();
+
+        $this->setDomain();
+
+        $this->setLogChannels();
+
+        if ($this->api_client->connection_key) {
+            $google_auth = new AuthClient(
+                $this->parseConfigFile($this->api_client->connection_key)
+            );
+        } else {
+            $google_auth = new AuthClient(
+                $this->parseConnectionConfigArray($this->api_client->connection_config)
+            );
+        }
+
+        // Authenticate with Google OAuth2 Server auth_token
+        try {
+            $this->auth_token = $google_auth->authenticate();
+        } catch (Exception $exception) {
+//            $this->logLocalError($exception);
+            throw $exception;
+        }
+    }
 }
