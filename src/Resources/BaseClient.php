@@ -224,4 +224,9 @@ abstract class BaseClient
             return null;
         }
     }
+
+    protected function getLogChannels(): array
+    {
+        return $this->log_channels;
+    }
 }
