@@ -273,4 +273,21 @@ abstract class BaseClient
     {
         return $this->customer_id;
     }
+
+    /**
+     * Set the project_id class level variable
+     *
+     * @return void
+     */
+    protected function setCustomerId(): void
+    {
+        if ($this->api_client->connection_key) {
+            $this->customer_id = config(
+                $this->api_client->config_path . '.connections.' .
+                $this->api_client->connection_key . '.customer_id'
+            );
+        } else {
+            $this->customer_id = $this->api_client->connection_config['customer_id'];
+        }
+    }
 }
