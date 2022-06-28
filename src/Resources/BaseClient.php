@@ -268,4 +268,9 @@ abstract class BaseClient
             $this->domain = $this->api_client->connection_config['domain'];
         }
     }
+
+    protected function getCustomerId(): string
+    {
+        return $this->customer_id;
+    }
 }
