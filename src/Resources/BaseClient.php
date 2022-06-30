@@ -635,6 +635,82 @@ abstract class BaseClient
 
     }
 
+    /**
+     * Convert API Response Headers to Object
+     * This method is called from the parseApiResponse method to prettify the
+     * Guzzle Headers that are an array with nested array for each value, and
+     * converts the single array values into strings and converts to an object
+     * for easier and consistent accessibility with the parseApiResponse format.
+     *
+     * Example $header_response:
+     * ```php
+     * [
+     *   "ETag" => [
+     *     ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/dky_PFyA8Zq0WLn1WqUCn_A8oes""
+     *   ]
+     *   "Content-Type" => [
+     *     "application/json; charset=UTF-8"
+     *   ]
+     *   "Vary" => [
+     *     "Origin"
+     *     "X-Origin"
+     *     "Referer"
+     *   ]
+     *   "Date" => [
+     *      "Mon, 24 Jan 2022 15:39:46 GMT"
+     *   ]
+     *   "Server" => [
+     *     "ESF"
+     *   ]
+     *   "Content-Length" => [
+     *     "355675"
+     *   ]
+     *   "X-XSS-Protection" => [
+     *     "0"
+     *   ]
+     *   "X-Frame-Options" => [
+     *     "SAMEORIGIN"
+     *   ]
+     *   "X-Content-Type-Options" => [
+     *     "nosniff"
+     *   ]
+     *   "Alt-Svc" => [
+     *     (truncated)
+     *   ]
+     * ]
+     * ```
+     *
+     * Example return object:
+     * ```php
+     * {#51667
+     *   +"ETag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/dky_PFyA8Zq0WLn1WqUCn_A8oes""
+     *   +"Content-Type": "application/json; charset=UTF-8"
+     *   +"Vary": "Origin X-Origin Referer"
+     *   +"Date": "Mon, 24 Jan 2022 15:39:46 GMT"
+     *   +"Server": "ESF"
+     *   +"Content-Length": "355675"
+     *   +"X-XSS-Protection": "0"
+     *   +"X-Frame-Options": "SAMEORIGIN"
+     *   +"X-Content-Type-Options": "nosniff"
+     *   +"Alt-Svc": (truncated)
+     * }
+     * ```
+     *
+     * @param array $header_response
+     *
+     * @return object
+     */
+    protected function convertHeadersToObject(array $header_response): object
+    {
+        $headers = [];
+
+        foreach ($header_response as $header_key => $header_value) {
+            $headers[$header_key] = implode(" ", $header_value);
+        }
+
+        return (object)$headers;
+    }
+
     protected function getLogChannels(): array
     {
         return $this->log_channels;
