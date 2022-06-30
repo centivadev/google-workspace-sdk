@@ -4,7 +4,7 @@
 composer.lock
 .idea/
 build
-/storage/keys/glamstack-google/*
+/storage/keys/glamstack-google-workspace/*
 .env.testing
 .env
 phpunit.xml
