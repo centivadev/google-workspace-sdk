@@ -37,6 +37,34 @@ trait ResponseLog
     }
 
     /**
+     * Log non-converted HTTP Responses
+     *
+     * @param string $url
+     *      The URL of the HTTP request
+     * @param object $response
+     *      The Response from the HTTP request
+     *
+     * @return void
+     */
+    public function logHttpInfo(string $url, object $response): void
+    {
+        $method = debug_backtrace()[1]['function'];
+
+        $message = $method.' '.$response->status() .' '.$url;
+
+        Log::stack($this->log_channels)
+            ->info($message, [
+                'api_endpoint' => $url,
+                'api_method' => $method,
+                'class' => get_class(),
+                'event_type' => 'google-workspace-http-response',
+                'message' => $message,
+                'response_object' => $response->object() ? $response->object() : null,
+                'status_code' => $response->status(),
+            ]);
+    }
+
+    /**
      * Create an info log entry for an API call
      *
      * @param string $method
