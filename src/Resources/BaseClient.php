@@ -487,6 +487,23 @@ abstract class BaseClient
 
         return $records;
     }
+
+    /**
+     * Helper method to get the `nextPageToken` element from the GET Response
+     * object
+     *
+     * @see https://cloud.google.com/apis/design/design_patterns#list_pagination
+     *
+     * @param Response $response
+     *      Google Cloud API GET Request Guzzle response
+     *
+     * @return string
+     */
+    protected function getNextPageToken(Response $response): string
+    {
+        return $response->object()->nextPageToken;
+    }
+
     protected function getLogChannels(): array
     {
         return $this->log_channels;
