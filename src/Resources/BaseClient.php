@@ -76,7 +76,6 @@ abstract class BaseClient
                     'domain' => $this->domain,
                 ]
             );
-
         } catch (Exception $exception) {
             $this->logError('Failed - Authenticating with Google Auth SDK',
                 [
@@ -147,7 +146,7 @@ abstract class BaseClient
         $config_path = $this->api_client->config_path . '.connections.' . $connection_key;
         if (array_key_exists('subject_email', config($config_path))) {
             if (config($config_path . '.subject_email')) {
-                $this->logInfo('Success - Getting configuration file subject_email value',[
+                $this->logInfo('Success - Getting configuration file subject_email value', [
                     'subject_email' => config($config_path . '.subject_email')
                 ]);
                 return config($config_path . '.subject_email');
