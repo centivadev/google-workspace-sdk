@@ -2,6 +2,8 @@
 
 namespace Glamstack\GoogleWorkspace\Traits;
 
+use Exception;
+use http\Client\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -14,26 +16,23 @@ trait ResponseLog
      * This method is called from other methods and will call specific methods
      * depending on the log severity level.
      *
-     * @param string $method
-     *      The lowercase name of the method that calls this function (ex. `get`)
+     * @param string $url The URL of the API call including the concatenated base URL and URI
      *
-     * @param string $url
-     *      The URL of the API call including the concatenated base URL and URI
-     *
-     * @param object $response
-     *      The HTTP response formatted with $this->parseApiResponse()
+     * @param object $response The HTTP response formatted with $this->parseApiResponse()
      *
      * @return void
      */
-    public function logResponse(string $method, string $url, object $response): void
+    public function logResponse(string $url, object $response): void
     {
+        $method = debug_backtrace()[1]['function'];
+
         // Status code log messages (2xx, 4xx, 5xx)
         if ($response->status->ok == true) {
-            $this->logInfo($method, $url, $response);
+            $this->logResponseInfo($method, $url, $response);
         } elseif ($response->status->clientError == true) {
-            $this->logClientError($method, $url, $response);
+            $this->logResponseClientError($method, $url, $response);
         } elseif ($response->status->serverError == true) {
-            $this->logServerError($method, $url, $response);
+            $this->logResponseServerError($method, $url, $response);
         }
     }
 
