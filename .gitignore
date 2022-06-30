@@ -7,4 +7,5 @@ build
 /storage/keys/glamstack-google/*
 .env.testing
 .env
+phpunit.xml
 .phpunit.result.cache
