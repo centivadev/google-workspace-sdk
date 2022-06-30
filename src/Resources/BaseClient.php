@@ -109,8 +109,17 @@ abstract class BaseClient
     {
         $config_path = $this->api_client->config_path . '.connections.' . $connection_key;
         if (array_key_exists('subject_email', config($config_path))) {
-            return config($config_path . '.subject_email');
+            if (config($config_path . '.subject_email')) {
+                $this->logInfo('Success - Getting configuration file subject_email value',[
+                    'subject_email' => config($config_path . '.subject_email')
+                ]);
+                return config($config_path . '.subject_email');
+            } else {
+                $this->logInfo('Success - Setting subject_email value to null');
+                return null;
+            }
         } else {
+            $this->logInfo('Success - Setting subject_email value to null');
             return null;
         }
     }
