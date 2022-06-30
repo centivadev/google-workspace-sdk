@@ -15,24 +15,54 @@
     ],
     "require": {
         "php": "^8.0",
-        "laravel/framework": "^8.0 || ^9.0",
-        "glamstack/google-auth-sdk": "2.2.1"
+        "doctrine/annotations": "^1.13",
+        "glamstack/google-auth-sdk": "^2.5",
+        "illuminate/contracts": "^9.0",
+        "laravel/laravel": "^9.1",
         "spatie/laravel-package-tools": "^1.9.2",
+        "symfony/options-resolver": "^6.0",
+        "symfony/validator": "^6.0"
     },
     "require-dev": {
-        "nunomaduro/larastan": "^1.0",
-        "orchestra/testbench": "^6.23"
+        "nunomaduro/collision": "^6.0",
+        "nunomaduro/larastan": "^2.0.1",
+        "orchestra/testbench": "^7.0",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-laravel": "^1.1",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpunit/phpunit": "^9.5",
+        "spatie/laravel-ray": "^1.26",
+        "pestphp/pest-plugin-mock": "^1.0",
+      "ext-dom": "*"
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
     },
     "autoload": {
         "psr-4": {
             "Glamstack\\GoogleWorkspace\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Glamstack\\GoogleWorkspace\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "laravel": {
            "providers": [
-                "Glamstack\\GoogleWorkspace\\GoogleWorkspaceServiceProvider"
+                "Glamstack\\GoogleWorkspace\\ApiClientServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
         }
     }
 }
