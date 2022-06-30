@@ -773,6 +773,38 @@ abstract class BaseClient
 
         return $response;
     }
+
+    /**
+     * Google Cloud API PUT Request.
+     *
+     * This method is called from other services to perform a PUT request and
+     * return a structured object
+     *
+     * @param string $uri
+     *      The URI of the Google Cloud API request
+     *
+     * @param array $request_data
+     *      (Optional) Optional request data to send with the Google Cloud API
+     *          PUT request
+     *
+     * @return object|string
+     */
+    public function putRequest(string $uri, array $request_data = []): object|string
+    {
+        $request_data = $this->appendRequiredHeaders($request_data);
+
+        $request = Http::withToken($this->auth_token)
+            ->withHeaders($this->api_client->request_headers)
+            ->put($uri, $request_data);
+
+        // Parse the API request's response and return a Glamstack standardized
+        // response
+        $response = $this->parseApiResponse($request);
+
+        $this->logResponse($uri, $response);
+
+        return $response;
+    }
     protected function getLogChannels(): array
     {
         return $this->log_channels;
