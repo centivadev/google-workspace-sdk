@@ -34,9 +34,9 @@
     <php>
         <server name="APP_ENV" value="testing"/>
         <server name="CONFIG_PATH" value="tests"/>
-        <server name="GOOGLE_WORKSPACE_TEST_CUSTOMER_ID" value="C027niugu"/>
-        <server name="GOOGLE_WORKSPACE_TEST_DOMAIN" value="gitlab-test.com"/>
-        <server name="GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL" value="dwheeler@gitlab-test.com"/>
+        <server name="GOOGLE_WORKSPACE_TEST_CUSTOMER_ID" value=""/>
+        <server name="GOOGLE_WORKSPACE_TEST_DOMAIN" value=""/>
+        <server name="GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL" value=""/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
 <!--        <server name="DB_DATABASE" value=":memory:"/> &ndash;&gt;-->
