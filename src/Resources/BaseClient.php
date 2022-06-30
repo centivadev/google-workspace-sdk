@@ -711,6 +711,40 @@ abstract class BaseClient
         return (object)$headers;
     }
 
+    /**
+     * Google Cloud API POST Request. Google will utilize POST request for
+     * inserting a new resource.
+     *
+     * This method is called from other services to perform a POST request and
+     * return a structured object.
+     *
+     * @param string $uri
+     *      The URI of the Google Cloud API request with
+     *
+     * @param array|null $request_data
+     *      (Optional) Optional request data to send with the Google Cloud API
+     *          POST request
+     *
+     * @return object|string
+     */
+    public function postRequest(string $uri, ?array $request_data = []): object|string
+    {
+        $request_data = $this->appendRequiredHeaders($request_data);
+
+        // Append to Google Domain and Google Customer ID to the request data
+        $request = Http::withToken($this->auth_token)
+            ->withHeaders($this->api_client->request_headers)
+            ->post($uri, $request_data);
+
+        // Parse the API request's response and return a Glamstack standardized
+        // response
+        $response = $this->parseApiResponse($request);
+
+        $this->logResponse($uri, $response);
+
+        return $response;
+    }
+
     protected function getLogChannels(): array
     {
         return $this->log_channels;
