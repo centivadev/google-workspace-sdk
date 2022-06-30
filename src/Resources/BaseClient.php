@@ -447,6 +447,46 @@ abstract class BaseClient
         return $response_object;
     }
 
+    /**
+     * Helper function to get the next page of a Google Cloud API GET
+     * request.
+     *
+     * @param string $uri
+     *      The URI of the Google Cloud API request
+     *
+     * @param array $request_data
+     *      Request data to send with the Google Cloud API GET request.
+     *
+     * @param Response $response
+     *      API response from Google Cloud GET request
+     *
+     * @return Response
+     */
+    protected function getNextPageResults(
+        string   $uri,
+        array    $request_data,
+        Response $response
+    ): Response
+    {
+
+        // Set the Google Cloud Query parameter `pageToken` to the
+        // responses `nextPageToken` element
+        $next_page = [
+            'pageToken' => $this->getNextPageToken($response)
+        ];
+
+        // Merge the `request_data` with the `next_page` this tells Google
+        // Cloud that we are working with a paginated response
+        $request_body = array_merge($request_data, $next_page);
+
+        $records = Http::withToken($this->auth_token)
+            ->withHeaders($this->api_client->request_headers)
+            ->get($uri, $request_body);
+
+        $this->logHttpInfo('Success - Gathered the next page data', $records);
+
+        return $records;
+    }
     protected function getLogChannels(): array
     {
         return $this->log_channels;
