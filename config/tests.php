@@ -137,74 +137,75 @@ return [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/admin.directory.user'
             ],
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL'),
             'test_group_email' => env('GOOGLE_WORKSPACE_TEST_GROUP_EMAIL')
         ],
+
         'test_with_incorrect_permissions' => [
             'api_scopes' => [
                 'https://www.googleapis.com/auth/admin.directory.userss'
             ],
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL')
         ],
+
         'test_customer_id_null' => [
             'api_scopes' => [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/contacts'
             ],
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => null,
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
-            'project_id' => 'testing',
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL')
         ],
+
         'test_customer_id_not_set' => [
             'api_scopes' => [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/contacts'
             ],
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => null,
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
-            'project_id' => 'testing',
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL')
         ],
+
         'test_email_is_null' => [
             'api_scopes' => [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/contacts'
             ],
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
-            'project_id' => 'testing',
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL')
         ],
+
         'test_api_scopes_null' => [
             'api_scopes' => null,
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
-            'project_id' => 'testing',
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL')
         ],
+
         'test_api_scopes_not_set' => [
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
-            'project_id' => 'testing',
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL')
         ],
 
@@ -217,7 +218,6 @@ return [
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
-            'project_id' => 'testing',
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL')
         ],
 
@@ -229,7 +229,6 @@ return [
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
-            'project_id' => 'testing',
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL')
         ],
 
@@ -238,19 +237,19 @@ return [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/contacts'
             ],
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
-            'project_id' => 'testing',
             'subject_email' => null
         ],
+
         'test_with_no_email_parameter' => [
             'api_scopes' => [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/contacts'
             ],
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
