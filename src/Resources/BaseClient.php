@@ -333,6 +333,87 @@ abstract class BaseClient
             return false;
         }
     }
+
+    /**
+     * Helper method for getting Google Cloud GET responses that require
+     * pagination
+     *
+     * @param string $uri
+     *      The URI of the Google Cloud API request with a leading slash after
+     *          `https://admin.googleapis.com/admin/directory/v1`
+     *
+     * @param array $request_data
+     *      Request data to send with the Google Cloud API GET request
+     *
+     * @param Response $response
+     *      API response from Google Cloud GET request
+     *
+     * @return array
+     */
+    protected function getPaginatedResults(
+        string   $uri,
+        array    $request_data,
+        Response $response
+    ): array
+    {
+        // Initialize $records as an empty array. This is where we will store
+        // the returned data from each paginated request.
+        $records = [];
+
+        // Collect the response body from the initial GET request's response
+        $response_body = collect($this->getResponseBody($response))->flatten();
+
+        // Merge the initial GET request's response into the $records array
+        $records = array_merge($records, $response_body->toArray());
+
+        // Get the next page using the initial responses `nextPageToken` element
+        $next_response = $this->getNextPageResults(
+            $uri,
+            $request_data,
+            $response
+        );
+
+        // Collect the response body from the subsequent GET request's response
+        $next_response_body = collect(
+            $this->getResponseBody($next_response)
+        )->flatten();
+
+        // Add the $next_response_body to the records array
+        $records = array_merge($records, $next_response_body->toArray());
+
+        // Check if there are more pages to GET
+        $next_page_exists = $this->checkForPagination($next_response);
+
+        if ($next_page_exists) {
+
+            // If there is an additional (ex. third) page then continue through all
+            // data until the API response does not contain the `nextPageToken`
+            // element in the returned object
+            do {
+                $next_response = $this->getNextPageResults(
+                    $uri,
+                    $request_data,
+                    $next_response
+                );
+
+                // Collect the response body from the subsequent GET request's response
+                $next_response_body = collect(
+                    $this->getResponseBody($next_response)
+                )->flatten();
+
+                // Set the `next_response_body` to an array
+                $next_response_body_array = $next_response_body->toArray();
+
+                // Add the `next_response_body` array to the `records` array
+                $records = array_merge($records, $next_response_body_array);
+
+                // Check if there is another page
+                $next_page_exists = $this->checkForPagination($next_response);
+            } while ($next_page_exists);
+        }
+        return $records;
+    }
+
     protected function getLogChannels(): array
     {
         return $this->log_channels;
