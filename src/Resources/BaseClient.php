@@ -414,6 +414,39 @@ abstract class BaseClient
         return $records;
     }
 
+    /**
+     * Helper method to get just the response data from the Response object
+     *
+     * @param Response $response
+     *      API response from Google Cloud GET request
+     *
+     * @return object
+     */
+    protected function getResponseBody(Response $response): object
+    {
+        // Check if the response object contains the `nextPageToken` element
+        $contains_next_page = $this->checkForPagination($response);
+
+        // Get the response object
+        $response_object = $response->object();
+
+        // This if statement is to check if we are utilizing a possible paginated
+        // end point. If so we remove the `kind` and `etag` properties`
+        if ((count(collect($response->object())) == 3) || count(collect($response->object())) == 4 &&
+            (property_exists($response->object(), 'kind') &&
+                property_exists($response->object(), 'etag'))) {
+            // Unset unnecessary elements
+            unset($response_object->kind);
+            unset($response_object->etag);
+        }
+        // If the response contains the `nextPageToken` element unset that
+        if ($contains_next_page) {
+            unset($response_object->nextPageToken);
+        }
+
+        return $response_object;
+    }
+
     protected function getLogChannels(): array
     {
         return $this->log_channels;
