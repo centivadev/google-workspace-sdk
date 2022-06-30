@@ -247,7 +247,65 @@ abstract class BaseClient
         }
     }
 
-    protected function appendRequiredHeaders($request_data)
+    /**
+     * Google API GET Request
+     *
+     * @param string $uri
+     *      The URI of the Google Cloud API
+     *
+     * @param array $request_data
+     *      (Optional) Optional request data to send with the Google Cloud
+     *          API GET request
+     *
+     * @return object|string
+     */
+    public function getRequest(string $uri, array $request_data = []): object|string
+    {
+        // Merge the required headers ('customer' and 'domain')
+        $request_data = $this->appendRequiredHeaders($request_data);
+
+        // Get the initial response
+        $response = Http::withToken($this->auth_token)
+            ->withHeaders($this->api_client->request_headers)
+            ->get($uri, $request_data);
+
+        // Check if the initial response is paginated
+        $isPaginated = $this->checkForPagination($response);
+
+        // If it is paginated
+        if ($isPaginated) {
+
+            // Get the paginated results
+            $paginated_results = $this->getPaginatedResults($uri, $request_data, $response);
+
+            $response->results = $this->convertPaginatedResponseToObject($paginated_results);
+
+            // Unset the body and json elements of the original Guzzle Response
+            // Object. These will be reset with the paginated results.
+            unset($response->body);
+            unset($response->json);
+        } else {
+            // This if statement will catch if Google is sending back a response
+            // for an endpoint that can be paginated but is not.
+            // I.E Google Groups list endpoint but there is only a single group
+            if (count(collect($response->object())) == 3 &&
+                property_exists($response->object(), 'kind') &&
+                property_exists($response->object(), 'etag')) {
+                // Due to the formatting of the response, we are flattening the response object and converting it to an array
+                // This is to remove the nested element that would be the list command i.e. `groups` element when listing groups.
+                $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->flatten()->toArray());
+            } else {
+                // This will catch all GET request that are not possible to be paginated request.
+                $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->toArray());
+            }
+        }
+
+        // Parse the API response and return a Glamstack standardized response
+        $parsed_api_response = $this->parseApiResponse($response, true);
+
+        $this->logResponse($uri, $parsed_api_response);
+        return $parsed_api_response;
+    }
     {
         $required_parameters = [
             'domain' => $this->domain,
