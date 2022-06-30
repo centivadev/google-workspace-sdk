@@ -3,18 +3,17 @@
 namespace Glamstack\GoogleWorkspace;
 
 use Glamstack\GoogleWorkspace\Models\ApiClientModel;
+use Glamstack\GoogleWorkspace\Resources\Rest\Rest;
 use Glamstack\GoogleWorkspace\Traits\ResponseLog;
 
 class ApiClient
 {
     use ResponseLog;
 
-    // Standard parameters for building the ApiClient
-    const CONFIG_FILE_NAME = 'glamstack-google-workspace.';
-
     public array $connection_config;
     public ?string $connection_key;
     public array $request_headers;
+    public string $config_path;
 
     /**
      * This function takes care of the initialization of authentication using
@@ -40,6 +39,8 @@ class ApiClient
     ) {
         $api_client_model = new ApiClientModel();
 
+        $this->setConfigPath();
+
         if(empty($connection_config)){
             $this->setConnectionKey($connection_key);
             $this->connection_config = [];
@@ -49,7 +50,23 @@ class ApiClient
         }
 
         // Set the request headers to be used by the API client
-        $this->setRequestHeaders();
+//        $this->setRequestHeaders();
+    }
+
+    /**
+     * Set the config path
+     */
+    public function setConfigPath(){
+        $this->config_path = env('CONFIG_PATH');
+    }
+
+
+    /**
+     * @throws \Exception
+     */
+    public function rest(): Rest
+    {
+        return new Rest($this->connection_key, $this->connection_config);
     }
 
     /**
@@ -67,7 +84,7 @@ class ApiClient
     {
         if($connection_key == null) {
             $this->connection_key = config(
-                self::CONFIG_FILE_NAME . 'default.connection'
+                $this->config_path . '.default.connection'
             );
         } else {
             $this->connection_key = $connection_key;
