@@ -805,6 +805,45 @@ abstract class BaseClient
 
         return $response;
     }
+
+    /**
+     * Google Cloud API DELETE Request
+     *
+     * This method is called from other services to perform a DELETE request
+     * and return a structured object.
+     *
+     * @param string $uri
+     *      The URI of the Google Cloud API request
+     *
+     * @param array $request_data
+     *      (Optional) Optional request data to send with the Google Cloud API
+     *          DELETE request
+     *
+     * @return object|string
+     */
+    public function deleteRequest(string $uri, array $request_data = []): object|string
+    {
+        // Append to Google Domain and Google Customer ID to the request data
+        $request_data = $this->appendRequiredHeaders($request_data);
+
+        $request = Http::withToken($this->auth_token)
+            ->withHeaders($this->api_client->request_headers)
+            ->delete($uri, $request_data);
+
+        // Parse the API request's response and return a Glamstack standardized
+        // response
+        $response = $this->parseApiResponse($request);
+
+        $this->logResponse($uri, $response);
+
+        return $response;
+    }
+
+    /**
+     * Get the log_channels class level variable
+     *
+     * @return array
+     */
     protected function getLogChannels(): array
     {
         return $this->log_channels;
