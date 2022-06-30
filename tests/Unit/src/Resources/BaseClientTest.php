@@ -85,6 +85,20 @@ test('getConfigApiScopes() - it can get the api scopes from configuration file',
     expect($api_scopes)->toBe(config('tests.connections.test.api_scopes'));
 });
 
+test('getConfigApiScopes() - it throws exception if api_scopes is null', function(){
+    $api_client = new ApiClientFake('test_api_scopes_null');
+    $method_client = new MethodFake($api_client);
+    $method_client->setUp();
+    $method_client->getConfigApiScopes('test_api_scopes_null');
+})->expectErrorMessage('No api_scopes have been set in the configuration file you are using.');
+
+test('getConfigApiScopes() - it throws exception if api_scopes is not set', function(){
+    $api_client = new ApiClientFake('test_api_scopes_not_set');
+    $method_client = new MethodFake($api_client);
+    $method_client->setUp();
+    $method_client->getConfigApiScopes('test_api_scopes_not_set');
+})->expectErrorMessage('No api_scopes have been set in the configuration file you are using.');
+
 test('getConfigApiScopes() - it will throw error if scopes are not set', function(){
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client);
