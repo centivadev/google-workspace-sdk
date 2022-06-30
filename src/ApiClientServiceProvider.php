@@ -16,6 +16,6 @@ class ApiClientServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('google-workspace-sdk')
-            ->hasConfigFile('glamstack-google-workspace');
+            ->hasConfigFile(['glamstack-google-workspace', 'tests']);
     }
 }
