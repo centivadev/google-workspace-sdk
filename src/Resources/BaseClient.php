@@ -139,15 +139,23 @@ abstract class BaseClient
     {
         $config_path = $this->api_client->config_path . '.connections.' . $connection_key;
         if (array_key_exists('json_key_file_path', config($config_path))) {
-            if (config($this->api_client->config_path . '.connections.' . $connection_key .
-                '.json_key_file_path')) {
-                return config($this->api_client->config_path . '.connections.' . $connection_key .
-                    '.json_key_file_path');
+            if (config($config_path . '.json_key_file_path')) {
+
+                $this->logInfo('Success - Getting configuration file json_key_file_path value', [
+                    'json_key_file_path' => config($config_path . '.json_key_file_path')
+                ]);
+
+                return config($config_path . '.json_key_file_path');
+
             } else {
-                throw new Exception('The configuration file does not contain a json_key_file_path');
+                $message = 'The configuration file does not contain a json_key_file_path';
+                $this->logError('Failed - ' . $message);
+                throw new Exception($message);
             }
         } else {
-            throw new Exception('The configuration file does not contain a json_key_file_path');
+            $message = 'The configuration file does not contain a json_key_file_path';
+            $this->logError('Failed - ' . $message);
+            throw new Exception($message);
         }
     }
 
