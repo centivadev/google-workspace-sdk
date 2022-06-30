@@ -504,6 +504,25 @@ abstract class BaseClient
         return $response->object()->nextPageToken;
     }
 
+    /**
+     * Convert paginated API response array into an object
+     *
+     * @param array $paginatedResponse
+     *      Combined object returns from multiple pages of API responses
+     *
+     * @return object
+     *      Object of the API responses combined.
+     */
+    protected function convertPaginatedResponseToObject(
+        array $paginatedResponse
+    ): object
+    {
+        $results = [];
+        foreach ($paginatedResponse as $response_key => $response_value) {
+            $results[$response_key] = $response_value;
+        }
+        return (object)$results;
+    }
     protected function getLogChannels(): array
     {
         return $this->log_channels;
