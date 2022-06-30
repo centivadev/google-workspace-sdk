@@ -523,6 +523,118 @@ abstract class BaseClient
         }
         return (object)$results;
     }
+
+    /**
+     * Parse the API response and return custom format for consistency
+     *
+     * Example Response:
+     * ```php
+     * {#1268
+     *   +"headers": {#1216
+     *     +"ETag": (truncated)
+     *     +"Content-Type": "application/json; charset=UTF-8"
+     *     +"Vary": "Origin X-Origin Referer"
+     *     +"Date": "Mon, 24 Jan 2022 17:25:15 GMT"
+     *     +"Server": "ESF"
+     *     +"Content-Length": "1259"
+     *     +"X-XSS-Protection": "0"
+     *     +"X-Frame-Options": "SAMEORIGIN"
+     *     +"X-Content-Type-Options": "nosniff"
+     *     +"Alt-Svc": (truncated)
+     *   }
+     *   +"json": (truncated)
+     *   +"object": {#1251
+     *     +"kind": "admin#directory#user"
+     *     +"id": "114522752583947996869"
+     *     +"etag": (truncated)
+     *     +"primaryEmail": "klibby@example.com"
+     *     +"name": {#1248
+     *       +"givenName": "Kate"
+     *       +"familyName": "Libby"
+     *       +"fullName": "Kate Libby"
+     *     }
+     *     +"isAdmin": true
+     *     +"isDelegatedAdmin": false
+     *     +"lastLoginTime": "2022-01-21T17:44:13.000Z"
+     *     +"creationTime": "2021-12-08T13:15:43.000Z"
+     *     +"agreedToTerms": true
+     *     +"suspended": false
+     *     +"archived": false
+     *     +"changePasswordAtNextLogin": false
+     *     +"ipWhitelisted": false
+     *     +"emails": array:3 [
+     *       0 => {#1260
+     *         +"address": "klibby@example.com"
+     *         +"type": "work"
+     *       }
+     *       1 => {#1259
+     *         +"address": "klibby@example-test.com"
+     *         +"primary": true
+     *       }
+     *       2 => {#1255
+     *         +"address": "klibby@example.com.test-google-a.com"
+     *       }
+     *     ]
+     *     +"phones": array:1 [
+     *       0 => {#1214
+     *         +"value": "5555555555"
+     *         +"type": "work"
+     *       }
+     *     ]
+     *     +"languages": array:1 [
+     *       0 => {#1271
+     *         +"languageCode": "en"
+     *         +"preference": "preferred"
+     *       }
+     *     ]
+     *     +"nonEditableAliases": array:1 [
+     *       0 => "klibby@example.com.test-google-a.com"
+     *     ]
+     *     +"customerId": "C000nnnnn"
+     *     +"orgUnitPath": "/"
+     *     +"isMailboxSetup": true
+     *     +"isEnrolledIn2Sv": false
+     *     +"isEnforcedIn2Sv": false
+     *     +"includeInGlobalAddressList": true
+     *   }
+     *   +"status": {#1269
+     *     +"code": 200
+     *     +"ok": true
+     *     +"successful": true
+     *     +"failed": false
+     *     +"serverError": false
+     *     +"clientError": false
+     *   }
+     * }
+     * ```
+     *
+     * @see https://laravel.com/docs/8.x/http-client#making-requests
+     *
+     * @param object $response
+     *      Response object from API results
+     * @param bool $get_request
+     *      Rather the request type is GET or not
+     * @return object
+     *      Custom response returned for consistency
+     */
+    protected function parseApiResponse(object $response, bool $get_request = false): object
+    {
+        return (object)[
+            'headers' => $this->convertHeadersToObject($response->headers()),
+            'json' => $get_request == true ? json_encode($response->results) : json_encode($response->json()),
+            'object' => $get_request == true ? (object)$response->results : $response->object(),
+            'status' => (object)[
+                'code' => $response->status(),
+                'ok' => $response->ok(),
+                'successful' => $response->successful(),
+                'failed' => $response->failed(),
+                'serverError' => $response->serverError(),
+                'clientError' => $response->clientError(),
+            ],
+        ];
+
+    }
+
     protected function getLogChannels(): array
     {
         return $this->log_channels;
