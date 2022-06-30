@@ -306,6 +306,19 @@ abstract class BaseClient
         $this->logResponse($uri, $parsed_api_response);
         return $parsed_api_response;
     }
+
+    /**
+     * Append required headers to request_data
+     *
+     * The required headers for Google Workspace are the `domain` and `customer`
+     * variables
+     *
+     * @param array $request_data
+     *      The request data being passed into the HTTP request
+     *
+     * @return array
+     */
+    protected function appendRequiredHeaders(array $request_data)
     {
         $required_parameters = [
             'domain' => $this->domain,
@@ -318,11 +331,10 @@ abstract class BaseClient
     /**
      * Check if pagination is used in the Google Cloud GET response.
      *
-     * @param Response $response API response from Google Cloud GET request
+     * @param Response $response
+     *      API response from Google Cloud GET request
      *
      * @return bool True if pagination is required | False if not
-     * @see GOOGLE PAGINATION EXAMPLE
-     *
      */
     protected function checkForPagination(Response $response): bool
     {
@@ -866,6 +878,11 @@ abstract class BaseClient
         }
     }
 
+    /**
+     * Get the domain class level variable
+     *
+     * @return string
+     */
     protected function getDomain(): string
     {
         return $this->domain;
@@ -888,6 +905,11 @@ abstract class BaseClient
         }
     }
 
+    /**
+     * Get the customer_id class level variable
+     *
+     * @return string
+     */
     protected function getCustomerId(): string
     {
         return $this->customer_id;
