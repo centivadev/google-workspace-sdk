@@ -35,8 +35,6 @@ If the endpoint that you need is not created yet we have provided the REST class
 
 > :warning: PATCH request are not currently working but will be implemented in the future.
 
-
-
 > This builds upon the simplicity of the Laravel HTTP Client that is powered by the Guzzle HTTP client to provide "last lines of code parsing" for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) responses to improve the developer experience.
 
 
@@ -144,7 +142,7 @@ Update the `channels.stack.channels` array to include the array key (ex.  `glams
     ],  
 ```  
 
-## API Request
+## REST API Request
 
 You can make an API request to any of the resource endpoints in the [Google Workspace Admin SDK Directory Documentation](https://developers.google.com/admin-sdk/directory/reference/rest).
 
@@ -158,7 +156,7 @@ $response = $api_client->rest()->get('https://admin.googleapis.com/admin/directo
 
 ### GET Request
 
-The endpoints start with a leading `/` after `https://admin.googleapis.com/admin/directory/v1`.
+The endpoints when uiltizing the REST class will require the full URL of the endpoint.
 
 For examples, the [List Google Workspace Users](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list) API Documentation shows the endpoint
 
@@ -166,17 +164,17 @@ For examples, the [List Google Workspace Users](https://developers.google.com/ad
 GET https://admin.googleapis.com/admin/directory/v1/users  
 ```  
 
-With the SDK, you use the get() method with the endpoint /users as the first argument.
+With the SDK, you use the get() method with the endpoint for [Google Workspace Users](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get).
 
 ```php  
-$google_workspace_api->get('/users');  
+$google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users');  
 ```  
 
 You can also use variables or database models to get data for constructing your endpoints.
 
 ```php  
-$endpoint = '/users';  
-$records = $google_workspace_api->get($endpoint);  
+$endpoint = 'https://admin.googleapis.com/admin/directory/v1/users';  
+$records = $google_workspace_api->rest()->get($endpoint);  
 ```  
 
 Here are some more examples of using endpoints.
@@ -184,12 +182,12 @@ Here are some more examples of using endpoints.
 ```php  
 // Get a list of Google Workspace Users  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list  
-$records = $google_workspace_api->get('/users');  
+$records = $google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users');  
   
 // Get a specific Google Workspace User  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get  
 $user_key = 'klibby@example.com';  
-$record = $google_workspace_api->get('/users/'.$userKey);  
+$record = $google_workspace_api->get('https://admin.googleapis.com/admin/directory/v1/users/' . $userKey);  
 ```  
 
 ### GET Requests with Query String Parameters
@@ -202,8 +200,10 @@ The second argument of a `get()` method is an optional array of parameters that 
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list#OrderBy  
 // https://developers.google.com/admin-sdk/directory/v1/guides/search-users  
-$records = $google_workspace_api->get('/users',[  
-    'maxResults' => '200',    'orderBy' => 'EMAIL',]);  
+$records = $google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users',[  
+    'maxResults' => '200',
+    'orderBy' => 'EMAIL'
+]);  
   
 // This will parse the array and render the query string  
 // https://admin.googleapis.com/admin/directory/v1/users?maxResults='200'&orderBy='EMAIL'  
@@ -219,8 +219,14 @@ You can learn more about request data in the [Laravel HTTP Client documentation]
 // Create new Google Workspace User  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/insert  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User  
-$record = $google_workspace_api->post('/users', [  
-    'name' => [            'familyName' => 'Libby',            'givenName' => 'Kate'        ],    'password' => 'ac!dBurnM3ss3sWithTheB4$t',    'primaryEmail' => 'klibby@example.com']);  
+$record = $google_workspace_api->rest()->post('https://admin.googleapis.com/admin/directory/v1/users', [  
+    'name' => [
+        'familyName' => 'Libby',
+        'givenName' => 'Kate'
+    ],
+    'password' => 'ac!dBurnM3ss3sWithTheB4$t',
+    'primaryEmail' => 'klibby@example.com'
+]);  
 ```  
 
 ### PUT Requests
@@ -233,8 +239,11 @@ In most applications, this will be a variable that you get from your database or
 // Update an existing Google Workspace User  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/update  
 $user_key = 'klibby@example.com';  
-$record = $google_workspace_api->put('/users/'.$user_key, [  
-    'name' => [        'givenName' => 'Libby-Murphy'    ]]);  
+$record = $google_workspace_api->rest()->put('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key, [
+    'name' => [
+        'givenName' => 'Libby-Murphy'
+    ]
+]);  
 ```  
 
 ### DELETE Requests
@@ -247,7 +256,7 @@ Keep in mind that `delete()` methods will return different status codes dependin
 // Delete a Google Workspace User  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete  
 $user_key = 'klibby@example.com';  
-$record = $google_workspace_api->delete('/users/'.$user_key);  
+$record = $google_workspace_api->rest()->delete('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key);  
 ```  
 
 ### Class Methods
@@ -262,12 +271,40 @@ use Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient;
 class GoogleWorkspaceUserService  
 {  
     protected $google_workspace_api;  
-    public function __construct()    {        $this->google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();    }  
-    public function listUsers(array $query = []) : object    {        $users = $this->google_workspace_api->get('/users', $query);        return $users->object    }  
-    public function getUser(string $user_key, array $query = []) : object    {        $user = $this->google_workspace_api->get('/users/'.$user_key, $query);        return $user->object;    }  
-    public function storeUser(string $user_key, array $request_data = []) : object    {       $response = $this->google_workspace_api->post('/users/'.$user_key, $request_data);       return $response->object;    }  
-    public function updateUser(string $user_key, array $request_data = []) : object    {        $response = $this->google_workspace_api->put('/users/'.$user_key, $request_data);        return $response->object;    }  
-    public function deleteUser(string $user_key) : bool    {        $response = $this->google_workspace_api->delete('/users/'.$user_key);        return $response->status->successful;    }}  
+    public function __construct() {
+        $this->google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();
+    }  
+    
+    public function listUsers(array $query = []) : object
+    {
+        $users = $this->google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users', $query);
+        return $users->object;
+    }
+    
+    public function getUser(string $user_key, array $query = []) : object
+    {
+        $user = $this->google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key, $query);
+        return $user->object;
+    } 
+    
+    public function storeUser(string $user_key, array $request_data = []) : object
+    {
+        $response = $this->google_workspace_api->rest()->post('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key, $request_data);
+        return $response->object;
+    }
+
+    public function updateUser(string $user_key, array $request_data = []) : object
+    {
+        $response = $this->google_workspace_api->rest()->put('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key, $request_data);
+        return $response->object;
+    } 
+
+    public function deleteUser(string $user_key) : bool
+    {
+        $response = $this->google_workspace_api->rest()->delete('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key);
+        return $response->status->successful;
+    }
+}  
 ```  
 
 ## API Responses
@@ -276,7 +313,7 @@ This SDK uses the GLAM Stack standards for API response formatting.
 
 ```php  
 // API Request  
-$response = $this->google_workspace_api->get('/users/'.$user_key);  
+$response = $this->google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key);  
   
 // API Response  
 $response->headers; // object  
@@ -294,7 +331,7 @@ $response->status->clientError; // bool
 ### API Response Headers
 
 ```php  
-$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response = $this->google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key);  
 $response->headers;  
 ```  
 
@@ -317,7 +354,7 @@ application/json
 ### API Response JSON
 
 ```php  
-$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response = $this->google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key);  
 $response->json;  
 ```  
 
@@ -328,7 +365,7 @@ $response->json;
 ### API Response Object
 
 ```php  
-$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response = $this->google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key);  
 $response->object;  
 ```  
 
@@ -369,7 +406,7 @@ $response->object;
 See the [Laravel HTTP Client documentation](https://laravel.com/docs/8.x/http-client#error-handling) to learn more about the different status booleans.
 
 ```php  
-$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response = $this->google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key);  
 $response->status;  
 ```  
 
@@ -386,7 +423,7 @@ $response->status;
 #### API Response Status Code
 
 ```php  
-$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response = $this->google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users/' . $user_key);  
 $response->status->code;  
 ```  
 
