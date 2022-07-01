@@ -41,6 +41,8 @@ class ApiClient
 
         $this->setConfigPath();
 
+        $this->setRequestHeaders();
+
         if(empty($connection_config)){
             $this->setConnectionKey($connection_key);
             $this->connection_config = [];
@@ -118,7 +120,11 @@ class ApiClient
             ->first();
 
         /** @phpstan-ignore-next-line */
-        $package = $composer_package['name'].'/'.$composer_package['version'];
+        if($composer_package){
+            $package = $composer_package['name'].'/'.$composer_package['version'];
+        } else {
+            $package = 'dev-google-workspace-sdk';
+        }
 
         // Define request headers
         $this->request_headers = [
