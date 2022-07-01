@@ -87,7 +87,6 @@ The way that we have configured the package allows for additional endpoint to be
 1. If there is no class for the endpoint group you are wanting but the Product Group exists. Create a new PHP class under the appropriate `src/<directory>/` with the name of the endpoint group that it will be used for. For example if we were to create a new class to utilize the [Google Groups](https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups) resource the file name will be `Groups.php` under the `src/Resources/Directory` directory
 
 So the file path for [Google Groups Endpoints](https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups) will be:
-
 ```bash
 src/Resources/Directory/Groups.php
 ```
