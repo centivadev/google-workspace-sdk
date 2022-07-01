@@ -29,7 +29,7 @@ The package utilizes the [glamstack/google-auth-sdk](https://gitlab.com/gitlab-c
 
 For more information on [glamstack/google-auth-sdk](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/gitlab-sdk) please see the [Google Auth SDK README.md](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk/-/blob/main/README.md).
 
-This package is not intended to provide functions for every endpoint for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com). The endpoints will be constructed on an as needed basis. If you wish to add any additional endpoints please see the [How To Add Endpoints](#how_to_add_endpoints) section.
+This package is not intended to provide functions for every endpoint for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com). The endpoints will be constructed on an as needed basis. If you wish to add any additional endpoints please see [CONTRIBUTING](CONTRIBUTING.md).
 
 If the endpoint that you need is not created yet we have provided the REST class that can perform GET, POST, PUT, and DELETE requests to any endpoint that you find in the [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) documentation and the class will handle the API response, error handling, and pagination for you.
 
