@@ -1,3 +1,4 @@
+{::options parse_block_html="true" /}
 # Google Workspace SDK
 
 ## Overview
@@ -14,95 +15,106 @@ The Google Workspace SDK is an open source [Composer](https://getcomposer.org/) 
 
 **Note:** This package will require the `glamstack/google-auth-sdk` package in order to operate. This is already configured as a required package in the composer.json file and should be automatically loaded when installing this package.
 
-> All configurations for this package will be configured under the `glamstack-google-config.php` file that will be loaded when the `glamstack/google-auth-sdk` package is installed. For further guidance please see the [Glamstack/google-auth-sdk README.md](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk/-/blob/main/README.md)
+> All configurations for this package by default will be configured under the `glamstack-google-workspace.php` file that will be loaded when this package is installed. For further guidance please see the [Installation docs](#installation)
 
 ### Maintainers
 
-| Name                                                                   | GitLab Handle                                          |
-| ---------------------------------------------------------------------- | ------------------------------------------------------ |
-| [Dillon Wheeler](https://about.gitlab.com/company/team/#dillonwheeler) | [@dillonwheeler](https://gitlab.com/dillonwheeler)     |
-| [Jeff Martin](https://about.gitlab.com/company/team/#jeffersonmartin)  | [@jeffersonmartin](https://gitlab.com/jeffersonmartin) |
+| Name                                                                   | GitLab Handle                                          |  
+| ---------------------------------------------------------------------- | ------------------------------------------------------ |  
+| [Dillon Wheeler](https://about.gitlab.com/company/team/#dillonwheeler) | [@dillonwheeler](https://gitlab.com/dillonwheeler)     |  
+| [Jeff Martin](https://about.gitlab.com/company/team/#jeffersonmartin)  | [@jeffersonmartin](https://gitlab.com/jeffersonmartin) |  
 
 ### How It Works
 
 The package utilizes the [glamstack/google-auth-sdk](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/gitlab-sdk) package for creating the [Google JWT Web Token](https://cloud.google.com/iot/docs/how-tos/credentials/jwts) to authenticate with [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com).
 
-For more information on the required configuration for [glamstack/google-auth-sdk](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/gitlab-sdk) please see the [Google Auth SDK README.md](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk/-/blob/main/README.md).
+For more information on [glamstack/google-auth-sdk](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/gitlab-sdk) please see the [Google Auth SDK README.md](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk/-/blob/main/README.md).
 
-This package is not intended to provide functions for every endpoint for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com).
+This package is not intended to provide functions for every endpoint for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com). The endpoints will be constructed on an as needed basis. If you wish to add any additional endpoints please see the [How To Add Endpoints](#how_to_add_endpoints) section.
 
-We have taken a simpler approach by providing a universal ApiClient that can perform GET, POST, PUT, and DELETE requests to any endpoint that you find in the [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) documentation and handles the API response, error handling, and pagination for you.
+If the endpoint that you need is not created yet we have provided the REST class that can perform GET, POST, PUT, and DELETE requests to any endpoint that you find in the [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) documentation and the class will handle the API response, error handling, and pagination for you.
 
-This builds upon the simplicity of the Laravel HTTP Client that is powered by the Guzzle HTTP client to provide "last lines of code parsing" for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) responses to improve the developer experience.
+<div class="panel panel-warning">
+**Warning**
+{: .panel-heading}
+<div class="panel-body">
 
-We have additional classes and methods for the endpoints that GitLab Access Manager uses frequently that we will iterate upon over time.
+PATCH request are not currently working but will be implemented in the future.
+
+</div>
+</div>
+
+
+> This builds upon the simplicity of the Laravel HTTP Client that is powered by the Guzzle HTTP client to provide "last lines of code parsing" for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) responses to improve the developer experience.
+
 
 ```php
-$google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();
-
-// Retrieves a paginated list of either deleted users or all users in a domain.
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list
-$records = $google_workspace_api->get('/users');
-
-// Retrieves a paginated list of either deleted users or all users in a domain
-// with query parameters included.
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list#OrderBy
-// https://developers.google.com/admin-sdk/directory/v1/guides/search-users
-$records = $google_workspace_api->get('/users',[
+// Initialized Client with `connection_key` parameter
+$google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient('workspace');
+  
+// Retrieves a paginated list of either deleted users or all users in a domain.  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list  
+$records = $google_workspace_api->rest()->get('/users');  
+  
+// Retrieves a paginated list of either deleted users or all users in a domain  
+// with query parameters included.  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list#OrderBy  
+// https://developers.google.com/admin-sdk/directory/v1/guides/search-users  
+$records = $google_workspace_api->rest()->get('/users',[  
     'maxResults' => '200',
     'orderBy' => 'EMAIL',
     'query' => [
         'orgDepartment' => 'Test Department'
-    ],
-]);
-
-// Get a specific user from Google Workspace
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get
-$user_key = 'klibby@example.com';
-$record = $google_workspace_api->get('/users/'.$user_key);
-
-// Create new Google Workspace User
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/insert
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User
+    ]
+]);  
+  
+// Get a specific user from Google Workspace  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get  
+$user_key = 'klibby@example.com';  
+$record = $google_workspace_api->rest()->get('/users/'.$user_key);  
+  
+// Create new Google Workspace User  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/insert  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User  
 $record = $google_workspace_api->post('/users', [
     'name' => [
-            'familyName' => 'Libby',
-            'givenName' => 'Kate'
-        ],
+        'familyName' => 'Libby',
+        'givenName' => 'Kate'
+    ],
     'password' => 'ac!dBurnM3ss3sWithTheB4$t',
     'primaryEmail' => 'klibby@example.com'
-]);
-
-// Update an existing Google Workspace User
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/update
-$user_key = 'klibby@example.com';
-$record = $google_workspace_api->put('/users/'.$user_key, [
+]);  
+  
+// Update an existing Google Workspace User  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/update  
+$user_key = 'klibby@example.com';  
+$record = $google_workspace_api->rest()->put('/users/'.$user_key, [  
     'name' => [
         'givenName' => 'Libby-Murphy'
     ]
-]);
-
-// Delete a Google Workspace User
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete
-$user_key = 'klibby@example.com';
-$record = $google_workspace_api->delete('/users/'.$user_key);
-```
+]);  
+  
+// Delete a Google Workspace User  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete  
+$user_key = 'klibby@example.com';  
+$record = $google_workspace_api->rest()->delete('/users/'.$user_key);  
+```  
 
 ## Installation
 
 ### Requirements
 
-| Requirement | Version |
-| ----------- | ------- |
-| PHP         | >=8.0   |
-| Laravel     | >=8.0   |
+| Requirement | Version |  
+| ----------- | ------- |  
+| PHP         | >=8.0   |  
+| Laravel     | >=9.0   |  
 
 ### Add Composer Package
 
-```bash
+```bash  
 composer require glamstack/google-workspace-sdk
-```
+```  
 
 > If you are contributing to this package, see [CONTRIBUTING](CONTRIBUTING.md) for instructions on configuring a local composer package with symlinks.
 
@@ -114,31 +126,31 @@ If you would like to see Google Workspace logs in a separate log file that is ea
 
 Add the custom log channel to `config/logging.php`.
 
-```php
-    'channels' => [
-
-        // Add anywhere in the `channels` array
-
+```php  
+    'channels' => [  
+        // Add anywhere in the `channels` array  
         'glamstack-google-workspace' => [
             'name' => 'glamstack-google-workspace',
             'driver' => 'single',
             'level' => 'debug',
-            'path' => storage_path('logs/glamstack-google-workspace.log'),
-        ],
-    ],
-```
+            'path' => storage_path('logs/glamstack-google-workspace.log')
+        ]
+    ],  
+```  
 
 Update the `channels.stack.channels` array to include the array key (ex.  `glamstack-google-workspace`) of your custom channel. Be sure to add `glamstack-google-workspace` to the existing array values and not replace the existing values.
 
-```php
+```php  
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single','slack', 'glamstack-google-workspace'],
-            'ignore_exceptions' => false,
-        ],
-    ],
-```
+            'channels' => [
+                'single','slack', 'glamstack-google-workspace'
+            ],
+            'ignore_exceptions' => false
+        ]
+    ],  
+```  
 
 ## API Request
 
@@ -146,10 +158,11 @@ You can make an API request to any of the resource endpoints in the [Google Work
 
 ### Inline Usage
 
-```php
-// Initialize the SDK
-$google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();
-```
+```php  
+// Initialize the SDK  
+$api_client = new \Glamstack\GoogleWorkspace\ApiClient('test');
+$response = $api_client->rest()->get('https://admin.googleapis.com/admin/directory/v1/groups');
+```  
 
 ### GET Request
 
@@ -157,54 +170,52 @@ The endpoints start with a leading `/` after `https://admin.googleapis.com/admin
 
 For examples, the [List Google Workspace Users](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list) API Documentation shows the endpoint
 
-```bash
-GET https://admin.googleapis.com/admin/directory/v1/users
-```
+```bash  
+GET https://admin.googleapis.com/admin/directory/v1/users  
+```  
 
 With the SDK, you use the get() method with the endpoint /users as the first argument.
 
-```php
-$google_workspace_api->get('/users');
-```
+```php  
+$google_workspace_api->get('/users');  
+```  
 
 You can also use variables or database models to get data for constructing your endpoints.
 
-```php
-$endpoint = '/users';
-$records = $google_workspace_api->get($endpoint);
-```
+```php  
+$endpoint = '/users';  
+$records = $google_workspace_api->get($endpoint);  
+```  
 
 Here are some more examples of using endpoints.
 
-```php
-// Get a list of Google Workspace Users
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list
-$records = $google_workspace_api->get('/users');
-
-// Get a specific Google Workspace User
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get
-$user_key = 'klibby@example.com';
-$record = $google_workspace_api->get('/users/'.$userKey);
-```
+```php  
+// Get a list of Google Workspace Users  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list  
+$records = $google_workspace_api->get('/users');  
+  
+// Get a specific Google Workspace User  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get  
+$user_key = 'klibby@example.com';  
+$record = $google_workspace_api->get('/users/'.$userKey);  
+```  
 
 ### GET Requests with Query String Parameters
 
 The second argument of a `get()` method is an optional array of parameters that is parsed by the SDK and the [Laravel HTTP Client](https://laravel.com/docs/8.x/http-client#get-request-query-parameters) and rendered as a query string with the `?` and `&` added automatically.
 
-```php
-// Retrieves a paginated list of either deleted users or all users in a domain
-// with query parameters included.
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list#OrderBy
-// https://developers.google.com/admin-sdk/directory/v1/guides/search-users
-$records = $google_workspace_api->get('/users',[
-    'maxResults' => '200',
-    'orderBy' => 'EMAIL',
-]);
-
-// This will parse the array and render the query string
-// https://admin.googleapis.com/admin/directory/v1/users?maxResults='200'&orderBy='EMAIL'
-```
+```php  
+// Retrieves a paginated list of either deleted users or all users in a domain  
+// with query parameters included.  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list#OrderBy  
+// https://developers.google.com/admin-sdk/directory/v1/guides/search-users  
+$records = $google_workspace_api->get('/users',[  
+    'maxResults' => '200',    'orderBy' => 'EMAIL',]);  
+  
+// This will parse the array and render the query string  
+// https://admin.googleapis.com/admin/directory/v1/users?maxResults='200'&orderBy='EMAIL'  
+```  
 
 ### POST Requests
 
@@ -212,19 +223,13 @@ The `post()` method works almost identically to a `get()` request with an array 
 
 You can learn more about request data in the [Laravel HTTP Client documentation](https://laravel.com/docs/8.x/http-client#request-data).
 
-```php
-// Create new Google Workspace User
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/insert
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User
-$record = $google_workspace_api->post('/users', [
-    'name' => [
-            'familyName' => 'Libby',
-            'givenName' => 'Kate'
-        ],
-    'password' => 'ac!dBurnM3ss3sWithTheB4$t',
-    'primaryEmail' => 'klibby@example.com'
-]);
-```
+```php  
+// Create new Google Workspace User  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/insert  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User  
+$record = $google_workspace_api->post('/users', [  
+    'name' => [            'familyName' => 'Libby',            'givenName' => 'Kate'        ],    'password' => 'ac!dBurnM3ss3sWithTheB4$t',    'primaryEmail' => 'klibby@example.com']);  
+```  
 
 ### PUT Requests
 
@@ -232,16 +237,13 @@ The `put()` method is used for updating an existing record (similar to `PATCH` r
 
 In most applications, this will be a variable that you get from your database or another location and won't be hard-coded.
 
-```php
-// Update an existing Google Workspace User
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/update
-$user_key = 'klibby@example.com';
-$record = $google_workspace_api->put('/users/'.$user_key, [
-    'name' => [
-        'givenName' => 'Libby-Murphy'
-    ]
-]);
-```
+```php  
+// Update an existing Google Workspace User  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/update  
+$user_key = 'klibby@example.com';  
+$record = $google_workspace_api->put('/users/'.$user_key, [  
+    'name' => [        'givenName' => 'Libby-Murphy'    ]]);  
+```  
 
 ### DELETE Requests
 
@@ -249,229 +251,162 @@ The `delete()` method is used for methods that will destroy the resource based o
 
 Keep in mind that `delete()` methods will return different status codes depending on the vendor (ex. 200, 201, 202, 204, etc). Google Workspace API's will return a `204` status code for successfully deleted resources.
 
-```php
-// Delete a Google Workspace User
-// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete
-$user_key = 'klibby@example.com';
-$record = $google_workspace_api->delete('/users/'.$user_key);
-```
+```php  
+// Delete a Google Workspace User  
+// https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete  
+$user_key = 'klibby@example.com';  
+$record = $google_workspace_api->delete('/users/'.$user_key);  
+```  
 
 ### Class Methods
 
 The examples above show basic inline usage that is suitable for most use cases. If you prefer to use classes and constructors, the example below will provide a helpful example.
 
-```php
-<?php
-
-use Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient;
-
-class GoogleWorkspaceUserService
-{
-    protected $google_workspace_api;
-
-    public function __construct()
-    {
-        $this->google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();
-    }
-
-    public function listUsers(array $query = []) : object
-    {
-        $users = $this->google_workspace_api->get('/users', $query);
-        return $users->object
-    }
-
-    public function getUser(string $user_key, array $query = []) : object
-    {
-        $user = $this->google_workspace_api->get('/users/'.$user_key, $query);
-        return $user->object;
-    }
-
-    public function storeUser(string $user_key, array $request_data = []) : object
-    {
-       $response = $this->google_workspace_api->post('/users/'.$user_key, $request_data);
-       return $response->object;
-    }
-
-    public function updateUser(string $user_key, array $request_data = []) : object
-    {
-        $response = $this->google_workspace_api->put('/users/'.$user_key, $request_data);
-        return $response->object;
-    }
-
-    public function deleteUser(string $user_key) : bool
-    {
-        $response = $this->google_workspace_api->delete('/users/'.$user_key);
-        return $response->status->successful;
-    }
-}
-```
+```php  
+<?php  
+  
+use Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient;  
+  
+class GoogleWorkspaceUserService  
+{  
+    protected $google_workspace_api;  
+    public function __construct()    {        $this->google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();    }  
+    public function listUsers(array $query = []) : object    {        $users = $this->google_workspace_api->get('/users', $query);        return $users->object    }  
+    public function getUser(string $user_key, array $query = []) : object    {        $user = $this->google_workspace_api->get('/users/'.$user_key, $query);        return $user->object;    }  
+    public function storeUser(string $user_key, array $request_data = []) : object    {       $response = $this->google_workspace_api->post('/users/'.$user_key, $request_data);       return $response->object;    }  
+    public function updateUser(string $user_key, array $request_data = []) : object    {        $response = $this->google_workspace_api->put('/users/'.$user_key, $request_data);        return $response->object;    }  
+    public function deleteUser(string $user_key) : bool    {        $response = $this->google_workspace_api->delete('/users/'.$user_key);        return $response->status->successful;    }}  
+```  
 
 ## API Responses
 
 This SDK uses the GLAM Stack standards for API response formatting.
 
-```php
-// API Request
-$response = $this->google_workspace_api->get('/users/'.$user_key);
-
-// API Response
-$response->headers; // object
-$response->json; // json
-$response->object; // object
-$response->status; // object
-$response->status->code; // int (ex. 200)
-$response->status->ok; // bool
-$response->status->successful; // bool
-$response->status->failed; // bool
-$response->status->serverError; // bool
-$response->status->clientError; // bool
-```
+```php  
+// API Request  
+$response = $this->google_workspace_api->get('/users/'.$user_key);  
+  
+// API Response  
+$response->headers; // object  
+$response->json; // json  
+$response->object; // object  
+$response->status; // object  
+$response->status->code; // int (ex. 200)  
+$response->status->ok; // bool  
+$response->status->successful; // bool  
+$response->status->failed; // bool  
+$response->status->serverError; // bool  
+$response->status->clientError; // bool  
+```  
 
 ### API Response Headers
 
-```php
-$response = $this->google_workspace_api->get('/projects/'.$user_key);
-$response->headers;
-```
+```php  
+$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response->headers;  
+```  
 
-```json
-{
-    +"ETag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""
-    +"Content-Type": "application/json; charset=UTF-8"
-    +"Vary": "Origin X-Origin Referer"
-    +"Date": "Thu, 20 Jan 2022 16:36:03 GMT"
-    +"Server": "ESF"
-    +"Content-Length": "1257"
-    +"X-XSS-Protection": "0"
-    +"X-Frame-Options": "SAMEORIGIN"
-    +"X-Content-Type-Options": "nosniff"
-    +"Alt-Svc": "h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43""
-}
-```
+```json  
+{  
+    +"ETag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""    +"Content-Type": "application/json; charset=UTF-8"    +"Vary": "Origin X-Origin Referer"    +"Date": "Thu, 20 Jan 2022 16:36:03 GMT"    +"Server": "ESF"    +"Content-Length": "1257"    +"X-XSS-Protection": "0"    +"X-Frame-Options": "SAMEORIGIN"    +"X-Content-Type-Options": "nosniff"    +"Alt-Svc": "h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43""}  
+```  
 
 #### API Response Specific Header
 
-```php
-$headers = (array) $response->headers;
-$content_type = $headers['Content-Type'];
-```
+```php  
+$headers = (array) $response->headers;  
+$content_type = $headers['Content-Type'];  
+```  
 
-```bash
-application/json
-```
+```bash  
+application/json  
+```  
 
 ### API Response JSON
 
-```php
-$response = $this->google_workspace_api->get('/projects/'.$user_key);
-$response->json;
-```
+```php  
+$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response->json;  
+```  
 
-```json
-{"kind":"admin#directory#user","id":"1111111111111","etag":"\"nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE\/MgKWL9SwIVWCY7rRA988mR8yR-k\"","primaryEmail":"klibby@example.com","name":{"givenName":"Kate","familyName":"Libby","fullName":"Kate Libby"},"isAdmin":true,"isDelegatedAdmin":false,"lastLoginTime":"2022-01-18T15:26:16.000Z","creationTime":"2021-12-08T13:15:43.000Z","agreedToTerms":true,"suspended":false,"archived":false,"changePasswordAtNextLogin":false,"ipWhitelisted":false,"emails":[{"address":"klibby@example.com","type":"work"},{"address":"klibby@example.com","primary":true},{"address":"klibby@example.com.test-google-a.com"}],"phones":[{"value":"5555555555","type":"work"}],"languages":[{"languageCode":"en","preference":"preferred"}],"nonEditableAliases":["klibby@example.com.test-google-a.com"],"customerId":"C000aaaaa","orgUnitPath":"\/","isMailboxSetup":true,"isEnrolledIn2Sv":false,"isEnforcedIn2Sv":false,"includeInGlobalAddressList":true}"
-```
+```json  
+{"kind":"admin#directory#user","id":"1111111111111","etag":"\"nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE\/MgKWL9SwIVWCY7rRA988mR8yR-k\"","primaryEmail":"klibby@example.com","name":{"givenName":"Kate","familyName":"Libby","fullName":"Kate Libby"},"isAdmin":true,"isDelegatedAdmin":false,"lastLoginTime":"2022-01-18T15:26:16.000Z","creationTime":"2021-12-08T13:15:43.000Z","agreedToTerms":true,"suspended":false,"archived":false,"changePasswordAtNextLogin":false,"ipWhitelisted":false,"emails":[{"address":"klibby@example.com","type":"work"},{"address":"klibby@example.com","primary":true},{"address":"klibby@example.com.test-google-a.com"}],"phones":[{"value":"5555555555","type":"work"}],"languages":[{"languageCode":"en","preference":"preferred"}],"nonEditableAliases":["klibby@example.com.test-google-a.com"],"customerId":"C000aaaaa","orgUnitPath":"\/","isMailboxSetup":true,"isEnrolledIn2Sv":false,"isEnforcedIn2Sv":false,"includeInGlobalAddressList":true}"  
+```  
 
 ### API Response Object
 
-```php
-$response = $this->google_workspace_api->get('/projects/'.$user_key);
-$response->object;
-```
+```php  
+$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response->object;  
+```  
 
-```php
-{#1256
-  +"kind": "admin#directory#user"
-  +"id": "1111111111111"
-  +"etag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""
-  +"primaryEmail": "klibby@example.com"
-  +"name": {#1242
-    +"givenName": "Kate"
-    +"familyName": "Libby"
-    +"fullName": "Kate Libby"
-  }
-  +"isAdmin": true
-  +"isDelegatedAdmin": false
-  +"lastLoginTime": "2022-01-18T15:26:16.000Z"
-  +"creationTime": "2021-12-08T13:15:43.000Z"
-  +"agreedToTerms": true
-  +"suspended": false
-  +"archived": false
-  +"changePasswordAtNextLogin": false
-  +"ipWhitelisted": false
-  +"emails": array:3 [
-    0 => {#1253
-      +"address": "klibby@example.com"
-      +"type": "work"
-    }
-    1 => {#1258
-      +"address": "klibby@example.com"
-      +"primary": true
-    }
-    2 => {#1259
-      +"address": "klibby@example.com.test-google-a.com"
-    }
-  ]
-  +"phones": array:1 [
-    0 => {#1247
-      +"value": "5555555555"
-      +"type": "work"
-    }
-  ]
-  +"languages": array:1 [
-    0 => {#1250
-      +"languageCode": "en"
-      +"preference": "preferred"
-    }
-  ]
-  +"nonEditableAliases": array:1 [
-    0 => "klibby@example-test.com.test-google-a.com"
-  ]
-  +"customerId": "C000aaaaa"
-  +"orgUnitPath": "/"
-  +"isMailboxSetup": true
-  +"isEnrolledIn2Sv": false
-  +"isEnforcedIn2Sv": false
-  +"includeInGlobalAddressList": true
-}
-```
+```php  
+{#1256  
+  +"kind": "admin#directory#user"  +"id": "1111111111111"  +"etag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""  
+  +"primaryEmail": "klibby@example.com"  +"name": {#1242  
+    +"givenName": "Kate"    +"familyName": "Libby"    +"fullName": "Kate Libby"  }  
+  +"isAdmin": true  
+  +"isDelegatedAdmin": false  
+  +"lastLoginTime": "2022-01-18T15:26:16.000Z"  +"creationTime": "2021-12-08T13:15:43.000Z"  +"agreedToTerms": true  
+  +"suspended": false  
+  +"archived": false  
+  +"changePasswordAtNextLogin": false  
+  +"ipWhitelisted": false  
+  +"emails": array:3 [    0 => {#1253  
+      +"address": "klibby@example.com"      +"type": "work"    }  
+    1 => {#1258  
+      +"address": "klibby@example.com"      +"primary": true  
+    }  
+    2 => {#1259  
+      +"address": "klibby@example.com.test-google-a.com"    }  
+  ]  +"phones": array:1 [    0 => {#1247  
+      +"value": "5555555555"      +"type": "work"    }  
+  ]  +"languages": array:1 [    0 => {#1250  
+      +"languageCode": "en"      +"preference": "preferred"    }  
+  ]  +"nonEditableAliases": array:1 [  
+    0 => "klibby@example-test.com.test-google-a.com"  ]  
+  +"customerId": "C000aaaaa"  +"orgUnitPath": "/"  +"isMailboxSetup": true  
+  +"isEnrolledIn2Sv": false  
+  +"isEnforcedIn2Sv": false  
+  +"includeInGlobalAddressList": true  
+}  
+```  
 
 ### API Response Status
 
 See the [Laravel HTTP Client documentation](https://laravel.com/docs/8.x/http-client#error-handling) to learn more about the different status booleans.
 
-```php
-$response = $this->google_workspace_api->get('/projects/'.$user_key);
-$response->status;
-```
+```php  
+$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response->status;  
+```  
 
-```php
-{
-  +"code": 200
-  +"ok": true
-  +"successful": true
-  +"failed": false
-  +"serverError": false
-  +"clientError": false
-}
-```
+```php  
+{  
+  +"code": 200  +"ok": true  
+  +"successful": true  
+  +"failed": false  
+  +"serverError": false  
+  +"clientError": false  
+}  
+```  
 
 #### API Response Status Code
 
-```php
-$response = $this->google_workspace_api->get('/projects/'.$user_key);
-$response->status->code;
-```
+```php  
+$response = $this->google_workspace_api->get('/projects/'.$user_key);  
+$response->status->code;  
+```  
 
-```bash
-200
-```
+```bash  
+200  
+```  
 
 ## Error Handling
 
 The HTTP status code for the API response is included in each log entry in the message and in the JSON `status_code`. Any internal SDK errors also included an equivalent status code depending on the type of error. The `message` includes the SDK friendly message. If an exception is thrown, the `reference`
 
-If a `5xx` error is returned from the API, the `GoogleWorkspaceApiClient` 
-`handleException` method will return a response.
+If a `5xx` error is returned from the API, the `GoogleWorkspaceApiClient` `handleException` method will return a response.
 
 See the [Log Outputs](#log-outputs) below for how the SDK handles errors and logging.
 
