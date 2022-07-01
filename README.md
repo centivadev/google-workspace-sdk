@@ -33,25 +33,25 @@ This package is not intended to provide functions for every endpoint for [Google
 
 If the endpoint that you need is not created yet we have provided the REST class that can perform GET, POST, PUT, and DELETE requests to any endpoint that you find in the [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) documentation and the class will handle the API response, error handling, and pagination for you.
 
-> :warning: PATCH request are not currently working but will be implemented in the future.
+> :warning: `PATCH` request are not currently working but will be implemented in the future.
 
-> This builds upon the simplicity of the Laravel HTTP Client that is powered by the Guzzle HTTP client to provide "last lines of code parsing" for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) responses to improve the developer experience.
+> This package builds upon the simplicity of the Laravel HTTP Client that is powered by the Guzzle HTTP client to provide "last lines of code parsing" for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) responses to improve the developer experience.
 
 
 ```php
 // Initialized Client with `connection_key` parameter
-$google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient('workspace');
+$google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient('workspace');
   
 // Retrieves a paginated list of either deleted users or all users in a domain.  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list  
-$records = $google_workspace_api->rest()->get('/users');  
+$records = $google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users');  
   
 // Retrieves a paginated list of either deleted users or all users in a domain  
 // with query parameters included.  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list#OrderBy  
 // https://developers.google.com/admin-sdk/directory/v1/guides/search-users  
-$records = $google_workspace_api->rest()->get('/users',[  
+$records = $google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users',[  
     'maxResults' => '200',
     'orderBy' => 'EMAIL',
     'query' => [
@@ -62,12 +62,12 @@ $records = $google_workspace_api->rest()->get('/users',[
 // Get a specific user from Google Workspace  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get  
 $user_key = 'klibby@example.com';  
-$record = $google_workspace_api->rest()->get('/users/'.$user_key);  
+$record = $google_workspace_api->rest()->get('https://admin.googleapis.com/admin/directory/v1/users/'.$user_key);  
   
 // Create new Google Workspace User  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/insert  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User  
-$record = $google_workspace_api->post('/users', [
+$record = $google_workspace_api->rest()->post('https://admin.googleapis.com/admin/directory/v1/users', [
     'name' => [
         'familyName' => 'Libby',
         'givenName' => 'Kate'
@@ -79,7 +79,7 @@ $record = $google_workspace_api->post('/users', [
 // Update an existing Google Workspace User  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/update  
 $user_key = 'klibby@example.com';  
-$record = $google_workspace_api->rest()->put('/users/'.$user_key, [  
+$record = $google_workspace_api->rest()->put('https://admin.googleapis.com/admin/directory/v1/users/'.$user_key, [  
     'name' => [
         'givenName' => 'Libby-Murphy'
     ]
@@ -88,7 +88,7 @@ $record = $google_workspace_api->rest()->put('/users/'.$user_key, [
 // Delete a Google Workspace User  
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete  
 $user_key = 'klibby@example.com';  
-$record = $google_workspace_api->rest()->delete('/users/'.$user_key);  
+$record = $google_workspace_api->rest()->delete('https://admin.googleapis.com/admin/directory/v1/users/'.$user_key);  
 ```  
 
 ## Installation
@@ -150,8 +150,8 @@ You can make an API request to any of the resource endpoints in the [Google Work
 
 ```php  
 // Initialize the SDK  
-$api_client = new \Glamstack\GoogleWorkspace\ApiClient('test');
-$response = $api_client->rest()->get('https://admin.googleapis.com/admin/directory/v1/groups');
+$api_client = new \Glamstack\GoogleWorkspace\ApiClient('workspace');
+$response = $api_client->rest()->get('https://admin.googleapis.com/admin/directory/v1/users');
 ```  
 
 ### GET Request
@@ -266,13 +266,13 @@ The examples above show basic inline usage that is suitable for most use cases. 
 ```php  
 <?php  
   
-use Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient;  
+use Glamstack\GoogleWorkspace\ApiClient;  
   
 class GoogleWorkspaceUserService  
 {  
     protected $google_workspace_api;  
     public function __construct() {
-        $this->google_workspace_api = new \Glamstack\GoogleWorkspace\GoogleWorkspaceApiClient();
+        $this->google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient();
     }  
     
     public function listUsers(array $query = []) : object
@@ -337,7 +337,17 @@ $response->headers;
 
 ```json  
 {  
-    +"ETag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""    +"Content-Type": "application/json; charset=UTF-8"    +"Vary": "Origin X-Origin Referer"    +"Date": "Thu, 20 Jan 2022 16:36:03 GMT"    +"Server": "ESF"    +"Content-Length": "1257"    +"X-XSS-Protection": "0"    +"X-Frame-Options": "SAMEORIGIN"    +"X-Content-Type-Options": "nosniff"    +"Alt-Svc": "h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43""}  
+    +"ETag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""
+    +"Content-Type": "application/json; charset=UTF-8"    
+    +"Vary": "Origin X-Origin Referer"    
+    +"Date": "Thu, 20 Jan 2022 16:36:03 GMT"    
+    +"Server": "ESF"    
+    +"Content-Length": "1257"    
+    +"X-XSS-Protection": "0"    
+    +"X-Frame-Options": "SAMEORIGIN"    
+    +"X-Content-Type-Options": "nosniff"    
+    +"Alt-Svc": "h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43""
+}  
 ```  
 
 #### API Response Specific Header
@@ -359,7 +369,59 @@ $response->json;
 ```  
 
 ```json  
-{"kind":"admin#directory#user","id":"1111111111111","etag":"\"nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE\/MgKWL9SwIVWCY7rRA988mR8yR-k\"","primaryEmail":"klibby@example.com","name":{"givenName":"Kate","familyName":"Libby","fullName":"Kate Libby"},"isAdmin":true,"isDelegatedAdmin":false,"lastLoginTime":"2022-01-18T15:26:16.000Z","creationTime":"2021-12-08T13:15:43.000Z","agreedToTerms":true,"suspended":false,"archived":false,"changePasswordAtNextLogin":false,"ipWhitelisted":false,"emails":[{"address":"klibby@example.com","type":"work"},{"address":"klibby@example.com","primary":true},{"address":"klibby@example.com.test-google-a.com"}],"phones":[{"value":"5555555555","type":"work"}],"languages":[{"languageCode":"en","preference":"preferred"}],"nonEditableAliases":["klibby@example.com.test-google-a.com"],"customerId":"C000aaaaa","orgUnitPath":"\/","isMailboxSetup":true,"isEnrolledIn2Sv":false,"isEnforcedIn2Sv":false,"includeInGlobalAddressList":true}"  
+{
+    "kind":"admin#directory#user","id":"1111111111111",
+    "etag":"\"nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE\/MgKWL9SwIVWCY7rRA988mR8yR-k\"",
+    "primaryEmail":"klibby@example.com",
+    "name":{
+        "givenName":"Kate",
+        "familyName":"Libby",
+        "fullName":"Kate Libby"
+    },
+    "isAdmin":true,
+    "isDelegatedAdmin":false,
+    "lastLoginTime":"2022-01-18T15:26:16.000Z",
+    "creationTime":"2021-12-08T13:15:43.000Z",
+    "agreedToTerms":true,
+    "suspended":false,
+    "archived":false,
+    "changePasswordAtNextLogin":false,
+    "ipWhitelisted":false,
+    "emails":[
+        {
+            "address":"klibby@example.com",
+            "type":"work"
+        },
+        {
+            "address":"klibby@example.com",
+            "primary":true
+        },
+        {
+            "address":"klibby@example.com.test-google-a.com"
+        }
+    ],
+    "phones":[
+        {
+            "value":"5555555555",
+            "type":"work"
+        }
+    ],
+    "languages":[
+        {
+            "languageCode":"en",
+            "preference":"preferred"
+        }
+    ],
+    "nonEditableAliases":[
+        "klibby@example.com.test-google-a.com"
+    ],
+    "customerId":"C000aaaaa",
+    "orgUnitPath":"\/",
+    "isMailboxSetup":true,
+    "isEnrolledIn2Sv":false,
+    "isEnforcedIn2Sv":false,
+    "includeInGlobalAddressList":true
+} 
 ```  
 
 ### API Response Object
@@ -371,30 +433,55 @@ $response->object;
 
 ```php  
 {#1256  
-  +"kind": "admin#directory#user"  +"id": "1111111111111"  +"etag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""  
-  +"primaryEmail": "klibby@example.com"  +"name": {#1242  
-    +"givenName": "Kate"    +"familyName": "Libby"    +"fullName": "Kate Libby"  }  
+  +"kind": "admin#directory#user"
+  +"id": "1111111111111"  
+  +"etag": ""nMRgLWac8h8NyH7Uk5VvV4DiNp4uxXg5gNUd9YhyaJE/MgKWL9SwIVWCY7rRA988mR8yR-k""  
+  +"primaryEmail": "klibby@example.com"  
+  +"name": {#1242  
+    +"givenName": "Kate"    
+    +"familyName": "Libby"    
+    +"fullName": "Kate Libby"  
+  }  
   +"isAdmin": true  
   +"isDelegatedAdmin": false  
-  +"lastLoginTime": "2022-01-18T15:26:16.000Z"  +"creationTime": "2021-12-08T13:15:43.000Z"  +"agreedToTerms": true  
+  +"lastLoginTime": "2022-01-18T15:26:16.000Z"  
+  +"creationTime": "2021-12-08T13:15:43.000Z"  
+  +"agreedToTerms": true  
   +"suspended": false  
   +"archived": false  
   +"changePasswordAtNextLogin": false  
   +"ipWhitelisted": false  
-  +"emails": array:3 [    0 => {#1253  
-      +"address": "klibby@example.com"      +"type": "work"    }  
+  +"emails": array:3 [
+    0 => {#1253  
+      +"address": "klibby@example.com"      
+      +"type": "work"    
+    }  
     1 => {#1258  
-      +"address": "klibby@example.com"      +"primary": true  
+      +"address": "klibby@example.com"      
+      +"primary": true  
     }  
     2 => {#1259  
-      +"address": "klibby@example.com.test-google-a.com"    }  
-  ]  +"phones": array:1 [    0 => {#1247  
-      +"value": "5555555555"      +"type": "work"    }  
-  ]  +"languages": array:1 [    0 => {#1250  
-      +"languageCode": "en"      +"preference": "preferred"    }  
-  ]  +"nonEditableAliases": array:1 [  
-    0 => "klibby@example-test.com.test-google-a.com"  ]  
-  +"customerId": "C000aaaaa"  +"orgUnitPath": "/"  +"isMailboxSetup": true  
+      +"address": "klibby@example.com.test-google-a.com"
+    }  
+  ]  
+  +"phones": array:1 [    
+    0 => {#1247  
+      +"value": "5555555555"      
+      +"type": "work"    
+    }  
+  ]  
+  +"languages": array:1 [    
+    0 => {#1250  
+      +"languageCode": "en"      
+      +"preference": "preferred"    
+    }  
+  ]
+  +"nonEditableAliases": array:1 [  
+    0 => "klibby@example-test.com.test-google-a.com"  
+  ]  
+  +"customerId": "C000aaaaa"  
+  +"orgUnitPath": "/"  
+  +"isMailboxSetup": true  
   +"isEnrolledIn2Sv": false  
   +"isEnforcedIn2Sv": false  
   +"includeInGlobalAddressList": true  
@@ -412,7 +499,8 @@ $response->status;
 
 ```php  
 {  
-  +"code": 200  +"ok": true  
+  +"code": 200  
+  +"ok": true  
   +"successful": true  
   +"failed": false  
   +"serverError": false  
