@@ -1,4 +1,3 @@
-{::options parse_block_html="true" /}
 # Google Workspace SDK
 
 ## Overview
@@ -34,15 +33,8 @@ This package is not intended to provide functions for every endpoint for [Google
 
 If the endpoint that you need is not created yet we have provided the REST class that can perform GET, POST, PUT, and DELETE requests to any endpoint that you find in the [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) documentation and the class will handle the API response, error handling, and pagination for you.
 
-<div class="panel panel-warning">
-**Warning**
-{: .panel-heading}
-<div class="panel-body">
+> :warning: PATCH request are not currently working but will be implemented in the future.
 
-PATCH request are not currently working but will be implemented in the future.
-
-</div>
-</div>
 
 
 > This builds upon the simplicity of the Laravel HTTP Client that is powered by the Guzzle HTTP client to provide "last lines of code parsing" for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) responses to improve the developer experience.
