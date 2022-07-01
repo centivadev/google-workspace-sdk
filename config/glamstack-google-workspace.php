@@ -12,9 +12,8 @@ return [
      * @param string $connection
      *      The default connection key (array key) that you want to use if not
      *      specified when instantiating the ApiClient. You can add the
-     *      `GOOGLE_CLOUD_DEFAULT_CONNECTION` variable in your .env file so you
-     *      don't need to pass the connection key into the ApiClient. The
-     *      `test_project` connection key is used `.env` variable is not set.
+     *      `GOOGLE_WORKSPACE_DEFAULT_CONNECTION` variable in your .env file so you
+     *      don't need to pass the connection key into the ApiClient.
      *      ```php
      *      $google_cloud = new \Glamstack\GoogleCloud\ApiClient();
      *      ```
@@ -30,12 +29,12 @@ return [
      *      that is easier to triage without unrelated log messages, you can
      *      create a custom log channel and add the channel name to the
      *      array. For example, we recommend creating a custom channel
-     *      (ex. `glamstack-google-cloud`), however you can choose any
+     *      (ex. `glamstack-google-workspace`), however you can choose any
      *      name you would like.
-     *      Ex. ['single', 'glamstack-google-cloud']
+     *      Ex. ['single', 'glamstack-google-workspace']
      *
      *      You can also add additional channels that logs should be sent to.
-     *      Ex. ['single', 'glamstack-google-cloud', 'slack']
+     *      Ex. ['single', 'glamstack-google-workspace', 'slack']
      */
 
     'default' => [
@@ -52,11 +51,15 @@ return [
      * that we refer to as the "connection key" that contains a array of
      * configuration values and is used when the ApiClient is instantiated.
      *
-     * If you're just getting started, you can use the `test_project` connection
-     * key and create a service account with `roles/editor`.
+     * If you're just getting started, you can use the `test` connection
+     * key and create a service account with the following API Scopes:
+     *  [
+     *      'https://www.googleapis.com/auth/admin.directory.group',
+            'https://www.googleapis.com/auth/admin.directory.user'
+     *  ]
      *
      * ```php
-     * $google_auth = new \Glamstack\GoogleCloud\ApiClient('test');
+     * $google_auth = new \Glamstack\GoogleWorkspace\ApiClient('test');
      * ```
      *
      * You can create one or more service accounts in your GCP project(s) with
@@ -64,20 +67,8 @@ return [
      * can add additional connection keys for each of your service accounts
      * using a snake case name of your choosing.
      *
-     * @param string $project_id
-     *      The GCP project ID associated with the GCP service account key.
-     *      If the service account has organization-level permissions, this
-     *      is the GCP project that the service account was created in.
-     *      This can be found inside of the JSON file contents and may be
-     *      a 12-digit integer or an alphadash name.
-     *
-     *      ```
-     *      123456789012
-     *      my-project-a1b2c3
-     *      ```
-     *
      * @param array $api_scopes
-     *      The API OAUTH scopes that will be needed for the GCP API endpoints
+     *      The API OAUTH scopes that will be needed for the Google Workspace API endpoints
      *      that will be used. These need to match what you have granted your
      *      service account.
      *
@@ -85,26 +76,35 @@ return [
      *
      *      ```php
      *      [
-     *          'https://www.googleapis.com/auth/admin.directory.user',
-     *          'https://www.googleapis.com/auth/cloud-platform',
-     *          'https://www.googleapis.com/auth/compute',
-     *          'https://www.googleapis.com/auth/ndev.clouddns.readwrite'
-     *          'https://www.googleapis.com/auth/cloud-billing',
-     *          'https://www.googleapis.com/auth/monitoring.read',
+     *          'https://www.googleapis.com/auth/admin.directory.group',
+     *          'https://www.googleapis.com/auth/admin.directory.user'
      *      ]
      *      ```
      *
-     * @param ?string $json_key_file
+     * @param string $json_key_file_path
      *      You can specify the full operating system path to the JSON key file.
      *
      *      If null, the GCP service account JSON API key file that you
      *      generate and download should be added to your locally cloned
-     *      repository in the `storage/keys/glamstack-google-cloud` directory with
+     *      repository in the `storage/keys/glamstack-google-workspace` directory with
      *      the filename that matches the connection key.
      *
      *      ```php
-     *      storage('keys/glamstack-google-cloud/test.json')
+     *      storage('keys/glamstack-google-workspace/test.json')
      *      ```
+     *
+     * @param string $customer_id
+     *      The customer number of the Google Account that the API's will be
+     *      run on. This will need to match the customer number that the 
+     *      Service Account is under as well or it will not work.
+     *
+     * @param string $domain
+     *      The domain of the Google Account that the API's will be run on. This
+     *      will need to match the domain that the Service Account is created under.
+     *
+     * @param ?string $subject_email
+     *      The email of the address to run the Google Workspace API as. If
+     *      this is not set then it will use the client_email from the JSON Key.
      *
      * @param array  $log_channels
      *      The Laravel log channels to send all related info and error
@@ -117,24 +117,23 @@ return [
      *      that is easier to triage without unrelated log messages, you can
      *      create a custom log channel and add the channel name to the
      *      array. For example, we recommend creating a custom channel
-     *      (ex. `glamstack-google-cloud`), however you can choose any
+     *      (ex. `glamstack-google-workspace`), however you can choose any
      *      name you would like. You could also use a log file name that
      *      is the name of the GCP project that the logs relate to.
      *      ```php
-     *      ['single', 'glamstack-google-cloud']
+     *      ['single', 'glamstack-google-workspace']
      *      ```
      *
      *      You can also add additional channels that logs should be sent to.
      *      ```php
-     *      ['single', 'glamstack-google-cloud', 'slack']
+     *      ['single', 'glamstack-google-workspace', 'slack']
      *      ```
      */
-
     'connections' => [
-        'workspace' => [
+        'test' => [
             'api_scopes' => [
                 'https://www.googleapis.com/auth/admin.directory.group',
-                'https://www.googleapis.com/auth/contacts'
+                'https://www.googleapis.com/auth/admin.directory.user'
             ],
             'json_key_file_path' => storage_path('GOOGLE_WORKSPACE_JSON_KEY_FILE_PATH'),
             'log_channels' => ['single'],
