@@ -77,10 +77,11 @@ If you run into any classes or files that are renamed and are throwing `Not Foun
 
 The way that we have configured the package allows for additional endpoint to be added quickly by doing the following:
 
-1. If there is no directory for the product group (i.e. [Directory](https://developers.google.com/admin-sdk/directory/reference/rest), [License Manager](https://developers.google.com/admin-sdk/licensing/reference/rest), [GMail](https://developers.google.com/gmail/api/reference/rest), [Drive](https://developers.google.com/drive/api/v3/reference), etc.) under the `src/Resources` directory then create the directory under `src/Resources/` with the name of the group (i.e. `Directory`, `LicenseManager`, `Gmail`, `Drive`, etc.).
+1. If there is no directory for the product group (i.e. [Directory](https://developers.google.com/admin-sdk/directory/reference/rest), [License Manager](https://developers.google.com/admin-sdk/licensing/reference/rest), [GMail](https://developers.google.com/gmail/api/reference/rest), [Drive](https://developers.google.com/drive/api/v3/reference), etc.) under the `src/Resources` directory then create the directory under `src/Resources` with the name of the group (i.e. `Directory`, `LicenseManager`, `Gmail`, `Drive`, etc.).
     1. After creating a directory for the product group you will need to create a class for the product group as well. This class will have the exact same name as the directory name. (i.e. The `Directory` group will have a file named `Directory.php` with a `Directory` class in it.)
     1. Things you will need to know for the class:
         * The base_url for the group endpoints. (i.e. Directory will have the BASE_URL of `https://admin.googleapis.com/admin/directory/v1`)
+        > Note: The tailing `/` is not a part of the base_url
     1. Reference [Creating An Provider Group Class](#creating-an-provider-group-class) for template of an endpoint group.
 
 1. If there is no class for the endpoint group you are wanting but the Product Group exists. Create a new PHP class under the appropriate `src/<directory>/` with the name of the endpoint group that it will be used for. For example if we were to create a new class to utilize the [Google Groups](https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups) resource the file name will be `Groups.php` under the `src/Resources/Directory` directory
