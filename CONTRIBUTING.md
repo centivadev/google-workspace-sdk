@@ -90,9 +90,9 @@ So the file path for [Google Groups Endpoints](https://developers.google.com/adm
 ```bash
 src/Resources/Directory/Groups.php
 ```
-    1. Utilize the [Endpoint Group Creation Template](#endpoint-group-creation-template) to create a new endpoint group class under the appropriate product directory.
-    1. Add a new method for the class under the product group class. See [Adding An Endpoint Group to Product Group Class](#how-to-add-an-endpoint-group-to-product-group-class)
-    1. Utilize the [Endpoint Method Creation Template](#endpoint-method-creation-template) to create a new endpoint method in the class.
+1. Utilize the [Endpoint Group Creation Template](#endpoint-group-creation-template) to create a new endpoint group class under the appropriate product directory.
+1. Add a new method for the class under the product group class. See [Adding An Endpoint Group to Product Group Class](#how-to-add-an-endpoint-group-to-product-group-class)
+1. Utilize the [Endpoint Method Creation Template](#endpoint-method-creation-template) to create a new endpoint method in the class.
 
 
 #### Creating An Product Group Class
