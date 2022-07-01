@@ -37,7 +37,6 @@ If the endpoint that you need is not created yet we have provided the REST class
 
 > This package builds upon the simplicity of the Laravel HTTP Client that is powered by the Guzzle HTTP client to provide "last lines of code parsing" for [Google Workspace API's](https://developers.google.com/admin-sdk/directory/reference/rest#service:-admin.googleapis.com) responses to improve the developer experience.
 
-
 ```php
 // Initialized Client with `connection_key` parameter
 $google_workspace_api = new \Glamstack\GoogleWorkspace\ApiClient('workspace');
@@ -89,7 +88,11 @@ $record = $google_workspace_api->rest()->put('https://admin.googleapis.com/admin
 // https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/delete  
 $user_key = 'klibby@example.com';  
 $record = $google_workspace_api->rest()->delete('https://admin.googleapis.com/admin/directory/v1/users/'.$user_key);  
-```  
+```
+
+### Package Initialization
+
+This package is initialized via a configuration see [How To Initialize With Configuration File](#how-to-initialize-with-configuration-file) for instructions on both initialization methods.
 
 ## Installation
 
@@ -102,11 +105,166 @@ $record = $google_workspace_api->rest()->delete('https://admin.googleapis.com/ad
 
 ### Add Composer Package
 
-```bash  
+This package uses [Calendar Versioning](#calendar-versioning).
+
+We recommend always using a specific version in your `composer.json` file and reviewing the [changelog](changelog/) to see the breaking changes in each release before assuming that the latest release is the right choice for your project.
+
+```bash
 composer require glamstack/google-workspace-sdk
-```  
+```
 
 > If you are contributing to this package, see [CONTRIBUTING](CONTRIBUTING.md) for instructions on configuring a local composer package with symlinks.
+
+### Publish the configuration file
+
+```bash
+php artisan vendor:publish --tag=glamstack-google-workspace
+```
+
+### Version upgrades
+
+If you have upgraded to a newer version of the package, you should back up your existing configuration file to avoid your custom configuration being overridden.
+
+```bash
+cp config/glamstack-google-workspace.php config/glamstack-google-workspace.php.bak
+
+php artisan vendor:publish --tag=glamstack-google-workspace
+```
+
+### Calendar Versioning
+
+The GitLab IT Engineering team uses a modified version of [Calendar Versioning (CalVer)](https://calver.org/) instead of [Semantic Versioning (SemVer)](https://semver.org/). CalVer has a YY (Ex. 2021 => 21) but having a version `21.xx` feels unintuitive to us. Since our team started this in 2021, we decided to use the last integer of the year only (2021 => 1.x, 2022 => 2.x, etc).
+
+The version number represents the release date in `vY.M.D` format.
+
+#### Why We Don't Use Semantic Versioning
+
+1. We are continuously shipping to `main`/`master`/`production` and make breaking changes in most releases, so having semantic backwards-compatible version numbers is unintuitive for us.
+1. We don't like to debate what to call our release/milestone and whether it's a major, minor, or patch release. We simply write code, write a changelog, and ship it on the day that it's done. The changelog publication date becomes the tagged version number (Ex. `2022-02-01` is `v2.2.1`). We may refer to a bigger version number for larger releases (Ex. `v2.2`), however this is only for monthly milestone planning and canonical purposes only. All code tags include the day of release (Ex. `v2.2.1`).
+1. This allows us to automate using GitLab CI/CD to automate the version tagging process based on the date the pipeline job runs.
+1. We update each of our project `composer.json` files that use this package to specific or new version numbers during scheduled change windows without worrying about differences and/or breaking changes with "staying up to date with the latest version". We don't maintain any forks or divergent branches.
+1. Our packages use underlying packages in your existing Laravel application, so keeping your Laravel application version up-to-date addresses most security concerns.
+
+## Initializing the SDK
+
+Initialization of the API Client can be done either by passing in a (string) [connection_key](#connection-keys) or by passing in an (array) [connection_config](#dynamic-connection-config-array)
+
+### Google API Authentication
+
+The package utilizes the [glamstack/google-auth-sdk](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk) package for creating the [Google JWT Web Token](https://cloud.google.com/iot/docs/how-tos/credentials/jwts) to authenticate with [Google Cloud API endpoints](https://cloud.google.com/apis).
+
+For more information on [glamstack/google-auth-sdk](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk) please see the [Google Auth SDK README.md](https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/google-auth-sdk/-/blob/main/README.md).
+
+### Connection Keys
+
+We use the concept of **_connection keys_** that refer to a configuration array in `config/glamstack-google-workspace.php` that allows you to pre-configure one or more API connections.
+
+Each connection key is associated with a GCP service account JSON key. This can be used to configure different auth scope connections and permissions to your GCP organization or different GCP project(s) depending on the API calls that you're using. This allows for least privilege for specific API calls, and you can also configure multiple connections with the same GCP project and different API tokens that have different permission levels.
+
+#### Example Connection Key Initialization
+
+```php
+// Initialize the SDK using the `test` configuration from `glamstack-google-workspace.php`
+$client = new Glamstack\GoogleWorkspace\ApiClient('test');
+```
+
+#### Example Connection Key Configuration
+
+```php
+return [
+    'connections' => [
+        'test' => [
+            'api_scopes' => [
+                'https://www.googleapis.com/auth/admin.directory.group',
+                'https://www.googleapis.com/auth/admin.directory.user'
+            ],
+            'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
+            'log_channels' => ['single'],
+            'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
+            'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
+            'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL'),
+            'test_group_email' => env('GOOGLE_WORKSPACE_TEST_GROUP_EMAIL')
+        ],
+    ]
+]
+```
+
+### Dynamic Connection Config Array
+
+If you don't want to pre-configure your connection and prefer to dynamically use connection variables that are stored in your database, you have the ability to pass in the required configurations via an array (See [Example Connection Config Array Initialization](#example-connection-config-array-initialization)) using the `connection_config` array in the second argument of the `ApiClient` construct method.
+
+#### Required Parameters
+
+| Key                  | Type   | Description                                                      |
+|----------------------|--------|------------------------------------------------------------------|
+| `api_scopes`         | array  | Array of the API Scopes needed for the APIs to be used           |
+| `customer_id`        | string | The Google Workspace Customer ID                                 |
+| `domain`             | string | The Google Workspace Domain the APIs will be used in             |
+| `json_key_file_path` | string | Option 1 - Provide a file path to the `.json` key file           |
+| `json_key`           | string | Option 2 - Provide the JSON key contents stored in your database |
+
+#### Using a JSON Key File on your filesystem
+
+```php
+$client = new Glamstack\GoogleWorkspace\ApiClient(null, [
+    'api_scopes' => [
+        'https://www.googleapis.com/auth/admin.directory.group',
+        'https://www.googleapis.com/auth/contacts'
+    ],
+    'customer_id' => config('tests.connections.test.customer_id'),
+    'domain' => config('tests.connections.test.domain'),
+    'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+    'log_channels' => ['single'],
+    'subject_email' => config('tests.connections.test.subject_email')
+]);
+```
+
+#### Using a JSON Key String in your database
+
+**Security Warning:** You should never commit your service account key (JSON contents) into your source code as a variable to avoid compromising your credentials for your GCP organization or projects.
+
+It is recommended to convert the JSON key to a base 64 encoded string before encryption since this is the format used by the GCP Service Account API for the `privateKeyData` field.
+
+```php
+// Get service account from your model (`GoogleServiceAccount` is an example)
+$service_account = \App\Models\GoogleServiceAccount::where('id', '123456')->firstOrFail();
+
+// Get JSON key string from database column that has an encrypted value
+$json_key_string = decrypt(json_decode($service_account->json_key));
+
+$client = new \Glamstack\GoogleWorkspace\ApiClient(null, [
+    'api_scopes' => [
+        'https://www.googleapis.com/auth/admin.directory.group',
+        'https://www.googleapis.com/auth/contacts'
+    ],
+    'customer_id' => config('tests.connections.test.customer_id'),
+    'domain' => config('tests.connections.test.domain'),
+    'json_key' => $json_key_string,
+    'log_channels' => ['single'],
+    'subject_email' => config('tests.connections.test.subject_email')
+]);
+```
+
+The example below shows the value of the JSON key that is stored in your database.
+
+```php
+// Get service account from your model (`GoogleServiceAccount` is an example)
+$service_account = \App\Models\GoogleServiceAccount::where('id', '123456')->firstOrFail();
+
+dd(decrypt(json_decode($service_account->json_key));
+// {
+//     "type": "service_account",
+//     "project_id": "project_id",
+//     "private_key_id": "key_id",
+//     "private_key": "key_data",
+//     "client_email": "xxxxx@xxxxx.iam.gserviceaccount.com",
+//     "client_id": "123455667897654",
+//     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+//     "token_uri": "https://oauth2.googleapis.com/token",
+//     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+//     "client_x509_cert_url": "some stuff"
+// }
+```
 
 ### Custom Logging Configuration
 
