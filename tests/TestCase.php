@@ -22,6 +22,10 @@ class TestCase extends Orchestra
         if (!is_link(__DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google-workspace/test.json')) {
             symlink(__DIR__ . '/../storage/keys/glamstack-google-workspace/test.json', __DIR__.'/../vendor/orchestra/testbench-core/laravel/storage/keys/glamstack-google-workspace/test.json');
         }
+
+        if (!is_link(__DIR__.'/../vendor/orchestra/testbench-core/laravel/composer.lock')) {
+            symlink(__DIR__ . '/../composer.lock', __DIR__.'/../vendor/orchestra/testbench-core/laravel/composer.lock');
+        }
     }
 
     protected function getPackageProviders($app)
