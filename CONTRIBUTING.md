@@ -115,7 +115,7 @@ namespace Glamstack\GoogleWorkspace\Resources\<ProductGroup>;
 
 use Glamstack\GoogleWorkspace\ApiClient;
 
-class Directory extends ApiClient
+class <ProductGroup> extends ApiClient
 {
     # TODO: FILL OUT <Product Group URL>
     public const BASE_URL = "<Product Group URL>";
@@ -129,15 +129,29 @@ To add an endpoint group to the product group class you simply need to add a new
 ##### Adding An Endpoint Group To Product Group Class Method Template
 ```php
 
-/**
- * Creates a <Endpoint> object
- *
- * @return <Endpoint>
- */
-public function <Endpoint>(): <Endpoint>
+<?php
+
+namespace Glamstack\GoogleWorkspace\Resources\Directory>;
+
+use Glamstack\GoogleWorkspace\ApiClient;
+
+class Directory extends ApiClient
 {
-    return new <Endpoint>($this, self::BASE_URL);
+    public const BASE_URL = "https://admin.googleapis.com/admin/directory/v1";
+
+
+    /**
+     * Creates a <Endpoint> object
+     *
+     * @return <Endpoint>
+     */
+    public function <Endpoint>(): <Endpoint>
+    {
+        # TODO: Replace `<Endpoint>` with the endpoint group name (i.e `Groups`)
+        return new <Endpoint>($this, self::BASE_URL);
+    }
 }
+
 ```
 
 #### Creating An Endpoint Class
@@ -176,13 +190,35 @@ Creating a new endpoint for each of the classes can be done with by simply utili
 This is the example of creating a `list` endpoint for the `Directory/Groups`
 ```php
 
-/**
- * List all groups of a domain
- *
- */
-public function list($request_data):
-    return BaseClient::getRequest($this->base_url . '/groups',
-        $request_data->request_data
+<?php
+
+namespace Glamstack\GoogleWorkspace\Resources\Directory;
+
+use Glamstack\GoogleWorkspace\ApiClient;
+use Glamstack\GoogleWorkspace\Resources\BaseClient;
+
+class Groups extends BaseClient
+{
+    private string $base_url;
+
+    public function __construct(ApiClient $api_client, string $base_url)
+    {
+        parent::__construct($api_client);
+        $this->base_url = $base_url;
+
+
+    /**
+     * List all groups of a domain
+     *
+     * @param array $request_data
+     *      Optional request data to use with list
+     *
+     * @return object|string
+     */
+    public function list($request_data){
+        return BaseClient::getRequest($this->base_url . '/groups',
+            $request_data->request_data
+    }
 ```
 
 While some methods may be more complex than this, in theory this should be about all that is needed for each endpoint.
