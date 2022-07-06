@@ -14,7 +14,7 @@ trait ResponseLog
      * This method is called from other methods and will call specific methods
      * depending on the log severity level.
      *
-     * @param string $url The URL of the API call including the concatenated base URL and URI
+     * @param string $url The URL of the API call
      *
      * @param object $response The HTTP response formatted with $this->parseApiResponse()
      *
@@ -69,7 +69,7 @@ trait ResponseLog
      *      The class and method name
      *
      * @param string $url
-     *      The URL of the API call including the concatenated base URL and URI
+     *      The URL of the API call
      *
      * @param object $response
      *      The HTTP response formatted with $this->parseApiResponse()
@@ -98,7 +98,7 @@ trait ResponseLog
      *      The class and method name
      *
      * @param string $url
-     *      The URL of the API call including the concatenated base URL and URI
+     *      The URL of the API call
      *
      * @param object $response
      *      The HTTP response formatted with $this->parseApiResponse()
@@ -129,7 +129,7 @@ trait ResponseLog
      *      The class and method name
      *
      * @param string $url
-     *      The URL of the API call including the concatenated base URL and URI
+     *      The URL of the API call
      *
      * @param object $response
      *      The HTTP response formatted with $this->parseApiResponse()
