@@ -52,7 +52,7 @@ class ApiClient
         }
 
         // Set the request headers to be used by the API client
-//        $this->setRequestHeaders();
+        $this->setRequestHeaders();
     }
 
     /**
