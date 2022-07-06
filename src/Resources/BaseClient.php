@@ -286,8 +286,8 @@ abstract class BaseClient
     /**
      * Google API GET Request
      *
-     * @param string $uri
-     *      The URI of the Google Cloud API
+     * @param string $url
+     *      The URL of the Google Cloud API
      *
      * @param array $request_data
      *      (Optional) Optional request data to send with the Google Cloud
@@ -295,7 +295,7 @@ abstract class BaseClient
      *
      * @return object|string
      */
-    public function getRequest(string $uri, array $request_data = []): object|string
+    public function getRequest(string $url, array $request_data = []): object|string
     {
         // Merge the required headers ('customer' and 'domain')
         $request_data = $this->appendRequiredHeaders($request_data);
@@ -303,7 +303,7 @@ abstract class BaseClient
         // Get the initial response
         $response = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
-            ->get($uri, $request_data);
+            ->get($url, $request_data);
 
         // Check if the initial response is paginated
         $isPaginated = $this->checkForPagination($response);
@@ -312,7 +312,7 @@ abstract class BaseClient
         if ($isPaginated) {
 
             // Get the paginated results
-            $paginated_results = $this->getPaginatedResults($uri, $request_data, $response);
+            $paginated_results = $this->getPaginatedResults($url, $request_data, $response);
 
             $response->results = $this->convertPaginatedResponseToObject($paginated_results);
 
@@ -339,7 +339,7 @@ abstract class BaseClient
         // Parse the API response and return a Glamstack standardized response
         $parsed_api_response = $this->parseApiResponse($response, true);
 
-        $this->logResponse($uri, $parsed_api_response);
+        $this->logResponse($url, $parsed_api_response);
         return $parsed_api_response;
     }
 
@@ -386,8 +386,8 @@ abstract class BaseClient
      * Helper method for getting Google Cloud GET responses that require
      * pagination
      *
-     * @param string $uri
-     *      The URI of the Google Cloud API request with a leading slash after
+     * @param string $url
+     *      The URL of the Google Cloud API request with a leading slash after
      *          `https://admin.googleapis.com/admin/directory/v1`
      *
      * @param array $request_data
@@ -399,7 +399,7 @@ abstract class BaseClient
      * @return array
      */
     protected function getPaginatedResults(
-        string   $uri,
+        string   $url,
         array    $request_data,
         Response $response
     ): array
@@ -416,7 +416,7 @@ abstract class BaseClient
 
         // Get the next page using the initial responses `nextPageToken` element
         $next_response = $this->getNextPageResults(
-            $uri,
+            $url,
             $request_data,
             $response
         );
@@ -439,7 +439,7 @@ abstract class BaseClient
             // element in the returned object
             do {
                 $next_response = $this->getNextPageResults(
-                    $uri,
+                    $url,
                     $request_data,
                     $next_response
                 );
@@ -499,8 +499,8 @@ abstract class BaseClient
      * Helper function to get the next page of a Google Cloud API GET
      * request.
      *
-     * @param string $uri
-     *      The URI of the Google Cloud API request
+     * @param string $url
+     *      The URL of the Google Cloud API request
      *
      * @param array $request_data
      *      Request data to send with the Google Cloud API GET request.
@@ -511,7 +511,7 @@ abstract class BaseClient
      * @return Response
      */
     protected function getNextPageResults(
-        string   $uri,
+        string   $url,
         array    $request_data,
         Response $response
     ): Response
@@ -529,7 +529,7 @@ abstract class BaseClient
 
         $records = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
-            ->get($uri, $request_body);
+            ->get($url, $request_body);
 
         $this->logHttpInfo('Success - Gathered the next page data', $records);
 
@@ -766,8 +766,8 @@ abstract class BaseClient
      * This method is called from other services to perform a POST request and
      * return a structured object.
      *
-     * @param string $uri
-     *      The URI of the Google Cloud API request with
+     * @param string $url
+     *      The URL of the Google Cloud API request with
      *
      * @param array|null $request_data
      *      (Optional) Optional request data to send with the Google Cloud API
@@ -775,20 +775,20 @@ abstract class BaseClient
      *
      * @return object|string
      */
-    public function postRequest(string $uri, ?array $request_data = []): object|string
+    public function postRequest(string $url, ?array $request_data = []): object|string
     {
         $request_data = $this->appendRequiredHeaders($request_data);
 
         // Append to Google Domain and Google Customer ID to the request data
         $request = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
-            ->post($uri, $request_data);
+            ->post($url, $request_data);
 
         // Parse the API request's response and return a Glamstack standardized
         // response
         $response = $this->parseApiResponse($request);
 
-        $this->logResponse($uri, $response);
+        $this->logResponse($url, $response);
 
         return $response;
     }
@@ -796,8 +796,8 @@ abstract class BaseClient
     /**
      * Google Cloud API PATCH Request
      *
-     * @param string $uri
-     *      The URI of the Google Cloud API request with
+     * @param string $url
+     *      The URL of the Google Cloud API request with
      *
      * @param array $request_data
      *      (Optional) Optional request data to send with the Google Cloud API
@@ -805,19 +805,19 @@ abstract class BaseClient
      *
      * @return object|string
      */
-    public function patchRequest(string $uri, array $request_data = []): object|string
+    public function patchRequest(string $url, array $request_data = []): object|string
     {
         $request_data = $this->appendRequiredHeaders($request_data);
 
         $request = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
-            ->patch($uri, $request_data);
+            ->patch($url, $request_data);
 
         // Parse the API request's response and return a Glamstack standardized
         // response
         $response = $this->parseApiResponse($request);
 
-        $this->logResponse($uri, $response);
+        $this->logResponse($url, $response);
 
         return $response;
     }
@@ -828,8 +828,8 @@ abstract class BaseClient
      * This method is called from other services to perform a PUT request and
      * return a structured object
      *
-     * @param string $uri
-     *      The URI of the Google Cloud API request
+     * @param string $url
+     *      The URL of the Google Cloud API request
      *
      * @param array $request_data
      *      (Optional) Optional request data to send with the Google Cloud API
@@ -837,19 +837,19 @@ abstract class BaseClient
      *
      * @return object|string
      */
-    public function putRequest(string $uri, array $request_data = []): object|string
+    public function putRequest(string $url, array $request_data = []): object|string
     {
         $request_data = $this->appendRequiredHeaders($request_data);
 
         $request = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
-            ->put($uri, $request_data);
+            ->put($url, $request_data);
 
         // Parse the API request's response and return a Glamstack standardized
         // response
         $response = $this->parseApiResponse($request);
 
-        $this->logResponse($uri, $response);
+        $this->logResponse($url, $response);
 
         return $response;
     }
@@ -860,8 +860,8 @@ abstract class BaseClient
      * This method is called from other services to perform a DELETE request
      * and return a structured object.
      *
-     * @param string $uri
-     *      The URI of the Google Cloud API request
+     * @param string $url
+     *      The URL of the Google Cloud API request
      *
      * @param array $request_data
      *      (Optional) Optional request data to send with the Google Cloud API
@@ -869,20 +869,20 @@ abstract class BaseClient
      *
      * @return object|string
      */
-    public function deleteRequest(string $uri, array $request_data = []): object|string
+    public function deleteRequest(string $url, array $request_data = []): object|string
     {
         // Append to Google Domain and Google Customer ID to the request data
         $request_data = $this->appendRequiredHeaders($request_data);
 
         $request = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
-            ->delete($uri, $request_data);
+            ->delete($url, $request_data);
 
         // Parse the API request's response and return a Glamstack standardized
         // response
         $response = $this->parseApiResponse($request);
 
-        $this->logResponse($uri, $response);
+        $this->logResponse($url, $response);
 
         return $response;
     }
