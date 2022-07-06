@@ -2,8 +2,6 @@
 
 namespace Glamstack\GoogleWorkspace\Traits;
 
-use Exception;
-use http\Client\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
