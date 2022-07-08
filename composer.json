@@ -16,7 +16,7 @@
     "require": {
         "php": "^8.0",
         "doctrine/annotations": "^1.13",
-        "glamstack/google-auth-sdk": "2.5",
+        "glamstack/google-auth-sdk": "^2.5",
         "illuminate/contracts": "^9.0",
         "spatie/laravel-package-tools": "^1.9.2",
         "symfony/options-resolver": "^6.0",
