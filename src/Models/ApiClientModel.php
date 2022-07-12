@@ -13,8 +13,8 @@ class ApiClientModel
         $validator = Validator::make($options,
             [
                 'api_scopes' => 'required|array',
-                'customer_id' => 'required|string',
-                'domain' => 'required|string',
+                'customer_id' => 'nullable|string',
+                'domain' => 'nullable|string',
                 'subject_email' => 'nullable|string',
                 'json_key_file_path' => Rule::requiredIf(!array_key_exists('json_key', $options)).'|string',
                 'json_key' => Rule::requiredIf(!array_key_exists('json_key_file_path', $options)).'|string',
