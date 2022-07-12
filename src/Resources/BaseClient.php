@@ -14,8 +14,7 @@ abstract class BaseClient
     use ResponseLog;
 
     protected ApiClient $api_client;
-    protected string $customer_id;
-    protected string $domain;
+
     protected array $log_channels;
     private string $auth_token;
 
@@ -28,12 +27,6 @@ abstract class BaseClient
     {
         // Initialize Google Auth SDK
         $this->api_client = $api_client;
-
-        // Set the customer_id based on initialization used
-        $this->setCustomerId();
-
-        // Set the domain based on initialization used
-        $this->setDomain();
 
         // Set the log_channels based on initialization used
         $this->setLogChannels();
@@ -70,17 +63,10 @@ abstract class BaseClient
             // Try to authenticate with Google OAuth2 Server using the Glamstack google-auth-sdk
             $this->auth_token = $google_auth->authenticate();
 
-            $this->logInfo('Success - Authenticating with Google Auth SDK',
-                [
-                    'customer_id' => $this->customer_id,
-                    'domain' => $this->domain,
-                ]
-            );
+            $this->logInfo('Success - Authenticating with Google Auth SDK');
         } catch (Exception $exception) {
             $this->logError('Failed - Authenticating with Google Auth SDK',
                 [
-                    'customer_id' => $this->customer_id,
-                    'domain' => $this->domain,
                     'exception_code' => $exception->getCode(),
                     'exception_message' => $exception->getMessage()
                 ]
@@ -343,26 +329,6 @@ abstract class BaseClient
         return $parsed_api_response;
     }
 
-    /**
-     * Append required headers to request_data
-     *
-     * The required headers for Google Workspace are the `domain` and `customer`
-     * variables
-     *
-     * @param array $request_data
-     *      The request data being passed into the HTTP request
-     *
-     * @return array
-     */
-    protected function appendRequiredHeaders(array $request_data)
-    {
-        $required_parameters = [
-            'domain' => $this->domain,
-            'customer' => $this->customer_id
-        ];
-
-        return array_merge($request_data, $required_parameters);
-    }
 
     /**
      * Check if pagination is used in the Google Cloud GET response.
@@ -914,57 +880,5 @@ abstract class BaseClient
         }
     }
 
-    /**
-     * Get the domain class level variable
-     *
-     * @return string
-     */
-    protected function getDomain(): string
-    {
-        return $this->domain;
-    }
 
-    /**
-     * Set the project_id class level variable
-     *
-     * @return void
-     */
-    protected function setDomain(): void
-    {
-        if ($this->api_client->connection_key) {
-            $this->domain = config(
-                $this->api_client->config_path . '.connections.' .
-                $this->api_client->connection_key . '.domain'
-            );
-        } else {
-            $this->domain = $this->api_client->connection_config['domain'];
-        }
-    }
-
-    /**
-     * Get the customer_id class level variable
-     *
-     * @return string
-     */
-    protected function getCustomerId(): string
-    {
-        return $this->customer_id;
-    }
-
-    /**
-     * Set the project_id class level variable
-     *
-     * @return void
-     */
-    protected function setCustomerId(): void
-    {
-        if ($this->api_client->connection_key) {
-            $this->customer_id = config(
-                $this->api_client->config_path . '.connections.' .
-                $this->api_client->connection_key . '.customer_id'
-            );
-        } else {
-            $this->customer_id = $this->api_client->connection_config['customer_id'];
-        }
-    }
 }
