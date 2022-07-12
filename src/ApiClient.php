@@ -61,7 +61,7 @@ class ApiClient
      * Set the config path
      */
     public function setConfigPath(){
-        $this->config_path = env('GLAMSTACK_GOOGLE_WORKSPACE_CONFIG_PATH');
+        $this->config_path = env('GLAMSTACK_GOOGLE_WORKSPACE_CONFIG_PATH', 'glamstack-google-workspace');
     }
 
 
