@@ -3,6 +3,8 @@
 namespace Glamstack\GoogleWorkspace;
 
 use Glamstack\GoogleWorkspace\Models\ApiClientModel;
+use Glamstack\GoogleWorkspace\Resources\Directory\Directory;
+use Glamstack\GoogleWorkspace\Resources\Drive\Drive;
 use Glamstack\GoogleWorkspace\Resources\Rest\Rest;
 use Glamstack\GoogleWorkspace\Traits\ResponseLog;
 
@@ -69,6 +71,22 @@ class ApiClient
     public function rest(): Rest
     {
         return new Rest($this->connection_key, $this->connection_config);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function drive(): Drive
+    {
+        return new Drive($this->connection_key, $this->connection_config);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function directory(): Directory
+    {
+        return new Directory($this->connection_key, $this->connection_config);
     }
 
     /**
