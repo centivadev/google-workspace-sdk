@@ -40,6 +40,7 @@ return [
     'default' => [
         'connection' => env('GOOGLE_WORKSPACE_DEFAULT_CONNECTION', 'organization'),
         'log_channels' => ['single'],
+        'log_debug_enabled' => env('GOOGLE_WORKSPACE_LOG_DEBUG_ENABLED', false),
     ],
 
     /**
