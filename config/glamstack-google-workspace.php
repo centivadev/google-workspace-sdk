@@ -38,7 +38,7 @@ return [
      */
 
     'default' => [
-        'connection' => env('GOOGLE_WORKSPACE_DEFAULT_CONNECTION', 'workspace'),
+        'connection' => env('GOOGLE_WORKSPACE_DEFAULT_CONNECTION', 'organization'),
         'log_channels' => ['single'],
     ],
 
@@ -130,7 +130,7 @@ return [
      *      ```
      */
     'connections' => [
-        'test' => [
+        'organization' => [
             'api_scopes' => [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/admin.directory.user'
