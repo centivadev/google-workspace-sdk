@@ -11,7 +11,6 @@ class Method extends BaseClient
     protected string $customer_id;
     protected string $domain;
 
-
     public function __construct(ApiClient $api_client)
     {
         parent::__construct($api_client);
