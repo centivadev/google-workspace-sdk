@@ -283,9 +283,6 @@ abstract class BaseClient
      */
     public function getRequest(string $url, array $request_data = []): object|string
     {
-        // Merge the required headers ('customer' and 'domain')
-        $request_data = $this->appendRequiredHeaders($request_data);
-
         // Get the initial response
         $response = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
@@ -743,9 +740,6 @@ abstract class BaseClient
      */
     public function postRequest(string $url, ?array $request_data = []): object|string
     {
-        $request_data = $this->appendRequiredHeaders($request_data);
-
-        // Append to Google Domain and Google Customer ID to the request data
         $request = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
             ->post($url, $request_data);
@@ -773,8 +767,6 @@ abstract class BaseClient
      */
     public function patchRequest(string $url, array $request_data = []): object|string
     {
-        $request_data = $this->appendRequiredHeaders($request_data);
-
         $request = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
             ->patch($url, $request_data);
@@ -805,8 +797,6 @@ abstract class BaseClient
      */
     public function putRequest(string $url, array $request_data = []): object|string
     {
-        $request_data = $this->appendRequiredHeaders($request_data);
-
         $request = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
             ->put($url, $request_data);
@@ -837,9 +827,6 @@ abstract class BaseClient
      */
     public function deleteRequest(string $url, array $request_data = []): object|string
     {
-        // Append to Google Domain and Google Customer ID to the request data
-        $request_data = $this->appendRequiredHeaders($request_data);
-
         $request = Http::withToken($this->auth_token)
             ->withHeaders($this->api_client->request_headers)
             ->delete($url, $request_data);
