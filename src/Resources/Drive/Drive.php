@@ -4,10 +4,26 @@ namespace Glamstack\GoogleWorkspace\Resources\Drive;
 
 use Exception;
 use Glamstack\GoogleWorkspace\ApiClient;
+use Glamstack\GoogleWorkspace\Models\Resources\Drive\DriveModel;
 
 class Drive extends ApiClient
 {
     public const BASE_URL = "https://www.googleapis.com/drive/v3";
+
+    public function __construct(?string $connection_key = null, ?array $connection_config = [])
+    {
+        parent::__construct($connection_key, $connection_config);
+
+        $drive_model = new DriveModel();
+
+        if(empty($connection_config)){
+            $this->setConnectionKey($connection_key);
+            $this->connection_config = [];
+        } else {
+            $this->connection_config = $drive_model->verifyConfigArray($connection_config);
+            $this->connection_key = null;
+        }
+    }
 
     /**
      * GET HTTP Request
