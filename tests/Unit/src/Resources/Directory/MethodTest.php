@@ -5,35 +5,6 @@ namespace Glamstack\GoogleWorkspace\Tests\Unit\src\Resources\Directory;
 use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 use Glamstack\GoogleWorkspace\Tests\Fakes\Resources\Directory\MethodFake;
 
-//
-//test('can use get method', function(){
-//    $api_client = new ApiClientFake('test');
-//    $response = $api_client->directory()->get('/groups');
-//    dd($response);
-//});
-
-test('get() - it can use GET to access a single groups', function(){
-    $api_client = new ApiClientFake('test');
-    $response = $api_client->directory()->get('/groups/' . config('tests.connections.test.test_group_email'));
-    expect($response->status->code)->toBe(200);
-});
-
-test('get() - it can use GET to list group', function(){
-    $api_client = new ApiClientFake('test');
-    $response = $api_client->directory()->get('/groups', [
-        'maxResults' => 1
-    ]);
-    expect($response->status->code)->toBe(200);
-});
-
-test('get() - it can use GET list groups with a filter and have the same response', function(){
-    $api_client = new ApiClientFake('test');
-    $response = $api_client->directory()->get('/groups', [
-        'query' => 'email=' . config('tests.connections.test.test_group_email')
-    ]);
-    expect($response->status->code)->toBe(200);
-});
-
 test('setCustomerId() - it can set a customer ID from a connection key', function(){
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client);
@@ -95,3 +66,4 @@ test('appendRequiredHeaders() - it appends required headers', function(){
         'customer' => config('tests.connections.test.customer_id')
     ]);
 });
+
