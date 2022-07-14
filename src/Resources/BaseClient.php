@@ -313,7 +313,12 @@ abstract class BaseClient
                 // Due to the formatting of the response, we are flattening the response object and converting it to an array
                 // This is to remove the nested element that would be the list command i.e. `groups` element when listing groups.
                 $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->flatten()->toArray());
-            } else {
+            } else if($response->status() == 204 and $response->successful()){
+                // If there is no content and the API was successful then return
+                // an object that is null
+                $response->results = (object) null;
+            }
+            else {
                 // This will catch all GET request that are not possible to be paginated request.
                 $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->toArray());
             }
@@ -337,9 +342,13 @@ abstract class BaseClient
      */
     protected function checkForPagination(Response $response): bool
     {
-        // Check if Google Cloud GET Request object contains `nextPageToken`
-        if (property_exists($response->object(), 'nextPageToken')) {
-            return true;
+        if($response->object()){
+            // Check if Google Cloud GET Request object contains `nextPageToken`
+            if (property_exists($response->object(), 'nextPageToken')) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
