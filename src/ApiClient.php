@@ -5,6 +5,7 @@ namespace Glamstack\GoogleWorkspace;
 use Glamstack\GoogleWorkspace\Models\ApiClientModel;
 use Glamstack\GoogleWorkspace\Resources\Directory\Directory;
 use Glamstack\GoogleWorkspace\Resources\Drive\Drive;
+use Glamstack\GoogleWorkspace\Resources\Gmail\Gmail;
 use Glamstack\GoogleWorkspace\Resources\Rest\Rest;
 use Glamstack\GoogleWorkspace\Traits\ResponseLog;
 
@@ -87,6 +88,11 @@ class ApiClient
     public function directory(): Directory
     {
         return new Directory($this->connection_key, $this->connection_config);
+    }
+
+    public function gmail(): Gmail
+    {
+        return new Gmail($this->connection_key, $this->connection_config);
     }
 
     /**
