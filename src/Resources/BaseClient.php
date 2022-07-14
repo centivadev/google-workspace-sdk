@@ -450,15 +450,22 @@ abstract class BaseClient
         // Get the response object
         $response_object = $response->object();
 
+        // If `resultSizeEstimate` property exists remove it
+        if(property_exists($response->object(), 'resultSizeEstimate')){
+            unset($response_object->resultSizeEstimate);
+        }
+
         // This if statement is to check if we are utilizing a possible paginated
         // end point. If so we remove the `kind` and `etag` properties`
         if ((count(collect($response->object())) == 3) || count(collect($response->object())) == 4 &&
             (property_exists($response->object(), 'kind') &&
                 property_exists($response->object(), 'etag'))) {
+
             // Unset unnecessary elements
             unset($response_object->kind);
             unset($response_object->etag);
         }
+        
         // If the response contains the `nextPageToken` element unset that
         if ($contains_next_page) {
             unset($response_object->nextPageToken);
