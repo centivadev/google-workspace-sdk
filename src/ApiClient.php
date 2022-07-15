@@ -7,6 +7,7 @@ use Glamstack\GoogleWorkspace\Resources\Directory\Directory;
 use Glamstack\GoogleWorkspace\Resources\Drive\Drive;
 use Glamstack\GoogleWorkspace\Resources\Gmail\Gmail;
 use Glamstack\GoogleWorkspace\Resources\Rest\Rest;
+use Glamstack\GoogleWorkspace\Resources\Sheets\Sheets;
 use Glamstack\GoogleWorkspace\Traits\ResponseLog;
 
 class ApiClient
@@ -95,6 +96,11 @@ class ApiClient
         return new Gmail($this->connection_key, $this->connection_config);
     }
 
+
+    public function sheets(): Sheets
+    {
+        return new Sheets($this->connection_key, $this->connection_config);
+    }
     /**
      * Set the connection_key class variable. The connection_key variable by default
      * will be set to `workspace`. This can be overridden when initializing the
