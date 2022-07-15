@@ -66,15 +66,6 @@ class ApiClient
         $this->config_path = env('GLAMSTACK_GOOGLE_WORKSPACE_CONFIG_PATH', 'glamstack-google-workspace');
     }
 
-
-    /**
-     * @throws \Exception
-     */
-    public function rest(): Rest
-    {
-        return new Rest($this->connection_key, $this->connection_config);
-    }
-
     /**
      * @throws \Exception
      */
