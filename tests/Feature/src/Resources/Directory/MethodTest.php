@@ -57,7 +57,6 @@ test('put() - it can use PUT to update a group', function(){
     expect($delete_response->status->successful)->toBeTrue();
 });
 
-
 test('delete() - it can use DELETE to delete a group', function(){
     $api_client = new ApiClientFake('test');
     $response = $api_client->directory()->post('/groups', [
@@ -65,6 +64,7 @@ test('delete() - it can use DELETE to delete a group', function(){
     ]);
     expect($response->status->successful)->toBeTrue();
     expect($response->object->email)->toBe('delete-' . config('tests.connections.test.test_group_email'));
+    sleep(1);
     $delete_response = $api_client->directory()->delete('/groups/' . 'delete-' . config('tests.connections.test.test_group_email'));
     expect($delete_response->status->successful)->toBeTrue();
 });
