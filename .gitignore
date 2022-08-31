@@ -2,3 +2,11 @@
 /packages
 /vendor
 composer.lock
+.idea/
+build
+.DS_Store
+/storage/keys/glamstack-google-workspace/*.json
+.env.testing
+.env
+phpunit.xml
+.phpunit.result.cache
