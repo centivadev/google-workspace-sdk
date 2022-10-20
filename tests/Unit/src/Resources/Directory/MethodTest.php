@@ -67,3 +67,24 @@ test('appendRequiredHeaders() - it appends required headers', function(){
     ]);
 });
 
+test('appendRequiredHeaders() - it appends only domain', function(){
+    $api_client = new ApiClientFake('test');
+    $method_client = new MethodFake($api_client);
+    $method_client->setUp();
+    $headers = $method_client->appendRequiredHeaders(['example_name_name' => 'test-header'], false, true);
+    expect($headers)->toBe([
+        'example_name_name' => 'test-header',
+        'domain' => config('tests.connections.test.domain'),
+    ]);
+});
+
+test('appendRequiredHeaders() - it appends only customer', function(){
+    $api_client = new ApiClientFake('test');
+    $method_client = new MethodFake($api_client);
+    $method_client->setUp();
+    $headers = $method_client->appendRequiredHeaders(['example_name_name' => 'test-header'], true, false);
+    expect($headers)->toBe([
+        'example_name_name' => 'test-header',
+        'customer' => config('tests.connections.test.customer_id')
+    ]);
+});

@@ -38,14 +38,20 @@ class Directory extends ApiClient
      * @param array $request_data
      *      Request data to load into GET request `Request Body`
      *
+     * @param bool $exclude_domain
+     *      Remove the `domain` parameter from the GET request header
+     *
+     * @param bool $exclude_customer
+     *      Remove the `customer` parameter from the GET request header
+     *
      * @return object|string
      *
      * @throws Exception
      */
-    public function get(string $uri, array $request_data = []): object|string
+    public function get(string $uri, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
     {
         $method = new Method($this);
-        return $method->get(self::BASE_URL . $uri, $request_data);
+        return $method->get(self::BASE_URL . $uri, $request_data, $exclude_domain, $exclude_customer);
     }
 
     /**

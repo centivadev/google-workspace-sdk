@@ -76,20 +76,36 @@ class Method extends BaseClient
     /**
      * Append required headers to request_data
      *
-     * The required headers for Google Workspace are the `domain` and `customer`
-     * variables
+     * The typical required headers for Google Workspace are the `domain` and `customer`
+     * variables. However, there is the option to exclude them if necessary.
      *
      * @param array $request_data
      *      The request data being passed into the HTTP request
      *
+     * @param bool $exclude_domain
+     *      Remove the `domain` parameter from the GET request header
+     *
+     * @param bool $exclude_customer
+     *      Remove the `customer` parameter from the GET request header
+     **
      * @return array
      */
-    protected function appendRequiredHeaders(array $request_data): array
+    protected function appendRequiredHeaders(array $request_data, bool $exclude_domain = false, bool $exclude_customer = false): array
     {
-        $required_parameters = [
-            'domain' => $this->domain,
-            'customer' => $this->customer_id
-        ];
+        if($exclude_customer){
+            $required_parameters = [
+                'domain' => $this->domain,
+            ];
+        } elseif ($exclude_domain){
+            $required_parameters = [
+                'customer' => $this->customer_id
+            ];
+        } else {
+            $required_parameters = [
+                'domain' => $this->domain,
+                'customer' => $this->customer_id
+            ];
+        }
 
         return array_merge($request_data, $required_parameters);
     }
@@ -103,11 +119,17 @@ class Method extends BaseClient
      * @param array $request_data
      *      Optional array data to pass into the GET request
      *
+     * @param bool $exclude_domain
+     *      Remove the `domain` parameter from the GET request header
+     *
+     * @param bool $exclude_customer
+     *      Remove the `customer` parameter from the GET request header
+     **
      * @return object|string
      */
-    public function get(string $url, array $request_data = []): object|string
+    public function get(string $url, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
     {
-        $request_data = $this->appendRequiredHeaders($request_data);
+        $request_data = $this->appendRequiredHeaders($request_data, $exclude_domain, $exclude_customer);
 
         return BaseClient::getRequest($url, $request_data);
     }
