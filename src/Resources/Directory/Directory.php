@@ -38,6 +38,12 @@ class Directory extends ApiClient
      * @param array $request_data
      *      Request data to load into GET request `Request Body`
      *
+     * @param bool $exclude_domain
+     *      Remove the `domain` parameter from the GET request header
+     *
+     * @param bool $exclude_customer
+     *      Remove the `customer` parameter from the GET request header
+     *
      * @return object|string
      *
      * @throws Exception
