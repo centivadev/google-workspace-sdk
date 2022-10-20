@@ -76,12 +76,18 @@ class Method extends BaseClient
     /**
      * Append required headers to request_data
      *
-     * The required headers for Google Workspace are the `domain` and `customer`
-     * variables
+     * The typical required headers for Google Workspace are the `domain` and `customer`
+     * variables. However, there is the option to exclude them if necessary.
      *
      * @param array $request_data
      *      The request data being passed into the HTTP request
      *
+     * @param bool $exclude_domain
+     *      Remove the `domain` parameter from the GET request header
+     *
+     * @param bool $exclude_customer
+     *      Remove the `customer` parameter from the GET request header
+     **
      * @return array
      */
     protected function appendRequiredHeaders(array $request_data, bool $exclude_domain, bool $exclude_customer): array
@@ -113,6 +119,12 @@ class Method extends BaseClient
      * @param array $request_data
      *      Optional array data to pass into the GET request
      *
+     * @param bool $exclude_domain
+     *      Remove the `domain` parameter from the GET request header
+     *
+     * @param bool $exclude_customer
+     *      Remove the `customer` parameter from the GET request header
+     **
      * @return object|string
      */
     public function get(string $url, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
