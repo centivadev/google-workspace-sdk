@@ -84,12 +84,22 @@ class Method extends BaseClient
      *
      * @return array
      */
-    protected function appendRequiredHeaders(array $request_data): array
+    protected function appendRequiredHeaders(array $request_data, bool $exclude_domain, bool $exclude_customer): array
     {
-        $required_parameters = [
-            'domain' => $this->domain,
-            'customer' => $this->customer_id
-        ];
+        if($exclude_customer){
+            $required_parameters = [
+                'domain' => $this->domain,
+            ];
+        } elseif ($exclude_domain){
+            $required_parameters = [
+                'customer' => $this->customer_id
+            ];
+        } else {
+            $required_parameters = [
+                'domain' => $this->domain,
+                'customer' => $this->customer_id
+            ];
+        }
 
         return array_merge($request_data, $required_parameters);
     }
@@ -105,9 +115,9 @@ class Method extends BaseClient
      *
      * @return object|string
      */
-    public function get(string $url, array $request_data = []): object|string
+    public function get(string $url, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
     {
-        $request_data = $this->appendRequiredHeaders($request_data);
+        $request_data = $this->appendRequiredHeaders($request_data, $exclude_domain, $exclude_customer);
 
         return BaseClient::getRequest($url, $request_data);
     }
