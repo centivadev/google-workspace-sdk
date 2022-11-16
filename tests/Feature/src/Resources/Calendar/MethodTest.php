@@ -27,4 +27,24 @@ test('post() - it can use POST to create calendar event', function(){
     expect($response->status->successful)->toBeTrue();
 });
 
+test('put() - it can update a calendar event', function(){
+    $api_client = new ApiClientFake('test');
+    $get_response = $api_client->calendar()->get(
+        '/calendars/' . config('tests.connections.test.subject_email') . '/events'
+    );
+    $first_event = collect($get_response->object->items)->first();
+    $response = $api_client->calendar()->put(
+        '/calendars/' . config('tests.connections.test.subject_email') . '/events/' . $first_event->id,
+        [
+            'start' => [
+                'date' => '2023-02-22',
+            ],
+            'end' => [
+                'date' => '2023-02-22',
+            ]
+        ]
+    );
+    expect($response->object->start->date)->toBe('2023-02-22')
+        ->and($response->object->end->date)->toBe('2023-02-22');
+});
 
