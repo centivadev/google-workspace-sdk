@@ -138,7 +138,8 @@ return [
                 'https://www.googleapis.com/auth/drive',
                 'https://mail.google.com/',
                 'https://www.googleapis.com/auth/apps.licensing',
-                'https://www.googleapis.com/auth/gmail.settings.sharing'
+                'https://www.googleapis.com/auth/gmail.settings.sharing',
+                'https://www.googleapis.com/auth/gmail.settings.basic'
             ],
             'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
