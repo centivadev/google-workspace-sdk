@@ -48,3 +48,24 @@ test('put() - it can update a calendar event', function(){
         ->and($response->object->end->date)->toBe('2023-02-22');
 });
 
+test('delete() - it can delete a calendar event', function(){
+    $api_client = new ApiClientFake('test');
+    $create_response = $api_client->calendar()->post(
+        '/calendars/' . config('tests.connections.test.subject_email') . '/events',
+        [
+            'start' => [
+                'date' => '2023-02-23',
+            ],
+            'end' => [
+                'date' => '2023-02-23',
+            ]
+        ]
+    );
+    $new_event_id = $create_response->object->id;
+    $delete_response = $api_client->calendar()->delete(
+        '/calendars/' . config('tests.connections.test.subject_email') . '/events/' . $new_event_id,
+    );
+    expect($delete_response->status->code)->toBe(204)
+        ->and($delete_response->object)->toBeNull()
+        ->and($delete_response->status->successful)->toBeTrue();
+});
