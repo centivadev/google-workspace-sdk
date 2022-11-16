@@ -145,7 +145,8 @@ return [
             'customer_id' => env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'),
             'domain' => env('GOOGLE_WORKSPACE_TEST_DOMAIN'),
             'subject_email' => env('GOOGLE_WORKSPACE_TEST_SUBJECT_EMAIL'),
-            'test_group_email' => env('GOOGLE_WORKSPACE_TEST_GROUP_EMAIL')
+            'test_group_email' => env('GOOGLE_WORKSPACE_TEST_GROUP_EMAIL'),
+            'test_sheet_id' => env('GOOGLE_WORKSPACE_TEST_SHEET_ID')
         ],
 
         'test_with_incorrect_permissions' => [
