@@ -135,7 +135,8 @@ return [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/admin.directory.user',
                 'https://www.googleapis.com/auth/calendar',
-                'https://www.googleapis.com/auth/drive'
+                'https://www.googleapis.com/auth/drive',
+                'https://mail.google.com/'
             ],
             'json_key_file_path' => storage_path(env('GOOGLE_WORKSPACE_TEST_JSON_KEY_FILE_PATH')),
             'log_channels' => ['single'],
