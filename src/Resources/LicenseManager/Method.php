@@ -65,7 +65,7 @@ class Method extends BaseClient
             ];
         } else {
             $required_parameters = [
-                'customer' => $this->customer_id
+                'customer_id' => $this->customer_id
             ];
         }
 
