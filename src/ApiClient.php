@@ -3,6 +3,7 @@
 namespace Glamstack\GoogleWorkspace;
 
 use Glamstack\GoogleWorkspace\Models\ApiClientModel;
+use Glamstack\GoogleWorkspace\Resources\Calendar\Calendar;
 use Glamstack\GoogleWorkspace\Resources\Directory\Directory;
 use Glamstack\GoogleWorkspace\Resources\Drive\Drive;
 use Glamstack\GoogleWorkspace\Resources\Gmail\Gmail;
@@ -96,6 +97,11 @@ class ApiClient
     public function licenseManager(): LicenseManager
     {
         return new LicenseManager($this->connection_key, $this->connection_config);
+    }
+
+    public function calendar(): Calendar
+    {
+        return new Calendar($this->connection_key, $this->connection_config);
     }
 
     /**
