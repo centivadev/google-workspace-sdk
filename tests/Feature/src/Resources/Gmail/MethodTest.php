@@ -12,9 +12,9 @@ test('get() - it can list email messages of a user', function(){
     [
         'maxResults' => 2
     ]);
-    expect($response->object)->toBeObject();
-    expect($response->status->successful)->toBeTrue();
-    expect($response->status->code)->toBe(200);
+    expect($response->object)->toBeObject()
+        ->and($response->status->successful)->toBeTrue()
+        ->and($response->status->code)->toBe(200);
 });
 
 test('get() - it can list all forwarding addresses for a user', function(){
