@@ -14,13 +14,13 @@ class Calendar extends ApiClient
     {
         parent::__construct($connection_key, $connection_config);
 
-        $drive_model = new CalendarModel();
+        $calendar_model = new CalendarModel();
 
         if(empty($connection_config)){
             $this->setConnectionKey($connection_key);
             $this->connection_config = [];
         } else {
-            $this->connection_config = $drive_model->verifyConfigArray($connection_config);
+            $this->connection_config = $calendar_model->verifyConfigArray($connection_config);
             $this->connection_key = null;
         }
     }
