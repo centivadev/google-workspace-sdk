@@ -46,19 +46,28 @@ class Method extends BaseClient
     /**
      * Append required headers to request_data
      *
-     * The required headers for Google Workspace are the `domain` and `customer`
-     * variables
+     * The required headers for most Google Workspace License is the `customer`
+     * variable.
      *
      * @param array $request_data
      *      The request data being passed into the HTTP request
      *
+     * @param bool $exclude_customer
+     *      Allow for excluding `customer` value in request
+     *
      * @return array
      */
-    protected function appendRequiredHeaders(array $request_data): array
+    protected function appendRequiredHeaders(array $request_data, bool $exclude_customer = false): array
     {
-        $required_parameters = [
-            'customerId' => $this->customer_id
-        ];
+
+        if ($exclude_customer){
+            $required_parameters = [
+            ];
+        } else {
+            $required_parameters = [
+                'customer_id' => $this->customer_id
+            ];
+        }
 
         return array_merge($request_data, $required_parameters);
     }
@@ -90,11 +99,14 @@ class Method extends BaseClient
      * @param array|null $request_data
      *      Optional array data to pass into the POST request
      *
+     * @param bool $exclude_customer
+     *      Allow for excluding `customer` value in request
+     *
      * @return object|string
      */
-    public function post(string $url, ?array $request_data = []): object|string
+    public function post(string $url, ?array $request_data = [], bool $exclude_customer = false): object|string
     {
-        $request_data = $this->appendRequiredHeaders($request_data);
+        $request_data = $this->appendRequiredHeaders($request_data, $exclude_customer);
 
         return BaseClient::postRequest($url, $request_data);
     }

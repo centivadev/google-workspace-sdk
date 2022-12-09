@@ -61,14 +61,17 @@ class LicenseManager extends ApiClient
      * @param array|null $request_data
      *      Request data to load into POST request `Request Body`
      *
+     * @param bool $exclude_customer
+     *      Allow for excluding `customer` value in request*
+     *
      * @return object|string
      *
      * @throws Exception
      */
-    public function post(string $url, ?array $request_data = []): object|string
+    public function post(string $url, ?array $request_data = [], bool $exclude_customer = false): object|string
     {
         $method = new Method($this);
-        return $method->post(self::BASE_URL . $url, $request_data);
+        return $method->post(self::BASE_URL . $url, $request_data, $exclude_customer);
     }
 
     /**
