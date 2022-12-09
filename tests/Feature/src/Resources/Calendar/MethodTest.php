@@ -13,22 +13,30 @@ test('get() - it can use GET to list calendars', function() {
 
 test('post() - it can use POST to create calendar event', function(){
     $api_client = new ApiClientFake('test');
+    $start_date = now()->add('days', 1)->toDateString();
+    $end_date = now()->add('days',2)->toDateString();
     $response = $api_client->calendar()->post(
         '/calendars/' . config('tests.connections.test.subject_email') . '/events',
         [
             'start' => [
-                'date' => '2023-02-22',
+                'date' => $start_date,
             ],
             'end' => [
-                'date' => '2023-02-22',
+                'date' => $end_date,
             ]
         ]
     );
-    expect($response->status->successful)->toBeTrue();
+    expect($response->status->successful)->toBeTrue()
+        ->and($response->object->start->date)->toBe($start_date)
+        ->and($response->object->end->date)->toBe($end_date);
 });
 
 test('put() - it can update a calendar event', function(){
     $api_client = new ApiClientFake('test');
+
+    $start_date = now()->add('days', 2)->toDateString();
+    $end_date = now()->add('days', 3)->toDateString();
+
     $get_response = $api_client->calendar()->get(
         '/calendars/' . config('tests.connections.test.subject_email') . '/events'
     );
@@ -37,27 +45,29 @@ test('put() - it can update a calendar event', function(){
         '/calendars/' . config('tests.connections.test.subject_email') . '/events/' . $first_event->id,
         [
             'start' => [
-                'date' => '2023-02-22',
+                'date' => $start_date,
             ],
             'end' => [
-                'date' => '2023-02-22',
+                'date' => $end_date,
             ]
         ]
     );
-    expect($response->object->start->date)->toBe('2023-02-22')
-        ->and($response->object->end->date)->toBe('2023-02-22');
+    expect($response->object->start->date)->toBe($start_date)
+        ->and($response->object->end->date)->toBe($end_date);
 });
 
 test('delete() - it can delete a calendar event', function(){
     $api_client = new ApiClientFake('test');
+    $start_date = now()->add('days', 1)->toDateString();
+    $end_date = now()->add('days', 2)->toDateString();
     $create_response = $api_client->calendar()->post(
         '/calendars/' . config('tests.connections.test.subject_email') . '/events',
         [
             'start' => [
-                'date' => '2023-02-23',
+                'date' => $start_date,
             ],
             'end' => [
-                'date' => '2023-02-23',
+                'date' => $end_date,
             ]
         ]
     );
