@@ -9,6 +9,7 @@ use Glamstack\GoogleWorkspace\Resources\Drive\Drive;
 use Glamstack\GoogleWorkspace\Resources\Gmail\Gmail;
 use Glamstack\GoogleWorkspace\Resources\LicenseManager\LicenseManager;
 use Glamstack\GoogleWorkspace\Resources\Sheets\Sheets;
+use Glamstack\GoogleWorkspace\Resources\Vault\Vault;
 use Glamstack\GoogleWorkspace\Traits\ResponseLog;
 
 class ApiClient
@@ -104,6 +105,10 @@ class ApiClient
         return new Calendar($this->connection_key, $this->connection_config);
     }
 
+    public function vault(): Vault
+    {
+        return new Vault($this->connection_key, $this->connection_config);
+    }
     /**
      * Set the connection_key class variable. The connection_key variable by default
      * will be set to `workspace`. This can be overridden when initializing the
