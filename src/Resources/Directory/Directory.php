@@ -14,7 +14,7 @@ class Directory extends ApiClient
     protected ApiClient $api_client;
     public function __construct(ApiClient $api_client)
     {
-        if(!$api_client->auth_token){
+        if(!property_exists($api_client, 'api_token')){
             parent::__construct($api_client->connection_key, $api_client->connection_config, true);
         } else {
             $this->api_client = $api_client;
