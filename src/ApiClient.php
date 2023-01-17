@@ -255,6 +255,17 @@ class ApiClient
             return null;
         }
     }
+
+
+    /**
+     * Get the log_channels class level variable
+     *
+     * @return array
+     */
+    protected function getLogChannels(): array
+    {
+        return $this->log_channels;
+    }
     /**
      * Set the config path
      */
