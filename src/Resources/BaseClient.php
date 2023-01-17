@@ -13,67 +13,19 @@ abstract class BaseClient
 {
     use ResponseLog;
 
-    protected ApiClient $api_client;
-
     protected array $log_channels;
     private string $auth_token;
+    protected ApiClient $api_client;
 
     /**
      * @throws Exception
      */
     public function __construct(
-        ApiClient $api_client
+        ApiClient $api_client,
+        string $auth_token
     )
     {
-        // Initialize Google Auth SDK
         $this->api_client = $api_client;
-
-        // Set the log_channels based on initialization used
-        $this->setLogChannels();
-
-        // If using the connection_key we will use the parseConfigurationFile method
-        // Else we will use the parseConnectionConfigArray
-        if ($this->api_client->connection_key) {
-            $config_file_array = $this->parseConfigFile($this->api_client->connection_key);
-
-            // Initialize Google Auth SDK with the configuration file
-            $google_auth = new AuthClient($config_file_array);
-
-            $this->logInfo('Success - Parsing the configuration file', [
-                'api_scopes' => $config_file_array['api_scopes'],
-                'subject_email' => $config_file_array['subject_email'],
-                'json_key_file_path' => $config_file_array['json_key_file_path']
-            ]);
-        } else {
-            $config_array = $this->parseConnectionConfigArray($this->api_client->connection_config);
-
-            // Initialize Google Auth SDK with the configuration array
-            $google_auth = new AuthClient($config_array);
-
-            $this->logInfo('Success - Parsing the connection_config array', [
-                'api_scopes' => $config_array['api_scopes'],
-                'subject_email' => $config_array['subject_email'],
-                'json_key_file_path' => $config_array['json_key_file_path'] != null ? $config_array['json_key_file_path'] : null,
-                'json_key' => $config_array['json_key'] != null ? 'Json key was utilized' : null
-            ]);
-        }
-
-        // Authenticate with Google OAuth2 Server auth_token
-        try {
-            // Try to authenticate with Google OAuth2 Server using the Glamstack google-auth-sdk
-            $this->auth_token = $google_auth->authenticate();
-
-            $this->logInfo('Success - Authenticating with Google Auth SDK');
-        } catch (Exception $exception) {
-            $this->logError('Failed - Authenticating with Google Auth SDK',
-                [
-                    'exception_code' => $exception->getCode(),
-                    'exception_message' => $exception->getMessage()
-                ]
-            );
-            throw $exception;
-        }
-    }
 
     /**
      * Parse the configuration file to get config parameters
@@ -267,6 +219,9 @@ abstract class BaseClient
         } else {
             return null;
         }
+        // Initialize Google Auth SDK
+        $this->auth_token = $auth_token;
+        $this->log_channels = $api_client->log_channels;
     }
 
     /**
