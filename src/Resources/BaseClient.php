@@ -27,30 +27,6 @@ abstract class BaseClient
     {
         $this->api_client = $api_client;
     /**
-     * Get the api_scopes from the configuration file
-     *
-     * @param string $connection_key
-     *     The connection key provided during initialization of the SDK
-     *
-     * @return array
-     * @throws Exception
-     */
-    protected function getConfigApiScopes(string $connection_key): array
-    {
-        $api_scope_path = $this->api_client->config_path . '.connections.' . $connection_key . '.api_scopes';
-        if (config($api_scope_path)) {
-
-            $this->logInfo('Success - Getting configuration file api_scopes value', [
-                'api_scopes' => config($api_scope_path)
-            ]);
-
-            return config($this->api_client->config_path . '.connections.' . $connection_key . '.api_scopes');
-        } else {
-            throw new Exception('No api_scopes have been set in the configuration file you are using.');
-        }
-    }
-
-    /**
      * Get the subject_email from the configuration file
      *
      * Subject email is not required so if not set then return null
