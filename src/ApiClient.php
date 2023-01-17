@@ -297,7 +297,7 @@ class ApiClient
      */
     public function drive(): Drive
     {
-        return new Drive($this->connection_key, $this->connection_config);
+        return new Drive($this);
     }
 
     /**
@@ -305,28 +305,28 @@ class ApiClient
      */
     public function directory(): Directory
     {
-        return new Directory($this->connection_key, $this->connection_config);
+        return new Directory($this);
     }
 
     public function gmail(): Gmail
     {
-        return new Gmail($this->connection_key, $this->connection_config);
+        return new Gmail($this);
     }
 
 
     public function sheets(): Sheets
     {
-        return new Sheets($this->connection_key, $this->connection_config);
+        return new Sheets($this);
     }
 
     public function licenseManager(): LicenseManager
     {
-        return new LicenseManager($this->connection_key, $this->connection_config);
+        return new LicenseManager($this);
     }
 
     public function calendar(): Calendar
     {
-        return new Calendar($this->connection_key, $this->connection_config);
+        return new Calendar($this);
     }
 
     /**
