@@ -28,24 +28,6 @@ abstract class BaseClient
         $this->api_client = $api_client;
 
     /**
-     * Parse the connection_config array to get the configuration parameters
-     *
-     * @param array $connection_config
-     *      The connection config array provided during initialization of the SDK
-     *
-     * @return array
-     */
-    protected function parseConnectionConfigArray(array $connection_config): array
-    {
-        return [
-            'api_scopes' => $this->getConfigArrayApiScopes($connection_config),
-            'subject_email' => $this->getConfigArraySubjectEmail($connection_config),
-            'json_key_file_path' => $this->getConfigArrayFilePath($connection_config),
-            'json_key' => $this->getConfigArrayJsonKey($connection_config)
-        ];
-    }
-
-    /**
      * Get the api_scopes from the connection_config array
      *
      * @param array $connection_config
