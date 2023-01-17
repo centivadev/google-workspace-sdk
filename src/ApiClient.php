@@ -2,6 +2,8 @@
 
 namespace Glamstack\GoogleWorkspace;
 
+use Exception;
+use Glamstack\GoogleAuth\AuthClient;
 use Glamstack\GoogleWorkspace\Models\ApiClientModel;
 use Glamstack\GoogleWorkspace\Resources\Calendar\Calendar;
 use Glamstack\GoogleWorkspace\Resources\Directory\Directory;
