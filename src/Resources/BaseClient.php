@@ -26,34 +26,6 @@ abstract class BaseClient
     )
     {
         $this->api_client = $api_client;
-    /**
-     * Get the subject_email from the configuration file
-     *
-     * Subject email is not required so if not set then return null
-     *
-     * @param string $connection_key
-     *      The connection key provided during initialization of the SDK
-     *
-     * @return string|null
-     */
-    protected function getConfigSubjectEmail(string $connection_key): string|null
-    {
-        $config_path = $this->api_client->config_path . '.connections.' . $connection_key;
-        if (array_key_exists('subject_email', config($config_path))) {
-            if (config($config_path . '.subject_email')) {
-                $this->logInfo('Success - Getting configuration file subject_email value', [
-                    'subject_email' => config($config_path . '.subject_email')
-                ]);
-                return config($config_path . '.subject_email');
-            } else {
-                $this->logInfo('Success - Setting subject_email value to null');
-                return null;
-            }
-        } else {
-            $this->logInfo('Success - Setting subject_email value to null');
-            return null;
-        }
-    }
 
     /**
      * Get the json_key_file from the configuration file
