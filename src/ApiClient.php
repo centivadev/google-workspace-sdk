@@ -185,6 +185,19 @@ class ApiClient
             'json_key' => $this->getConfigArrayJsonKey($connection_config)
         ];
     }
+
+    /**
+     * Get the api_scopes from the connection_config array
+     *
+     * @param array $connection_config
+     *      The connection config array provided during initialization of the SDK
+     *
+     * @return array
+     */
+    protected function getConfigArrayApiScopes(array $connection_config): array
+    {
+        return $connection_config['api_scopes'];
+    }
     /**
      * Set the config path
      */
