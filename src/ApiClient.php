@@ -266,6 +266,25 @@ class ApiClient
     {
         return $this->log_channels;
     }
+
+    /**
+     * Set the log_channels class variable
+     *
+     * @return void
+     */
+    protected function setLogChannels(): void
+    {
+        if ($this->connection_key) {
+            $this->log_channels = config(
+                $this->config_path . '.connections.' .
+                $this->connection_key . '.log_channels'
+            );
+        } else {
+            $this->log_channels = $this->connection_config['log_channels'];
+        }
+    }
+
+
     /**
      * Set the config path
      */
