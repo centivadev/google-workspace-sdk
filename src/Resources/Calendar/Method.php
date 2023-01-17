@@ -2,10 +2,17 @@
 
 namespace Glamstack\GoogleWorkspace\Resources\Calendar;
 
+use Glamstack\GoogleWorkspace\ApiClient;
 use Glamstack\GoogleWorkspace\Resources\BaseClient;
 
 class Method extends BaseClient
 {
+    public function __construct(ApiClient $api_client, string $auth_token)
+    {
+        parent::__construct($api_client, $auth_token);
+        $this->api_client = $api_client;
+    }
+
     /**
      * Run generic GET request on Google URL
      *
