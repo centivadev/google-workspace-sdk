@@ -28,41 +28,6 @@ abstract class BaseClient
         $this->api_client = $api_client;
 
     /**
-     * Get the json_key_file from the configuration file
-     *
-     * This is required if using the configuration file
-     *
-     * @param string $connection_key
-     *      The connection key provided during initialization of the SDK
-     *
-     * @return string|null
-     * @throws Exception
-     */
-    protected function getConfigJsonFilePath(string $connection_key): string|null
-    {
-        $config_path = $this->api_client->config_path . '.connections.' . $connection_key;
-        if (array_key_exists('json_key_file_path', config($config_path))) {
-            if (config($config_path . '.json_key_file_path')) {
-
-                $this->logInfo('Success - Getting configuration file json_key_file_path value', [
-                    'json_key_file_path' => config($config_path . '.json_key_file_path')
-                ]);
-
-                return config($config_path . '.json_key_file_path');
-
-            } else {
-                $message = 'The configuration file does not contain a json_key_file_path';
-                $this->logError('Failed - ' . $message);
-                throw new Exception($message);
-            }
-        } else {
-            $message = 'The configuration file does not contain a json_key_file_path';
-            $this->logError('Failed - ' . $message);
-            throw new Exception($message);
-        }
-    }
-
-    /**
      * Parse the connection_config array to get the configuration parameters
      *
      * @param array $connection_config
