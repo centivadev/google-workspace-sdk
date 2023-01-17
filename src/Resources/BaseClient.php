@@ -637,14 +637,7 @@ abstract class BaseClient
      */
     protected function setLogChannels(): void
     {
-        if ($this->api_client->connection_key) {
-            $this->log_channels = config(
-                $this->api_client->config_path . '.connections.' .
-                $this->api_client->connection_key . '.log_channels'
-            );
-        } else {
-            $this->log_channels = $this->api_client->connection_config['log_channels'];
-        }
+       $this->log_channels = $this->api_client->log_channels;
     }
 
 
