@@ -10,6 +10,7 @@ class Method extends BaseClient
     public function __construct(ApiClient $api_client, string $auth_token)
     {
         parent::__construct($api_client, $auth_token);
+        $this->api_client = $api_client;
     }
 
     /**
