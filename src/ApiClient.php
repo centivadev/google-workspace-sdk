@@ -21,6 +21,8 @@ class ApiClient
     public ?string $connection_key;
     public array $request_headers;
     public string $config_path;
+    protected string $auth_token;
+    public array $log_channels;
 
     /**
      * This function takes care of the initialization of authentication using
