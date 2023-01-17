@@ -10,9 +10,10 @@ class Method extends BaseClient
 
     protected string $customer_id;
 
-    public function __construct(ApiClient $api_client)
+    public function __construct(ApiClient $api_client, string $auth_token)
     {
-        parent::__construct($api_client);
+        parent::__construct($api_client, $auth_token);
+        $this->api_client = $api_client;
         $this->setCustomerId();
     }
 
