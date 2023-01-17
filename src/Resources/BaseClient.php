@@ -26,26 +26,6 @@ abstract class BaseClient
     )
     {
         $this->api_client = $api_client;
-
-    /**
-     * Get the file_path from the connection_config array
-     *
-     * file_path is not required to be set so if not set return null
-     *
-     * @param array $connection_config
-     *      The connection config array provided during initialization of the SDK
-     *
-     * @return string|null
-     */
-    protected function getConfigArrayFilePath(array $connection_config): string|null
-    {
-        if (array_key_exists('json_key_file_path', $connection_config)) {
-            return $connection_config['json_key_file_path'];
-        } else {
-            return null;
-        }
-    }
-
     /**
      * Get the json_key from the connection_config array
      *
