@@ -10,19 +10,19 @@ class Directory extends ApiClient
 {
     public const BASE_URL = "https://admin.googleapis.com/admin/directory/v1";
 
-    public function __construct(?string $connection_key = null, ?array $connection_config = [])
+    public function __construct(ApiClient $api_client)
     {
-        parent::__construct($connection_key, $connection_config);
-
         $directory_model = new DirectoryModel();
 
-        if(empty($connection_config)){
-            $this->setConnectionKey($connection_key);
+        if(empty($api_client->connection_config)){
+            $this->setConnectionKey($api_client->connection_key);
             $this->connection_config = [];
         } else {
-            $this->connection_config = $directory_model->verifyConfigArray($connection_config);
+            $this->connection_config = $directory_model->verifyConfigArray($api_client->connection_config);
             $this->connection_key = null;
         }
+
+        parent::__construct($api_client->connection_key, $api_client->connection_config);
     }
 
     /**
