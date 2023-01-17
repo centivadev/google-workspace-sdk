@@ -43,7 +43,7 @@ class LicenseManager extends ApiClient
      */
     public function get(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
 
         return $method->get(self::BASE_URL . $url, $request_data);
     }
@@ -70,7 +70,7 @@ class LicenseManager extends ApiClient
      */
     public function post(string $url, ?array $request_data = [], bool $exclude_customer = false): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->post(self::BASE_URL . $url, $request_data, $exclude_customer);
     }
 
@@ -93,7 +93,7 @@ class LicenseManager extends ApiClient
      */
     public function patch(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->patch(self::BASE_URL . $url, $request_data);
     }
 
@@ -116,7 +116,7 @@ class LicenseManager extends ApiClient
      */
     public function put(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->put(self::BASE_URL . $url, $request_data);
     }
 
@@ -139,7 +139,7 @@ class LicenseManager extends ApiClient
      */
     public function delete(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->delete(self::BASE_URL . $url, $request_data);
     }
 }
