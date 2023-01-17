@@ -2,11 +2,17 @@
 
 namespace Glamstack\GoogleWorkspace\Tests\Fakes\Resources\Directory;
 
+use Glamstack\GoogleWorkspace\ApiClient;
 use Glamstack\GoogleWorkspace\Resources\Directory\Method;
 use Illuminate\Http\Client\Response;
 
 class MethodFake extends Method
 {
+    public function __construct(ApiClient $api_client, string $auth_token)
+    {
+        parent::__construct($api_client, $auth_token);
+    }
+
     public function setUp(){
         $this->api_client->request_headers = [
             'User-Agent' => 'google-workspace-sdk/dev/php8.1'
