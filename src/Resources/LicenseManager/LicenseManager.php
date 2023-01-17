@@ -9,17 +9,17 @@ class LicenseManager extends ApiClient
 {
     public const BASE_URL = "https://licensing.googleapis.com/apps/licensing/v1/product";
 
-    public function __construct(?string $connection_key = null, ?array $connection_config = [])
+    public function __construct(ApiClient $api_client)
     {
-        parent::__construct($connection_key, $connection_config);
+        parent::__construct($api_client->connection_key, $api_client->connection_config);
 
         $license_model = new LicenseManagerModel();
 
-        if (empty($connection_config)) {
-            $this->setConnectionKey($connection_key);
+        if(empty($api_client->connection_config)){
+            $this->setConnectionKey($api_client->connection_key);
             $this->connection_config = [];
         } else {
-            $this->connection_config = $license_model->verifyConfigArray($connection_config);
+            $this->connection_config = $license_model->verifyConfigArray($api_client->connection_config);
             $this->connection_key = null;
         }
     }
