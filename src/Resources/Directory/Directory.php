@@ -50,7 +50,7 @@ class Directory extends ApiClient
      */
     public function get(string $uri, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->get(self::BASE_URL . $uri, $request_data, $exclude_domain, $exclude_customer);
     }
 
@@ -73,7 +73,7 @@ class Directory extends ApiClient
      */
     public function post(string $uri, ?array $request_data = []): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->post(self::BASE_URL . $uri, $request_data);
     }
 
@@ -96,7 +96,7 @@ class Directory extends ApiClient
      */
     public function patch(string $uri, array $request_data = []): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->patch(self::BASE_URL . $uri, $request_data);
     }
 
@@ -119,7 +119,7 @@ class Directory extends ApiClient
      */
     public function put(string $uri, array $request_data = []): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->put(self::BASE_URL . $uri, $request_data);
     }
 
@@ -142,7 +142,7 @@ class Directory extends ApiClient
      */
     public function delete(string $uri, array $request_data = []): object|string
     {
-        $method = new Method($this);
+        $method = new Method($this, $this->auth_token);
         return $method->delete(self::BASE_URL . $uri, $request_data);
     }
 }
