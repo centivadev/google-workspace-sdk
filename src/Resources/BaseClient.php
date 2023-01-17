@@ -28,19 +28,6 @@ abstract class BaseClient
         $this->api_client = $api_client;
 
     /**
-     * Get the api_scopes from the connection_config array
-     *
-     * @param array $connection_config
-     *      The connection config array provided during initialization of the SDK
-     *
-     * @return array
-     */
-    protected function getConfigArrayApiScopes(array $connection_config): array
-    {
-        return $connection_config['api_scopes'];
-    }
-
-    /**
      * Get the subject_email from the connection_config array
      *
      * Subject Email is not required so if not set return null
