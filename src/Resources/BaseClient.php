@@ -28,25 +28,6 @@ abstract class BaseClient
         $this->api_client = $api_client;
 
     /**
-     * Get the subject_email from the connection_config array
-     *
-     * Subject Email is not required so if not set return null
-     *
-     * @param array $connection_config
-     *      The connection config array provided during initialization of the SDK
-     *
-     * @return string|null
-     */
-    protected function getConfigArraySubjectEmail(array $connection_config): string|null
-    {
-        if (array_key_exists('subject_email', $connection_config)) {
-            return $connection_config['subject_email'];
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Get the file_path from the connection_config array
      *
      * file_path is not required to be set so if not set return null
