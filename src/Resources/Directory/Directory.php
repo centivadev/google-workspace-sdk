@@ -2,7 +2,6 @@
 
 namespace Glamstack\GoogleWorkspace\Resources\Directory;
 
-use Composer\Pcre\Preg;
 use Exception;
 use Glamstack\GoogleWorkspace\ApiClient;
 use Glamstack\GoogleWorkspace\Models\Resources\Directory\DirectoryModel;

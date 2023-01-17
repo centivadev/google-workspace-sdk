@@ -10,10 +10,10 @@ class Sheets extends ApiClient
 {
     public const BASE_URL = "https://sheets.googleapis.com/v4/spreadsheets";
 
+    private ApiClient $api_client;
+
     public function __construct(ApiClient $api_client)
     {
-        parent::__construct($api_client->connection_key, $api_client->connection_config);
-
         $sheets_model = new SheetsModel();
 
         if(empty($api_client->connection_config)){
@@ -22,6 +22,12 @@ class Sheets extends ApiClient
         } else {
             $this->connection_config = $sheets_model->verifyConfigArray($api_client->connection_config);
             $this->connection_key = null;
+        }
+
+        if($api_client->auth_token){
+            $this->api_client = $api_client;
+        } else {
+            $this->api_client = parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
     }
 
@@ -44,7 +50,7 @@ class Sheets extends ApiClient
      */
     public function get(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->get(self::BASE_URL . $url, $request_data);
     }
 
@@ -67,7 +73,7 @@ class Sheets extends ApiClient
      */
     public function post(string $url, ?array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->post(self::BASE_URL . $url, $request_data);
     }
 
@@ -90,7 +96,7 @@ class Sheets extends ApiClient
      */
     public function patch(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->patch(self::BASE_URL . $url, $request_data);
     }
 
@@ -113,7 +119,7 @@ class Sheets extends ApiClient
      */
     public function put(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->put(self::BASE_URL . $url, $request_data);
     }
 
@@ -136,7 +142,7 @@ class Sheets extends ApiClient
      */
     public function delete(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->delete(self::BASE_URL . $url, $request_data);
     }
 }

@@ -9,10 +9,10 @@ class Gmail extends ApiClient
 {
     public const BASE_URL = "https://gmail.googleapis.com/gmail/v1";
 
+    private ApiClient $api_client;
+
     public function __construct(ApiClient $api_client)
     {
-        parent::__construct($api_client->connection_key, $api_client->connection_config);
-
         $gmail_model = new GmailModel();
 
         if(empty($api_client->connection_config)){
@@ -21,6 +21,13 @@ class Gmail extends ApiClient
         } else {
             $this->connection_config = $gmail_model->verifyConfigArray($api_client->connection_config);
             $this->connection_key = null;
+        }
+
+
+        if($api_client->auth_token){
+            $this->api_client = $api_client;
+        } else {
+            $this->api_client = parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
     }
 
@@ -43,7 +50,7 @@ class Gmail extends ApiClient
      */
     public function get(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->get(self::BASE_URL . $url, $request_data);
     }
 
@@ -66,7 +73,7 @@ class Gmail extends ApiClient
      */
     public function post(string $url, ?array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->post(self::BASE_URL . $url, $request_data);
     }
 
@@ -89,7 +96,7 @@ class Gmail extends ApiClient
      */
     public function patch(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->patch(self::BASE_URL . $url, $request_data);
     }
 
@@ -112,7 +119,7 @@ class Gmail extends ApiClient
      */
     public function put(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->put(self::BASE_URL . $url, $request_data);
     }
 
@@ -135,7 +142,7 @@ class Gmail extends ApiClient
      */
     public function delete(string $url, array $request_data = []): object|string
     {
-        $method = new Method($this, $this->auth_token);
+        $method = new Method($this->api_client, $this->api_client->auth_token);
         return $method->delete(self::BASE_URL . $url, $request_data);
     }
 }
