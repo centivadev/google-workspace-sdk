@@ -51,8 +51,6 @@ class ApiClient
 
         $this->setConfigPath();
 
-        $this->setRequestHeaders();
-
         if (empty($connection_config)) {
             $this->setConnectionKey($connection_key);
             $this->connection_config = [];
