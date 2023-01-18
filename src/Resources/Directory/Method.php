@@ -36,10 +36,10 @@ class Method extends BaseClient
      */
     protected function setDomain(): void
     {
-        if ($this->api_client->connection_key) {
+        if ($this->connection_key) {
             $this->domain = config(
-                $this->api_client->config_path . '.connections.' .
-                $this->api_client->connection_key . '.domain'
+                $this->config_path . '.connections.' .
+                $this->connection_key . '.domain'
             );
         } else {
             $this->domain = $this->api_client->connection_config['domain'];
@@ -63,10 +63,10 @@ class Method extends BaseClient
      */
     protected function setCustomerId(): void
     {
-        if ($this->api_client->connection_key) {
+        if ($this->connection_key) {
             $this->customer_id = config(
-                $this->api_client->config_path . '.connections.' .
-                $this->api_client->connection_key . '.customer_id'
+                $this->config_path . '.connections.' .
+                $this->connection_key . '.customer_id'
             );
         } else {
             $this->customer_id = $this->api_client->connection_config['customer_id'];

@@ -16,6 +16,10 @@ abstract class BaseClient
     protected array $log_channels;
     private string $auth_token;
     protected ApiClient $api_client;
+    public string $config_path;
+    public ?string $connection_key;
+    private array $connection_config;
+    private array $request_headers;
 
     /**
      * @throws Exception
@@ -25,12 +29,27 @@ abstract class BaseClient
         string $auth_token
     )
     {
+        if (empty($api_client->connection_config)) {
+            $this->setConnectionKey($api_client->connection_key);
+            $this->connection_config = [];
+        } else {
+            $this->connection_config = $api_client->connection_config;
+            $this->connection_key = null;
+        }
         $this->api_client = $api_client;
+        $this->setConfigPath();
+        $this->setLogChannels();
+        $this->setRequestHeaders();
         // Initialize Google Auth SDK
         $this->auth_token = $auth_token;
-        $this->log_channels = $api_client->log_channels;
     }
-
+    /**
+     * Set the config path
+     */
+    public function setConfigPath()
+    {
+        $this->config_path = env('GLAMSTACK_GOOGLE_WORKSPACE_CONFIG_PATH', 'glamstack-google-workspace');
+    }
     /**
      * Google API GET Request
      *
@@ -47,7 +66,7 @@ abstract class BaseClient
     {
         // Get the initial response
         $response = Http::withToken($this->auth_token)
-            ->withHeaders($this->api_client->request_headers)
+            ->withHeaders($this->request_headers)
             ->get($url, $request_data);
 
         // Check if the initial response is paginated
@@ -271,7 +290,7 @@ abstract class BaseClient
         $request_body = array_merge($request_data, $next_page);
 
         $records = Http::withToken($this->auth_token)
-            ->withHeaders($this->api_client->request_headers)
+            ->withHeaders($this->request_headers)
             ->get($url, $request_body);
 
         $this->logHttpInfo('Success - Gathered the next page data', $records);
@@ -521,7 +540,7 @@ abstract class BaseClient
     public function postRequest(string $url, ?array $request_data = []): object|string
     {
         $request = Http::withToken($this->auth_token)
-            ->withHeaders($this->api_client->request_headers)
+            ->withHeaders($this->request_headers)
             ->post($url, $request_data);
 
         // Parse the API request's response and return a Glamstack standardized
@@ -548,7 +567,7 @@ abstract class BaseClient
     public function patchRequest(string $url, array $request_data = []): object|string
     {
         $request = Http::withToken($this->auth_token)
-            ->withHeaders($this->api_client->request_headers)
+            ->withHeaders($this->request_headers)
             ->patch($url, $request_data);
 
         // Parse the API request's response and return a Glamstack standardized
@@ -578,7 +597,7 @@ abstract class BaseClient
     public function putRequest(string $url, array $request_data = []): object|string
     {
         $request = Http::withToken($this->auth_token)
-            ->withHeaders($this->api_client->request_headers)
+            ->withHeaders($this->request_headers)
             ->put($url, $request_data);
 
         // Parse the API request's response and return a Glamstack standardized
@@ -608,7 +627,7 @@ abstract class BaseClient
     public function deleteRequest(string $url, array $request_data = []): object|string
     {
         $request = Http::withToken($this->auth_token)
-            ->withHeaders($this->api_client->request_headers)
+            ->withHeaders($this->request_headers)
             ->delete($url, $request_data);
 
         // Parse the API request's response and return a Glamstack standardized
@@ -637,8 +656,64 @@ abstract class BaseClient
      */
     protected function setLogChannels(): void
     {
-       $this->log_channels = $this->api_client->log_channels;
+        if ($this->api_client->connection_key) {
+            $this->log_channels = config(
+                $this->config_path . '.connections.' .
+                $this->connection_key . '.log_channels'
+            );
+        } else {
+            $this->log_channels = $this->api_client->connection_config['log_channels'];
+        }
+    }
+    protected function setConnectionKey(?string $connection_key): void
+    {
+        if ($connection_key == null) {
+            $this->connection_key = config(
+                $this->config_path . '.default.connection'
+            );
+        } else {
+            $this->connection_key = $connection_key;
+        }
     }
 
+
+    /**
+     * Set the request headers for the Google Cloud API request
+     *
+     * @return void
+     */
+    protected function setRequestHeaders(): void
+    {
+        // Get Laravel and PHP Version
+        $laravel = 'laravel/' . app()->version();
+        $php = 'php/' . phpversion();
+
+        // Decode the composer.lock file
+        $composer_lock_json = json_decode(
+            (string)file_get_contents(base_path('composer.lock')),
+            true
+        );
+
+        // Use Laravel collection to search for the package. We will use the
+        // array to get the package name (in case it changes with a fork) and
+        // return the version key. For production, this will show a release
+        // number. In development, this will show the branch name.
+        /** @phpstan-ignore-next-line */
+        $composer_package = collect($composer_lock_json['packages'])
+            ->where('name', 'glamstack/google-workspace-sdk')
+            ->first();
+
+        /** @phpstan-ignore-next-line */
+        if ($composer_package) {
+            $package = $composer_package['name'] . '/' . $composer_package['version'];
+        } else {
+            $package = 'dev-google-workspace-sdk';
+        }
+
+        // Define request headers
+        $this->request_headers = [
+            'User-Agent' => $package . ' ' . $laravel . ' ' . $php
+        ];
+    }
 
 }

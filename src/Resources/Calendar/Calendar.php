@@ -4,16 +4,15 @@ namespace Glamstack\GoogleWorkspace\Resources\Calendar;
 
 use Glamstack\GoogleWorkspace\ApiClient;
 use Glamstack\GoogleWorkspace\Models\Resources\Calendar\CalendarModel;
-use Glamstack\GoogleWorkspace\Resources\Calendar\Method;
 
 class Calendar extends ApiClient
 {
     public const BASE_URL = "https://www.googleapis.com/calendar/v3";
+    protected string $auth_token;
+
 
     public function __construct(ApiClient $api_client)
     {
-        parent::__construct($api_client->connection_key, $api_client->connection_config);
-
         $calendar_model = new CalendarModel();
 
         if(empty($api_client->connection_config)){
@@ -23,6 +22,11 @@ class Calendar extends ApiClient
             $this->connection_config = $calendar_model->verifyConfigArray($api_client->connection_config);
             $this->connection_key = null;
         }
+
+        if(!$api_client->auth_token){
+            parent::__construct($api_client->connection_key, $api_client->connection_config);
+        }
+        $this->auth_token = $api_client->auth_token;
     }
 
     /**

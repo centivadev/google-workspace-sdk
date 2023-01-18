@@ -10,7 +10,8 @@ class Directory extends ApiClient
 {
     public const BASE_URL = "https://admin.googleapis.com/admin/directory/v1";
 
-    private ApiClient $api_client;
+    protected string $auth_token;
+
 
     public function __construct(ApiClient $api_client)
     {
@@ -24,11 +25,10 @@ class Directory extends ApiClient
             $this->connection_key = null;
         }
 
-        if($api_client->auth_token){
-            $this->api_client = $api_client;
-        } else {
-            $this->api_client = parent::__construct($api_client->connection_key, $api_client->connection_config);
+        if(!$api_client->auth_token){
+            parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
+        $this->auth_token = $api_client->auth_token;
     }
 
     /**
@@ -56,7 +56,7 @@ class Directory extends ApiClient
      */
     public function get(string $uri, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
     {
-        $method = new Method($this->api_client, $this->api_client->auth_token);
+        $method = new Method($this, $this->auth_token);
         return $method->get(self::BASE_URL . $uri, $request_data, $exclude_domain, $exclude_customer);
     }
 
@@ -79,7 +79,7 @@ class Directory extends ApiClient
      */
     public function post(string $uri, ?array $request_data = []): object|string
     {
-        $method = new Method($this->api_client, $this->api_client->auth_token);
+        $method = new Method($this, $this->auth_token);
         return $method->post(self::BASE_URL . $uri, $request_data);
     }
 
@@ -102,7 +102,7 @@ class Directory extends ApiClient
      */
     public function patch(string $uri, array $request_data = []): object|string
     {
-        $method = new Method($this->api_client, $this->api_client->auth_token);
+        $method = new Method($this, $this->auth_token);
         return $method->patch(self::BASE_URL . $uri, $request_data);
     }
 
@@ -125,7 +125,7 @@ class Directory extends ApiClient
      */
     public function put(string $uri, array $request_data = []): object|string
     {
-        $method = new Method($this->api_client, $this->api_client->auth_token);
+        $method = new Method($this, $this->auth_token);
         return $method->put(self::BASE_URL . $uri, $request_data);
     }
 
@@ -148,7 +148,7 @@ class Directory extends ApiClient
      */
     public function delete(string $uri, array $request_data = []): object|string
     {
-        $method = new Method($this->api_client, $this->api_client->auth_token);
+        $method = new Method($this, $this->auth_token);
         return $method->delete(self::BASE_URL . $uri, $request_data);
     }
 }
