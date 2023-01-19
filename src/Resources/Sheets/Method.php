@@ -2,10 +2,16 @@
 
 namespace Glamstack\GoogleWorkspace\Resources\Sheets;
 
+use Glamstack\GoogleWorkspace\ApiClient;
 use Glamstack\GoogleWorkspace\Resources\BaseClient;
 
 class Method extends BaseClient
 {
+    public function __construct(ApiClient $api_client, string $auth_token)
+    {
+        parent::__construct($api_client, $auth_token);
+    }
+
     /**
      * Run generic GET request on Google URL
      *

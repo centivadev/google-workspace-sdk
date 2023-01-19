@@ -7,7 +7,7 @@ use Glamstack\GoogleWorkspace\Tests\Fakes\Resources\Directory\MethodFake;
 
 test('setCustomerId() - it can set a customer ID from a connection key', function(){
     $api_client = new ApiClientFake('test');
-    $method_client = new MethodFake($api_client);
+    $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     expect($method_client->getCustomerId())->toBe(config('tests.connections.test.customer_id'));
 });
@@ -24,13 +24,13 @@ test('setCustomerId() - it can set a customer ID from a connection config array'
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
-    $method_client = new MethodFake($api_client);
+    $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     expect($method_client->getCustomerId())->toBe(env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'));
 });
 test('setDomain() - it can set the domain from connection key', function(){
     $api_client = new ApiClientFake('test');
-    $method_client = new MethodFake($api_client);
+    $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     expect($method_client->getDomain())->toBe(config('tests.connections.test.domain'));
 });
@@ -47,7 +47,7 @@ test('setDomain() - it can set the domain from connection config array', functio
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
-    $method_client = new MethodFake($api_client);
+    $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     expect($method_client->getDomain())->toBe(config('tests.connections.test.domain'));
 });
@@ -55,7 +55,7 @@ test('setDomain() - it can set the domain from connection config array', functio
 
 test('appendRequiredHeaders() - it appends required headers', function(){
     $api_client = new ApiClientFake('test');
-    $method_client = new MethodFake($api_client);
+    $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     $headers = $method_client->appendRequiredHeaders([
         'example_name_name' => 'test-header'
@@ -69,7 +69,7 @@ test('appendRequiredHeaders() - it appends required headers', function(){
 
 test('appendRequiredHeaders() - it appends only domain', function(){
     $api_client = new ApiClientFake('test');
-    $method_client = new MethodFake($api_client);
+    $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     $headers = $method_client->appendRequiredHeaders(['example_name_name' => 'test-header'], false, true);
     expect($headers)->toBe([
@@ -80,7 +80,7 @@ test('appendRequiredHeaders() - it appends only domain', function(){
 
 test('appendRequiredHeaders() - it appends only customer', function(){
     $api_client = new ApiClientFake('test');
-    $method_client = new MethodFake($api_client);
+    $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     $headers = $method_client->appendRequiredHeaders(['example_name_name' => 'test-header'], true, false);
     expect($headers)->toBe([
