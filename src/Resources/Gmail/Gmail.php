@@ -2,6 +2,7 @@
 
 namespace Glamstack\GoogleWorkspace\Resources\Gmail;
 
+use Exception;
 use Glamstack\GoogleWorkspace\ApiClient;
 use Glamstack\GoogleWorkspace\Models\Resources\Gmail\GmailModel;
 
@@ -22,7 +23,6 @@ class Gmail extends ApiClient
             $this->connection_config = $gmail_model->verifyConfigArray($api_client->connection_config);
             $this->connection_key = null;
         }
-
 
         if(!$api_client->auth_token){
             parent::__construct($api_client->connection_key, $api_client->connection_config);
