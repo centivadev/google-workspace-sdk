@@ -75,15 +75,6 @@ class Method extends BaseClient
         return array_merge($request_data, $required_parameters);
     }
 
-    /**
-     * Get the domain class level variable
-     *
-     * @return string
-     */
-    protected function getDomain(): string
-    {
-        return $this->domain;
-    }
 
     /**
      * Set the project_id class level variable
