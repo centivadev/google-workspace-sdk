@@ -26,6 +26,23 @@ class Method extends BaseClient
      *
      * @return void
      */
+    protected function setDomain(): void
+    {
+        if ($this->connection_key) {
+            $this->domain = config(
+                $this->config_path . '.connections.' .
+                $this->connection_key . '.domain'
+            );
+        } else {
+            $this->domain = $this->api_client->connection_config['domain'];
+        }
+    }
+
+    /**
+     * Set the project_id class level variable
+     *
+     * @return void
+     */
     protected function setCustomerId(): void
     {
         if ($this->connection_key) {
@@ -39,68 +56,19 @@ class Method extends BaseClient
     }
 
     /**
-     * Append required headers to request_data
-     *
-     * The typical required headers for Google Workspace are the `domain` and `customer`
-     * variables. However, there is the option to exclude them if necessary.
-     *
-     * @param array $request_data
-     *      The request data being passed into the HTTP request
-     *
-     * @param bool $exclude_domain
-     *      Remove the `domain` parameter from the GET request header
-     *
-     * @param bool $exclude_customer
-     *      Remove the `customer` parameter from the GET request header
-     **
-     * @return array
-     */
-    protected function appendRequiredHeaders(array $request_data, bool $exclude_domain = false, bool $exclude_customer = false): array
-    {
-        if($exclude_customer){
-            $required_parameters = [
-                'domain' => $this->domain,
-            ];
-        } elseif ($exclude_domain){
-            $required_parameters = [
-                'customer' => $this->customer_id
-            ];
-        } else {
-            $required_parameters = [
-                'domain' => $this->domain,
-                'customer' => $this->customer_id
-            ];
-        }
-
-        return array_merge($request_data, $required_parameters);
-    }
-
-
-    /**
-     * Set the project_id class level variable
-     *
-     * @return void
-     */
-    protected function setDomain(): void
-    {
-        if ($this->connection_key) {
-            $this->domain = config(
-                $this->config_path . '.connections.' .
-                $this->connection_key . '.domain'
-            );
-        } else {
-            $this->domain = $this->api_client->connection_config['domain'];
-        }
-    }
-    /**
      * Run generic GET request on Google URL
      *
      * @param string $url
-     *      The URL to run the GET request on (i.e `https://admin.googleapis.com/admin/directory/v1/groups/<group_id>`)
+     *      The URL to run the GET request on
      *
      * @param array $request_data
      *      Optional array data to pass into the GET request
      *
+     * @param bool $exclude_domain
+     *      Exclude the domain parameter from the GET request
+     *
+     * @param bool $exclude_customer
+     *      Exclude the customerId parameter from the GET request
      * @return object|string
      */
     public function get(string $url, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
@@ -173,5 +141,42 @@ class Method extends BaseClient
     public function delete(string $url, array $request_data = []): object|string
     {
         return BaseClient::deleteRequest($url, $request_data);
+    }
+
+    /**
+     * Append required headers to request_data
+     *
+     * The typical required headers for Google Workspace are the `domain` and `customer`
+     * variables. However, there is the option to exclude them if necessary.
+     *
+     * @param array $request_data
+     *      The request data being passed into the HTTP request
+     *
+     * @param bool $exclude_domain
+     *      Remove the `domain` parameter from the GET request header
+     *
+     * @param bool $exclude_customer
+     *      Remove the `customer` parameter from the GET request header
+     **
+     * @return array
+     */
+    protected function appendRequiredHeaders(array $request_data, bool $exclude_domain = false, bool $exclude_customer = false): array
+    {
+        if($exclude_customer){
+            $required_parameters = [
+                'domain' => $this->domain,
+            ];
+        } elseif ($exclude_domain){
+            $required_parameters = [
+                'customer' => $this->customer_id
+            ];
+        } else {
+            $required_parameters = [
+                'domain' => $this->domain,
+                'customer' => $this->customer_id
+            ];
+        }
+
+        return array_merge($request_data, $required_parameters);
     }
 }
