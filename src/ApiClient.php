@@ -17,12 +17,12 @@ class ApiClient
 {
     use ResponseLog;
 
+    public string $config_path;
     public array $connection_config;
     public ?string $connection_key;
-    public array $request_headers;
-    public string $config_path;
-    protected string $auth_token;
     public array $log_channels;
+    public array $request_headers;
+    protected string $auth_token;
 
     /**
      * This function takes care of the initialization of authentication using
@@ -100,6 +100,92 @@ class ApiClient
                 ]
             );
             throw $exception;
+        }
+    }
+
+    /**
+     * Set the config path
+     */
+    public function setConfigPath()
+    {
+        $this->config_path = env('GLAMSTACK_GOOGLE_WORKSPACE_CONFIG_PATH', 'glamstack-google-workspace');
+    }
+
+    /**
+     * Set the connection_key class variable. The connection_key variable by default
+     * will be set to `workspace`. This can be overridden when initializing the
+     * SDK with a different connection key which is passed into this function to
+     * set the class variable to the provided key.
+     *
+     * @param ?string $connection_key (Optional) The connection key to use from the
+     * configuration file.
+     *
+     * @return void
+     */
+    protected function setConnectionKey(?string $connection_key): void
+    {
+        if ($connection_key == null) {
+            $this->connection_key = config(
+                $this->config_path . '.default.connection'
+            );
+        } else {
+            $this->connection_key = $connection_key;
+        }
+    }
+
+    /**
+     * Set the request headers for the Google Cloud API request
+     *
+     * @return void
+     */
+    protected function setRequestHeaders(): void
+    {
+        // Get Laravel and PHP Version
+        $laravel = 'laravel/' . app()->version();
+        $php = 'php/' . phpversion();
+
+        // Decode the composer.lock file
+        $composer_lock_json = json_decode(
+            (string)file_get_contents(base_path('composer.lock')),
+            true
+        );
+
+        // Use Laravel collection to search for the package. We will use the
+        // array to get the package name (in case it changes with a fork) and
+        // return the version key. For production, this will show a release
+        // number. In development, this will show the branch name.
+        /** @phpstan-ignore-next-line */
+        $composer_package = collect($composer_lock_json['packages'])
+            ->where('name', 'glamstack/google-workspace-sdk')
+            ->first();
+
+        /** @phpstan-ignore-next-line */
+        if ($composer_package) {
+            $package = $composer_package['name'] . '/' . $composer_package['version'];
+        } else {
+            $package = 'dev-google-workspace-sdk';
+        }
+
+        // Define request headers
+        $this->request_headers = [
+            'User-Agent' => $package . ' ' . $laravel . ' ' . $php
+        ];
+    }
+
+    /**
+     * Set the log_channels class variable
+     *
+     * @return void
+     */
+    protected function setLogChannels(): void
+    {
+        if ($this->connection_key) {
+            $this->log_channels = config(
+                $this->config_path . '.connections.' .
+                $this->connection_key . '.log_channels'
+            );
+        } else {
+            $this->log_channels = $this->connection_config['log_channels'];
         }
     }
 
@@ -297,7 +383,6 @@ class ApiClient
         }
     }
 
-
     /**
      * Get the log_channels class level variable
      *
@@ -306,32 +391,6 @@ class ApiClient
     protected function getLogChannels(): array
     {
         return $this->log_channels;
-    }
-
-    /**
-     * Set the log_channels class variable
-     *
-     * @return void
-     */
-    protected function setLogChannels(): void
-    {
-        if ($this->connection_key) {
-            $this->log_channels = config(
-                $this->config_path . '.connections.' .
-                $this->connection_key . '.log_channels'
-            );
-        } else {
-            $this->log_channels = $this->connection_config['log_channels'];
-        }
-    }
-
-
-    /**
-     * Set the config path
-     */
-    public function setConfigPath()
-    {
-        $this->config_path = env('GLAMSTACK_GOOGLE_WORKSPACE_CONFIG_PATH', 'glamstack-google-workspace');
     }
 
     /**
@@ -369,67 +428,6 @@ class ApiClient
     public function calendar(): Calendar
     {
         return new Calendar($this);
-    }
-
-    /**
-     * Set the connection_key class variable. The connection_key variable by default
-     * will be set to `workspace`. This can be overridden when initializing the
-     * SDK with a different connection key which is passed into this function to
-     * set the class variable to the provided key.
-     *
-     * @param ?string $connection_key (Optional) The connection key to use from the
-     * configuration file.
-     *
-     * @return void
-     */
-    protected function setConnectionKey(?string $connection_key): void
-    {
-        if ($connection_key == null) {
-            $this->connection_key = config(
-                $this->config_path . '.default.connection'
-            );
-        } else {
-            $this->connection_key = $connection_key;
-        }
-    }
-
-    /**
-     * Set the request headers for the Google Cloud API request
-     *
-     * @return void
-     */
-    protected function setRequestHeaders(): void
-    {
-        // Get Laravel and PHP Version
-        $laravel = 'laravel/' . app()->version();
-        $php = 'php/' . phpversion();
-
-        // Decode the composer.lock file
-        $composer_lock_json = json_decode(
-            (string)file_get_contents(base_path('composer.lock')),
-            true
-        );
-
-        // Use Laravel collection to search for the package. We will use the
-        // array to get the package name (in case it changes with a fork) and
-        // return the version key. For production, this will show a release
-        // number. In development, this will show the branch name.
-        /** @phpstan-ignore-next-line */
-        $composer_package = collect($composer_lock_json['packages'])
-            ->where('name', 'glamstack/google-workspace-sdk')
-            ->first();
-
-        /** @phpstan-ignore-next-line */
-        if ($composer_package) {
-            $package = $composer_package['name'] . '/' . $composer_package['version'];
-        } else {
-            $package = 'dev-google-workspace-sdk';
-        }
-
-        // Define request headers
-        $this->request_headers = [
-            'User-Agent' => $package . ' ' . $laravel . ' ' . $php
-        ];
     }
 }
 
