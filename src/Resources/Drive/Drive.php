@@ -23,10 +23,11 @@ class Drive extends ApiClient
             $this->connection_config = $drive_model->verifyConfigArray($api_client->connection_config);
             $this->connection_key = null;
         }
-//        parent::__construct($api_client->connection_key, $api_client->connection_config);
+
         if(!$api_client->auth_token){
             parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
+
         $this->auth_token = $api_client->auth_token;
     }
 
