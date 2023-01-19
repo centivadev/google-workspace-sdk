@@ -2,14 +2,15 @@
 
 namespace Glamstack\GoogleWorkspace\Resources\Calendar;
 
+use Exception;
 use Glamstack\GoogleWorkspace\ApiClient;
 use Glamstack\GoogleWorkspace\Models\Resources\Calendar\CalendarModel;
 
 class Calendar extends ApiClient
 {
     public const BASE_URL = "https://www.googleapis.com/calendar/v3";
-    protected string $auth_token;
 
+    protected string $auth_token;
 
     public function __construct(ApiClient $api_client)
     {
@@ -23,9 +24,11 @@ class Calendar extends ApiClient
             $this->connection_key = null;
         }
 
+        // Check if there is an auth_token. If not reauthenticate using the API client construct method.
         if(!$api_client->auth_token){
             parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
+
         $this->auth_token = $api_client->auth_token;
     }
 
@@ -36,15 +39,19 @@ class Calendar extends ApiClient
      * validation for the provided URL or request data in this method. (i.e.
      * `https://admin.googleapis.com/admin/directory/v1/groups`)
      *
-     * @param string $url
-     *      The Google URL to run the GET request with
-     *
+     * @param string $uri
      * @param array $request_data
      *      Request data to load into GET request `Request Body`
      *
+     * @param bool $exclude_domain
+     *      Exclude the domain parameter from the GET request
+     *
+     * @param bool $exclude_customer
+     *      Exclude the customerId parameter from the GET request
+     *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function get(string $uri, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
     {
