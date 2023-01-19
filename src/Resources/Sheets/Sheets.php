@@ -27,6 +27,7 @@ class Sheets extends ApiClient
         if(!$api_client->auth_token){
             parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
+
         $this->auth_token = $api_client->auth_token;
     }
 

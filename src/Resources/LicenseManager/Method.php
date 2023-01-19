@@ -32,7 +32,7 @@ class Method extends BaseClient
             $this->customer_id = $this->api_client->connection_config['customer_id'];
         }
     }
-    
+
     /**
      * Run generic GET request on Google URL
      *
