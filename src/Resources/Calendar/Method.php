@@ -20,15 +20,6 @@ class Method extends BaseClient
         $this->setDomain();
         $this->setCustomerId();
     }
-    /**
-     * Get the customer_id class level variable
-     *
-     * @return string
-     */
-    protected function getCustomerId(): string
-    {
-        return $this->customer_id;
-    }
 
     /**
      * Set the project_id class level variable
