@@ -73,44 +73,6 @@ class Method extends BaseClient
         }
     }
 
-
-    /**
-     * Append required headers to request_data
-     *
-     * The typical required headers for Google Workspace are the `domain` and `customer`
-     * variables. However, there is the option to exclude them if necessary.
-     *
-     * @param array $request_data
-     *      The request data being passed into the HTTP request
-     *
-     * @param bool $exclude_domain
-     *      Remove the `domain` parameter from the GET request header
-     *
-     * @param bool $exclude_customer
-     *      Remove the `customer` parameter from the GET request header
-     **
-     * @return array
-     */
-    protected function appendRequiredHeaders(array $request_data, bool $exclude_domain = false, bool $exclude_customer = false): array
-    {
-        if($exclude_customer){
-            $required_parameters = [
-                'domain' => $this->domain,
-            ];
-        } elseif ($exclude_domain){
-            $required_parameters = [
-                'customer' => $this->customer_id
-            ];
-        } else {
-            $required_parameters = [
-                'domain' => $this->domain,
-                'customer' => $this->customer_id
-            ];
-        }
-
-        return array_merge($request_data, $required_parameters);
-    }
-
     /**
      * Run generic GET request on Google URL
      *
@@ -205,5 +167,42 @@ class Method extends BaseClient
         $request_data = $this->appendRequiredHeaders($request_data);
 
         return BaseClient::deleteRequest($url, $request_data);
+    }
+
+    /**
+     * Append required headers to request_data
+     *
+     * The typical required headers for Google Workspace are the `domain` and `customer`
+     * variables. However, there is the option to exclude them if necessary.
+     *
+     * @param array $request_data
+     *      The request data being passed into the HTTP request
+     *
+     * @param bool $exclude_domain
+     *      Remove the `domain` parameter from the GET request header
+     *
+     * @param bool $exclude_customer
+     *      Remove the `customer` parameter from the GET request header
+     **
+     * @return array
+     */
+    protected function appendRequiredHeaders(array $request_data, bool $exclude_domain = false, bool $exclude_customer = false): array
+    {
+        if($exclude_customer){
+            $required_parameters = [
+                'domain' => $this->domain,
+            ];
+        } elseif ($exclude_domain){
+            $required_parameters = [
+                'customer' => $this->customer_id
+            ];
+        } else {
+            $required_parameters = [
+                'domain' => $this->domain,
+                'customer' => $this->customer_id
+            ];
+        }
+
+        return array_merge($request_data, $required_parameters);
     }
 }
