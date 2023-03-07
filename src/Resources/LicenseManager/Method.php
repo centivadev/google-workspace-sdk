@@ -10,20 +10,10 @@ class Method extends BaseClient
 
     protected string $customer_id;
 
-    public function __construct(ApiClient $api_client)
+    public function __construct(ApiClient $api_client, string $auth_token)
     {
-        parent::__construct($api_client);
+        parent::__construct($api_client, $auth_token);
         $this->setCustomerId();
-    }
-
-    /**
-     * Get the customer_id class level variable
-     *
-     * @return string
-     */
-    protected function getCustomerId(): string
-    {
-        return $this->customer_id;
     }
 
     /**
@@ -33,43 +23,14 @@ class Method extends BaseClient
      */
     protected function setCustomerId(): void
     {
-        if ($this->api_client->connection_key) {
+        if ($this->connection_key) {
             $this->customer_id = config(
-                $this->api_client->config_path . '.connections.' .
-                $this->api_client->connection_key . '.customer_id'
+                $this->config_path . '.connections.' .
+                $this->connection_key . '.customer_id'
             );
         } else {
             $this->customer_id = $this->api_client->connection_config['customer_id'];
         }
-    }
-
-    /**
-     * Append required headers to request_data
-     *
-     * The required headers for most Google Workspace License is the `customer`
-     * variable.
-     *
-     * @param array $request_data
-     *      The request data being passed into the HTTP request
-     *
-     * @param bool $exclude_customer
-     *      Allow for excluding `customer` value in request
-     *
-     * @return array
-     */
-    protected function appendRequiredHeaders(array $request_data, bool $exclude_customer = false): array
-    {
-
-        if ($exclude_customer){
-            $required_parameters = [
-            ];
-        } else {
-            $required_parameters = [
-                'customer_id' => $this->customer_id
-            ];
-        }
-
-        return array_merge($request_data, $required_parameters);
     }
 
     /**
@@ -163,5 +124,34 @@ class Method extends BaseClient
         $request_data = $this->appendRequiredHeaders($request_data);
 
         return BaseClient::deleteRequest($url, $request_data);
+    }
+
+    /**
+     * Append required headers to request_data
+     *
+     * The required headers for most Google Workspace License is the `customer`
+     * variable.
+     *
+     * @param array $request_data
+     *      The request data being passed into the HTTP request
+     *
+     * @param bool $exclude_customer
+     *      Allow for excluding `customer` value in request
+     *
+     * @return array
+     */
+    protected function appendRequiredHeaders(array $request_data, bool $exclude_customer = false): array
+    {
+
+        if ($exclude_customer){
+            $required_parameters = [
+            ];
+        } else {
+            $required_parameters = [
+                'customer_id' => $this->customer_id
+            ];
+        }
+
+        return array_merge($request_data, $required_parameters);
     }
 }

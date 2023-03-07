@@ -3,24 +3,22 @@
 namespace Glamstack\GoogleWorkspace\Tests\Unit\src\Models\Resources\Gmail;
 
 use Glamstack\GoogleWorkspace\Resources\Gmail\Gmail;
-
-test('verifyConfigArray() - it requires api_scopes to be set', function(){
-    $directory_client = new Gmail(null,[
-        'json_key_file_path' => storage_path('a_file_path')
-    ]);
-})->expectExceptionMessage('The api scopes field is required.');
-
-test('verifyConfigArray() - it requires json_key or json_key_file_path to be set', function(){
-    $directory_client = new Gmail(null,[
-        'api_scopes' => ['fake_scope_1'],
-    ]);
-})->expectExceptionMessage('Either the json_key_file_path or json_key parameters are required');
+use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('verifyConfigArray() - it will set the config array properly', function(){
-    $directory_client = new Gmail(null,[
-        'api_scopes' => ['fake_scope_1'],
-        'json_key_file_path' => storage_path('a_file_path')
+    $api_client = new ApiClientFake(null, [
+        'api_scopes' => [
+            'https://www.googleapis.com/auth/admin.directory.group',
+            'https://www.googleapis.com/auth/contacts'
+        ],
+        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'log_channels' => ['single'],
+        'subject_email' => config('tests.connections.test.subject_email')
     ]);
-    expect($directory_client->connection_config['api_scopes'])->toBe(['fake_scope_1']);
-    expect($directory_client->connection_config['json_key_file_path'])->toBe(storage_path('a_file_path'));
+    $directory_client = new Gmail($api_client);
+    expect($directory_client->connection_config['api_scopes'])->toBe([
+        'https://www.googleapis.com/auth/admin.directory.group',
+        'https://www.googleapis.com/auth/contacts'
+    ])
+        ->and($directory_client->connection_config['json_key_file_path'])->toBe(storage_path('keys/glamstack-google-workspace/test.json'));
 });
