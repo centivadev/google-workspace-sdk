@@ -415,7 +415,6 @@ class ApiClient
         return new Gmail($this);
     }
 
-
     public function sheets(): Sheets
     {
         return new Sheets($this);
@@ -429,6 +428,11 @@ class ApiClient
     public function calendar(): Calendar
     {
         return new Calendar($this);
+    }
+
+    public function vault(): Vault
+    {
+        return new Vault($this);
     }
 }
 
