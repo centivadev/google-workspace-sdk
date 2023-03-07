@@ -11,6 +11,7 @@ use Glamstack\GoogleWorkspace\Resources\Drive\Drive;
 use Glamstack\GoogleWorkspace\Resources\Gmail\Gmail;
 use Glamstack\GoogleWorkspace\Resources\LicenseManager\LicenseManager;
 use Glamstack\GoogleWorkspace\Resources\Sheets\Sheets;
+use Glamstack\GoogleWorkspace\Resources\Vault\Vault;
 use Glamstack\GoogleWorkspace\Traits\ResponseLog;
 
 class ApiClient
