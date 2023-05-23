@@ -12,7 +12,6 @@ class Directory extends ApiClient
 
     protected string $auth_token;
 
-
     public function __construct(ApiClient $api_client)
     {
         $directory_model = new DirectoryModel();
@@ -36,8 +35,7 @@ class Directory extends ApiClient
      * GET HTTP Request
      *
      * This will perform a GET request against the provided `uri`. There is no
-     * validation for the provided URI or request data in this method. (i.e.
-     * `https://admin.googleapis.com/admin/directory/v1/groups`)
+     * validation for the provided URI or request data in this method.
      *
      * @param string $uri
      *      The Google URI to run the GET request with after `/v1`
@@ -65,8 +63,7 @@ class Directory extends ApiClient
      * POST HTTP Request
      *
      * This will perform a POST request against the provided `uri`. There is no
-     * validation for the provided URI or request data in this method. (i.e
-     * `https://admin.googleapis.com/admin/directory/v1/groups`)
+     * validation for the provided URI or request data in this method.
      *
      * @param string $uri
      *      The Google URI to run the POST request with after `/v1`
@@ -88,8 +85,7 @@ class Directory extends ApiClient
      * PATCH HTTP Request
      *
      * This will perform a PATCH request against the provided `uri`. There is no
-     * validation for the provided URI or request data in this method. (i.e
-     * `https://admin.googleapis.com/admin/directory/v1/groups`)
+     * validation for the provided URI or request data in this method.
      *
      * @param string $uri
      *      The Google URI to run the PATCH request with after `/v1`

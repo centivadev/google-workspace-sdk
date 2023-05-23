@@ -92,16 +92,21 @@ abstract class BaseClient
                 property_exists($response->object(), 'kind') &&
                 property_exists($response->object(), 'etag')
             ) {
-                // Due to the formatting of the response, we are flattening the response object and converting it to an array
-                // This is to remove the nested element that would be the list command i.e. `groups` element when listing groups.
-                $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->flatten()->toArray());
+                // Due to the formatting of the response, we are flattening the response object and converting it to an
+                // array. This is to remove the nested element that would be the list command i.e. `groups` element when
+                // listing groups.
+                $response->results = $this->convertPaginatedResponseToObject(
+                    collect($this->getResponseBody($response))->flatten()->toArray()
+                );
             } elseif ($response->status() == 204 and $response->successful()) {
                 // If there is no content and the API was successful then return
                 // an object that is null
                 $response->results = (object) null;
             } else {
                 // This will catch all GET request that are not possible to be paginated request.
-                $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->toArray());
+                $response->results = $this->convertPaginatedResponseToObject(
+                    collect($this->getResponseBody($response))->toArray()
+                );
             }
         }
 
@@ -136,8 +141,7 @@ abstract class BaseClient
     }
 
     /**
-     * Helper method for getting Google Cloud GET responses that require
-     * pagination
+     * Helper method for getting Google Cloud GET responses that require pagination
      *
      * @param string $url
      *      The URL of the Google Cloud API request with a leading slash after
@@ -258,8 +262,7 @@ abstract class BaseClient
     }
 
     /**
-     * Helper function to get the next page of a Google Cloud API GET
-     * request.
+     * Helper function to get the next page of a Google Cloud API GET request.
      *
      * @param string $url
      *      The URL of the Google Cloud API request
@@ -298,8 +301,7 @@ abstract class BaseClient
     }
 
     /**
-     * Helper method to get the `nextPageToken` element from the GET Response
-     * object
+     * Helper method to get the `nextPageToken` element from the GET Response object
      *
      * @see https://cloud.google.com/apis/design/design_patterns#list_pagination
      *
