@@ -18,7 +18,7 @@ abstract class BaseClient
     protected ApiClient $api_client;
     public string $config_path;
     public ?string $connection_key;
-    private array $connection_config;
+    private array $connection_config; // @phpstan-ignore-line
     private array $request_headers;
 
     /**
@@ -73,11 +73,10 @@ abstract class BaseClient
 
         // If it is paginated
         if ($isPaginated) {
-
             // Get the paginated results
             $paginated_results = $this->getPaginatedResults($url, $request_data, $response);
 
-            $response->results = $this->convertPaginatedResponseToObject($paginated_results);
+            $response->results = $this->convertPaginatedResponseToObject($paginated_results); // @phpstan-ignore-line
 
             // Unset the body and json elements of the original Guzzle Response
             // Object. These will be reset with the paginated results.
@@ -92,16 +91,24 @@ abstract class BaseClient
                 property_exists($response->object(), 'kind') &&
                 property_exists($response->object(), 'etag')
             ) {
-                // Due to the formatting of the response, we are flattening the response object and converting it to an array
-                // This is to remove the nested element that would be the list command i.e. `groups` element when listing groups.
-                $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->flatten()->toArray());
+                // Due to the formatting of the response, we are flattening the response object and converting it to an
+                // array. This is to remove the nested element that would be the list command i.e. `groups` element when
+                // listing groups.
+                // @phpstan-ignore-next-line
+                $response->results = $this->convertPaginatedResponseToObject(
+                    collect($this->getResponseBody($response))->flatten()->toArray()
+                );
             } elseif ($response->status() == 204 and $response->successful()) {
                 // If there is no content and the API was successful then return
                 // an object that is null
+                // @phpstan-ignore-next-line
                 $response->results = (object) null;
             } else {
                 // This will catch all GET request that are not possible to be paginated request.
-                $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->toArray());
+                // @phpstan-ignore-next-line
+                $response->results = $this->convertPaginatedResponseToObject(
+                    collect($this->getResponseBody($response))->toArray()
+                );
             }
         }
 
@@ -136,8 +143,7 @@ abstract class BaseClient
     }
 
     /**
-     * Helper method for getting Google Cloud GET responses that require
-     * pagination
+     * Helper method for getting Google Cloud GET responses that require pagination
      *
      * @param string $url
      *      The URL of the Google Cloud API request with a leading slash after
@@ -151,11 +157,8 @@ abstract class BaseClient
      *
      * @return array
      */
-    protected function getPaginatedResults(
-        string   $url,
-        array    $request_data,
-        Response $response
-    ): array {
+    protected function getPaginatedResults(string $url, array $request_data, Response $response): array
+    {
         // Initialize $records as an empty array. This is where we will store
         // the returned data from each paginated request.
         $records = [];
@@ -185,7 +188,6 @@ abstract class BaseClient
         $next_page_exists = $this->checkForPagination($next_response);
 
         if ($next_page_exists) {
-
             // If there is an additional (ex. third) page then continue through all
             // data until the API response does not contain the `nextPageToken`
             // element in the returned object
@@ -239,11 +241,10 @@ abstract class BaseClient
 
         // This if statement is to check if we are utilizing a possible paginated
         // end point. If so we remove the `kind` and `etag` properties`
-        if ((count(collect($response_object)) == 3) || count(collect($response_object)) == 4 &&
-            (property_exists($response_object, 'kind') &&
-                property_exists($response_object, 'etag'))
+        if (
+            (count(collect($response_object)) == 3) || count(collect($response_object)) == 4 &&
+            (property_exists($response_object, 'kind') && property_exists($response_object, 'etag'))
         ) {
-
             // Unset unnecessary elements
             unset($response_object->kind);
             unset($response_object->etag);
@@ -258,8 +259,7 @@ abstract class BaseClient
     }
 
     /**
-     * Helper function to get the next page of a Google Cloud API GET
-     * request.
+     * Helper function to get the next page of a Google Cloud API GET request.
      *
      * @param string $url
      *      The URL of the Google Cloud API request
@@ -272,12 +272,8 @@ abstract class BaseClient
      *
      * @return Response
      */
-    protected function getNextPageResults(
-        string   $url,
-        array    $request_data,
-        Response $response
-    ): Response {
-
+    protected function getNextPageResults(string $url, array $request_data, Response $response): Response
+    {
         // Set the Google Cloud Query parameter `pageToken` to the
         // responses `nextPageToken` element
         $next_page = [
@@ -298,8 +294,7 @@ abstract class BaseClient
     }
 
     /**
-     * Helper method to get the `nextPageToken` element from the GET Response
-     * object
+     * Helper method to get the `nextPageToken` element from the GET Response object
      *
      * @see https://cloud.google.com/apis/design/design_patterns#list_pagination
      *
@@ -695,12 +690,10 @@ abstract class BaseClient
         // array to get the package name (in case it changes with a fork) and
         // return the version key. For production, this will show a release
         // number. In development, this will show the branch name.
-        /** @phpstan-ignore-next-line */
         $composer_package = collect($composer_lock_json['packages'])
             ->where('name', 'glamstack/google-workspace-sdk')
             ->first();
 
-        /** @phpstan-ignore-next-line */
         if ($composer_package) {
             $package = $composer_package['name'] . '/' . $composer_package['version'];
         } else {

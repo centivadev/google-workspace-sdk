@@ -28,7 +28,7 @@ class DirectoryModel
         );
 
         if ($validator->fails()) {
-            throw new Exception($validator->messages()->first(), 400);
+            throw new \Exception($validator->messages()->first(), 400);
         }
 
         return $options;

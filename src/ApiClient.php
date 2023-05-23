@@ -45,7 +45,7 @@ class ApiClient
      */
     public function __construct(
         ?string $connection_key = null,
-        ?array  $connection_config = [],
+        ?array $connection_config = [],
     ) {
         $api_client_model = new ApiClientModel();
 
@@ -67,7 +67,7 @@ class ApiClient
         if ($this->connection_key) {
             $config_file_array = $this->parseConfigFile($this->connection_key);
 
-            $google_auth = new AuthClient($config_file_array);
+            $google_auth = new AuthClient($config_file_array); // @phpstan-ignore-line
 
             $this->logInfo('Success - Parsing the configuration file', [
                 'api_scopes' => $config_file_array['api_scopes'],
@@ -77,12 +77,12 @@ class ApiClient
         } else {
             $config_array = $this->parseConnectionConfigArray($this->connection_config);
 
-            $google_auth = new AuthClient($config_array);
+            $google_auth = new AuthClient($config_array); // @phpstan-ignore-line
 
             $this->logInfo('Success - Parsing the connection_config array', [
                 'api_scopes' => $config_array['api_scopes'],
                 'subject_email' => $config_array['subject_email'],
-                'json_key_file_path' => $config_array['json_key_file_path'] != null ? $config_array['json_key_file_path'] : null,
+                'json_key_file_path' => $config_array['json_key_file_path'] ?? null,
                 'json_key' => $config_array['json_key'] != null ? 'Json key was utilized' : null
             ]);
         }
@@ -90,7 +90,7 @@ class ApiClient
         // Authenticate with Google OAuth2 Server auth_token
         try {
             // Try to authenticate with Google OAuth2 Server using the Glamstack google-auth-sdk
-            $this->auth_token = $google_auth->authenticate();
+            $this->auth_token = $google_auth->authenticate(); // @phpstan-ignore-line
             $this->logInfo('Success - Authenticating with Google Auth SDK');
         } catch (Exception $exception) {
             $this->logError(
@@ -155,12 +155,10 @@ class ApiClient
         // array to get the package name (in case it changes with a fork) and
         // return the version key. For production, this will show a release
         // number. In development, this will show the branch name.
-        /** @phpstan-ignore-next-line */
         $composer_package = collect($composer_lock_json['packages'])
             ->where('name', 'glamstack/google-workspace-sdk')
             ->first();
 
-        /** @phpstan-ignore-next-line */
         if ($composer_package) {
             $package = $composer_package['name'] . '/' . $composer_package['version'];
         } else {
@@ -221,14 +219,13 @@ class ApiClient
     {
         $api_scope_path = $this->config_path . '.connections.' . $connection_key . '.api_scopes';
         if (config($api_scope_path)) {
-
             $this->logInfo('Success - Getting configuration file api_scopes value', [
                 'api_scopes' => config($api_scope_path)
             ]);
 
             return config($this->config_path . '.connections.' . $connection_key . '.api_scopes');
         } else {
-            throw new Exception('No api_scopes have been set in the configuration file you are using.');
+            throw new \Exception('No api_scopes have been set in the configuration file you are using.');
         }
     }
 
@@ -277,7 +274,6 @@ class ApiClient
         $config_path = $this->config_path . '.connections.' . $connection_key;
         if (array_key_exists('json_key_file_path', config($config_path))) {
             if (config($config_path . '.json_key_file_path')) {
-
                 $this->logInfo('Success - Getting configuration file json_key_file_path value', [
                     'json_key_file_path' => config($config_path . '.json_key_file_path')
                 ]);
@@ -286,12 +282,12 @@ class ApiClient
             } else {
                 $message = 'The configuration file does not contain a json_key_file_path';
                 $this->logError('Failed - ' . $message);
-                throw new Exception($message);
+                throw new \Exception($message);
             }
         } else {
             $message = 'The configuration file does not contain a json_key_file_path';
             $this->logError('Failed - ' . $message);
-            throw new Exception($message);
+            throw new \Exception($message);
         }
     }
 

@@ -34,18 +34,18 @@ class LicenseManager extends ApiClient
      * GET HTTP Request
      *
      * This will perform a GET request against the provided `url`. There is no
-     * validation for the provided URL or request data in this method. (i.e.
-     * `https://admin.googleapis.com/admin/directory/v1/groups`)
+     * validation for the provided URL or request data in this method.
      *
      * @param string $url
      *      The Google URL to run the GET request with
+     *      https://admin.googleapis.com/admin/directory/v1/groups
      *
      * @param array $request_data
      *      Request data to load into GET request `Request Body`
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function get(string $url, array $request_data = []): object|string
     {
@@ -57,11 +57,11 @@ class LicenseManager extends ApiClient
      * POST HTTP Request
      *
      * This will perform a POST request against the provided `url`. There is no
-     * validation for the provided URL or request data in this method. (i.e
-     * `https://admin.googleapis.com/admin/directory/v1/groups`)
+     * validation for the provided URL or request data in this method.
      *
      * @param string $url
      *      The Google URL to run the POST request with
+     *      https://admin.googleapis.com/admin/directory/v1/groups
      *
      * @param array|null $request_data
      *      Request data to load into POST request `Request Body`
@@ -71,7 +71,7 @@ class LicenseManager extends ApiClient
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function post(string $url, ?array $request_data = [], bool $exclude_customer = false): object|string
     {
@@ -83,18 +83,18 @@ class LicenseManager extends ApiClient
      * PATCH HTTP Request
      *
      * This will perform a PATCH request against the provided `url`. There is no
-     * validation for the provided URL or request data in this method. (i.e
-     * `https://admin.googleapis.com/admin/directory/v1/groups`)
+     * validation for the provided URL or request data in this method.
      *
      * @param string $url
      *      The Google URL to run the PATCH request with
+     *      https://admin.googleapis.com/admin/directory/v1/groups
      *
      * @param array $request_data
      *      Request data to load into PATCH request `Request Body`
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function patch(string $url, array $request_data = []): object|string
     {
@@ -106,18 +106,18 @@ class LicenseManager extends ApiClient
      * PUT HTTP Request
      *
      * This will perform a PUT request against the provided `url`. There is no
-     * validation for the provided URL or request data in this method. (i.e
-     * `https://admin.googleapis.com/admin/directory/v1/groups`)
+     * validation for the provided URL or request data in this method.
      *
      * @param string $url
      *      The Google URL to run the PUT request with
+     *      https://admin.googleapis.com/admin/directory/v1/groups
      *
      * @param array $request_data
      *      Request data to load into PUT request `Request Body`
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function put(string $url, array $request_data = []): object|string
     {
@@ -129,18 +129,18 @@ class LicenseManager extends ApiClient
      * DELETE HTTP Request
      *
      * This will perform a DELETE request against the provided `url`. There is no
-     * validation for the provided URL or request data in this method. (i.e
-     * `https://admin.googleapis.com/admin/directory/v1/groups`)
+     * validation for the provided URL or request data in this method.
      *
      * @param string $url
      *      The Google URL to run the DELETE request with
+     *      https://admin.googleapis.com/admin/directory/v1/groups
      *
      * @param array $request_data
      *      Request data to load into DELETE request `Request Body`
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function delete(string $url, array $request_data = []): object|string
     {

@@ -33,7 +33,8 @@ class Method extends BaseClient
      * Run generic GET request on Google URL
      *
      * @param string $url
-     *      The URL to run the GET request on (i.e `https://admin.googleapis.com/admin/directory/v1/groups/<group_id>`)
+     *      The URL to run the GET request on
+     *      https://admin.googleapis.com/admin/directory/v1/groups/<group_id>
      *
      * @param array $request_data
      *      Optional array data to pass into the GET request
@@ -51,7 +52,8 @@ class Method extends BaseClient
      * Run generic POST request on Google URL
      *
      * @param string $url
-     *      The URL to run the POST request on (i.e `https://admin.googleapis.com/admin/directory/v1/groups/<group_id>`)
+     *      The URL to run the POST request on
+     *      https://admin.googleapis.com/admin/directory/v1/groups/<group_id>
      *
      * @param array|null $request_data
      *      Optional array data to pass into the POST request
@@ -72,7 +74,8 @@ class Method extends BaseClient
      * Run generic PATCH request on Google URL
      *
      * @param string $url
-     *      The URL to run the PATCH request on (i.e `https://admin.googleapis.com/admin/directory/v1/groups/<group_id>`)
+     *      The URL to run the PATCH request on
+     *      https://admin.googleapis.com/admin/directory/v1/groups/<group_id>
      *
      * @param array $request_data
      *      Optional array data to pass into the PATCH request
@@ -90,7 +93,8 @@ class Method extends BaseClient
      * Run generic PUT request on Google URL
      *
      * @param string $url
-     *      The URL to run the PUT request on (i.e `https://admin.googleapis.com/admin/directory/v1/groups/<group_id>`)
+     *      The URL to run the PUT request on
+     *      https://admin.googleapis.com/admin/directory/v1/groups/<group_id>
      *
      * @param array $request_data
      *      Optional array data to pass into the PUT request
@@ -108,7 +112,8 @@ class Method extends BaseClient
      * Run generic DELETE request on Google URL
      *
      * @param string $url
-     *      The URL to run the DELETE request on (i.e `https://admin.googleapis.com/admin/directory/v1/groups/<group_id>`)
+     *      The URL to run the DELETE request on
+     *      https://admin.googleapis.com/admin/directory/v1/groups/<group_id>
      *
      * @param array $request_data
      *      Optional array data to pass into the DELETE request
@@ -125,8 +130,7 @@ class Method extends BaseClient
     /**
      * Append required headers to request_data
      *
-     * The required headers for most Google Workspace License is the `customer`
-     * variable.
+     * The required headers for most Google Workspace License is the `customer` variable.
      *
      * @param array $request_data
      *      The request data being passed into the HTTP request
@@ -138,7 +142,6 @@ class Method extends BaseClient
      */
     protected function appendRequiredHeaders(array $request_data, bool $exclude_customer = false): array
     {
-
         if ($exclude_customer) {
             $required_parameters = [];
         } else {
