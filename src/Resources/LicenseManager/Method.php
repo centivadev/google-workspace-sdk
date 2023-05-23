@@ -142,7 +142,6 @@ class Method extends BaseClient
      */
     protected function appendRequiredHeaders(array $request_data, bool $exclude_customer = false): array
     {
-
         if ($exclude_customer) {
             $required_parameters = [];
         } else {
