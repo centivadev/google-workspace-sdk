@@ -1,11 +1,11 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources;
+namespace GitlabIt\GoogleWorkspace\Resources;
 
 use Exception;
-use Glamstack\GoogleAuth\AuthClient;
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Traits\ResponseLog;
+use GitlabIt\GoogleAuth\AuthClient;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Traits\ResponseLog;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Models\Resources\Calendar;
+namespace GitlabIt\GoogleWorkspace\Models\Resources\Calendar;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;

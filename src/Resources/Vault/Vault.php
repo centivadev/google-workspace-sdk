@@ -1,10 +1,10 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\Vault;
+namespace GitlabIt\GoogleWorkspace\Resources\Vault;
 
 use Exception;
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Models\Resources\Vault\VaultModel;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Models\Resources\Vault\VaultModel;
 
 class Vault extends ApiClient
 {

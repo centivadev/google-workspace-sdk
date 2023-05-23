@@ -1,9 +1,9 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Unit\src\Resources\Directory;
+namespace GitlabIt\GoogleWorkspace\Tests\Unit\src\Resources\Directory;
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
-use Glamstack\GoogleWorkspace\Tests\Fakes\Resources\Directory\MethodFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\Resources\Directory\MethodFake;
 
 test('setCustomerId() - it can set a customer ID from a connection key', function(){
     $api_client = new ApiClientFake('test');

@@ -1,10 +1,10 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\Drive;
+namespace GitlabIt\GoogleWorkspace\Resources\Drive;
 
 use Exception;
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Models\Resources\Drive\DriveModel;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Models\Resources\Drive\DriveModel;
 
 class Drive extends ApiClient
 {

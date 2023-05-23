@@ -1,13 +1,12 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\Drive;
+namespace GitlabIt\GoogleWorkspace\Resources\Drive;
 
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Resources\BaseClient;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Resources\BaseClient;
 
 class Method extends BaseClient
 {
-
     public function __construct(ApiClient $api_client, string $auth_token)
     {
         parent::__construct($api_client, $auth_token);

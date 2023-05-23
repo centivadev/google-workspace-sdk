@@ -1,18 +1,18 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace;
+namespace GitlabIt\GoogleWorkspace;
 
 use Exception;
-use Glamstack\GoogleAuth\AuthClient;
-use Glamstack\GoogleWorkspace\Models\ApiClientModel;
-use Glamstack\GoogleWorkspace\Resources\Calendar\Calendar;
-use Glamstack\GoogleWorkspace\Resources\Directory\Directory;
-use Glamstack\GoogleWorkspace\Resources\Drive\Drive;
-use Glamstack\GoogleWorkspace\Resources\Gmail\Gmail;
-use Glamstack\GoogleWorkspace\Resources\LicenseManager\LicenseManager;
-use Glamstack\GoogleWorkspace\Resources\Sheets\Sheets;
-use Glamstack\GoogleWorkspace\Resources\Vault\Vault;
-use Glamstack\GoogleWorkspace\Traits\ResponseLog;
+use GitlabIt\GoogleAuth\AuthClient;
+use GitlabIt\GoogleWorkspace\Models\ApiClientModel;
+use GitlabIt\GoogleWorkspace\Resources\Calendar\Calendar;
+use GitlabIt\GoogleWorkspace\Resources\Directory\Directory;
+use GitlabIt\GoogleWorkspace\Resources\Drive\Drive;
+use GitlabIt\GoogleWorkspace\Resources\Gmail\Gmail;
+use GitlabIt\GoogleWorkspace\Resources\LicenseManager\LicenseManager;
+use GitlabIt\GoogleWorkspace\Resources\Sheets\Sheets;
+use GitlabIt\GoogleWorkspace\Resources\Vault\Vault;
+use GitlabIt\GoogleWorkspace\Traits\ResponseLog;
 
 class ApiClient
 {

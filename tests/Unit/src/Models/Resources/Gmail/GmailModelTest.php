@@ -1,9 +1,9 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Unit\src\Models\Resources\Gmail;
+namespace GitlabIt\GoogleWorkspace\Tests\Unit\src\Models\Resources\Gmail;
 
-use Glamstack\GoogleWorkspace\Resources\Gmail\Gmail;
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Resources\Gmail\Gmail;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('verifyConfigArray() - it will set the config array properly', function(){
     $api_client = new ApiClientFake(null, [

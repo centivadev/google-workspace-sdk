@@ -1,10 +1,10 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\Calendar;
+namespace GitlabIt\GoogleWorkspace\Resources\Calendar;
 
 use Exception;
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Models\Resources\Calendar\CalendarModel;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Models\Resources\Calendar\CalendarModel;
 
 class Calendar extends ApiClient
 {

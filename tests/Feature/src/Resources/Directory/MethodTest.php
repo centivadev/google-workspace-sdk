@@ -1,8 +1,8 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Feature\src\Resources\Directory;
+namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\Directory;
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('get() - it can use GET to access a single groups', function(){
     $api_client = new ApiClientFake('test');

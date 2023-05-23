@@ -1,8 +1,8 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Feature\src\Resources\Calendar;
+namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\Calendar;
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('get() - it can use GET to list calendars', function() {
     $api_client = new ApiClientFake('test');

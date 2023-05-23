@@ -1,9 +1,9 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Fakes\Resources\Directory;
+namespace GitlabIt\GoogleWorkspace\Tests\Fakes\Resources\Directory;
 
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Resources\Directory\Method;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Resources\Directory\Method;
 use Illuminate\Http\Client\Response;
 
 class MethodFake extends Method

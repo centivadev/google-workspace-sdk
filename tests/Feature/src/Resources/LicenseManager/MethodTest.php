@@ -1,8 +1,8 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Feature\src\Resources\LicenseManager;
+namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\LicenseManager;
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('get() - it can list all users for google-apps', function(){
     $api_client = new ApiClientFake('test');
