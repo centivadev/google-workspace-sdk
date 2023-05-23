@@ -1,8 +1,8 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests;
+namespace GitlabIt\GoogleWorkspace\Tests;
 
-use Glamstack\GoogleWorkspace\ApiClientServiceProvider;
+use GitlabIt\GoogleWorkspace\ApiClientServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 

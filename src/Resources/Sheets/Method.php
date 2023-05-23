@@ -1,9 +1,9 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\Sheets;
+namespace GitlabIt\GoogleWorkspace\Resources\Sheets;
 
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Resources\BaseClient;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Resources\BaseClient;
 
 class Method extends BaseClient
 {

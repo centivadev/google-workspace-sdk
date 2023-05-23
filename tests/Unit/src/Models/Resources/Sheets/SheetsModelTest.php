@@ -1,10 +1,10 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Unit\src\Models\Resources\Sheets;
+namespace GitlabIt\GoogleWorkspace\Tests\Unit\src\Models\Resources\Sheets;
 
+use GitlabIt\GoogleWorkspace\Resources\Sheets\Sheets;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
-use Glamstack\GoogleWorkspace\Resources\Sheets\Sheets;
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('verifyConfigArray() - it will set the config array properly', function(){
     $api_client = new ApiClientFake(null, [

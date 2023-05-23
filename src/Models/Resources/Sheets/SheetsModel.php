@@ -1,6 +1,6 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Models\Resources\Sheets;
+namespace GitlabIt\GoogleWorkspace\Models\Resources\Sheets;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;

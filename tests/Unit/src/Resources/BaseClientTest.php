@@ -1,7 +1,7 @@
 <?php
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
-use Glamstack\GoogleWorkspace\Tests\Fakes\Resources\Directory\MethodFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\Resources\Directory\MethodFake;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 

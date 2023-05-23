@@ -1,10 +1,10 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Fakes;
+namespace GitlabIt\GoogleWorkspace\Tests\Fakes;
 
-use Glamstack\GoogleAuth\AuthClient;
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Models\ApiClientModel;
+use GitlabIt\GoogleAuth\AuthClient;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Models\ApiClientModel;
 
 class ApiClientFake extends ApiClient
 {

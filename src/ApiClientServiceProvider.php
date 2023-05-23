@@ -1,6 +1,6 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace;
+namespace GitlabIt\GoogleWorkspace;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

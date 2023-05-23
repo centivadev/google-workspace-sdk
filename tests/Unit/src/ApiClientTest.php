@@ -1,6 +1,6 @@
 <?php
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 
 

@@ -1,6 +1,6 @@
 <?php
 
-use Glamstack\GoogleWorkspace\Tests\TestCase;
+use GitlabIt\GoogleWorkspace\Tests\TestCase;
 
 uses(TestCase::class)
     ->in('Unit', 'Feature');

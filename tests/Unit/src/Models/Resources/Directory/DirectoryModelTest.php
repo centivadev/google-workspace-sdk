@@ -1,11 +1,11 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Unit\src\Models\Resources\Directory;
+namespace GitlabIt\GoogleWorkspace\Tests\Unit\src\Models\Resources\Directory;
 
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Resources\Directory\Directory;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Resources\Directory\Directory;
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('verifyConfigArray() - it requires api_scopes to be set', function(){
     $api_client = new ApiClientFake(null,[

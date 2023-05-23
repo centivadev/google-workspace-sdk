@@ -1,6 +1,6 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Models\Resources\Gmail;
+namespace GitlabIt\GoogleWorkspace\Models\Resources\Gmail;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;

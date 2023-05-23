@@ -1,10 +1,10 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\Gmail;
+namespace GitlabIt\GoogleWorkspace\Resources\Gmail;
 
 use Exception;
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Models\Resources\Gmail\GmailModel;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Models\Resources\Gmail\GmailModel;
 
 class Gmail extends ApiClient
 {

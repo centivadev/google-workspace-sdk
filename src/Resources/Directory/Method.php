@@ -1,13 +1,12 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\Directory;
+namespace GitlabIt\GoogleWorkspace\Resources\Directory;
 
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Resources\BaseClient;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Resources\BaseClient;
 
 class Method extends BaseClient
 {
-
     protected string $customer_id;
     protected string $domain;
 

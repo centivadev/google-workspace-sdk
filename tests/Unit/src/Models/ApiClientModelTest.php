@@ -1,6 +1,6 @@
 <?php
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('verifyConfigArray() - it throws exception if api_scopes is not an array', function(){
     $client = new ApiClientFake(null, [

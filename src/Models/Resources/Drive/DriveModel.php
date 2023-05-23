@@ -1,6 +1,6 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Models\Resources\Drive;
+namespace GitlabIt\GoogleWorkspace\Models\Resources\Drive;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;

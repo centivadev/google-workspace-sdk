@@ -1,6 +1,6 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Models\Resources\LicenseManager;
+namespace GitlabIt\GoogleWorkspace\Models\Resources\LicenseManager;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;

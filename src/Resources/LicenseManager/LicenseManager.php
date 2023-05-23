@@ -1,9 +1,9 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\LicenseManager;
+namespace GitlabIt\GoogleWorkspace\Resources\LicenseManager;
 
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Models\Resources\LicenseManager\LicenseManagerModel;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Models\Resources\LicenseManager\LicenseManagerModel;
 
 class LicenseManager extends ApiClient
 {

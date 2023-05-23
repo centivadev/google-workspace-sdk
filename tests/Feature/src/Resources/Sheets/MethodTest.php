@@ -1,8 +1,8 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Feature\src\Resources\Sheets;
+namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\Sheets;
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('get() - it can get sheet contents from A1 cell', function(){
     $api_client = new ApiClientFake('test');

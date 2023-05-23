@@ -1,13 +1,12 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\LicenseManager;
+namespace GitlabIt\GoogleWorkspace\Resources\LicenseManager;
 
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Resources\BaseClient;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Resources\BaseClient;
 
 class Method extends BaseClient
 {
-
     protected string $customer_id;
 
     public function __construct(ApiClient $api_client, string $auth_token)

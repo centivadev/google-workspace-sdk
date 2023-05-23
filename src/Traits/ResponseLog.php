@@ -1,6 +1,6 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Traits;
+namespace GitlabIt\GoogleWorkspace\Traits;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;

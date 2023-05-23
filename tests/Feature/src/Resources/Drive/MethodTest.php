@@ -1,8 +1,8 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Feature\src\Resources\Drive;
+namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\Drive;
 
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 use Illuminate\Support\Str;
 
 test('get() - it can list accessible drives', function(){

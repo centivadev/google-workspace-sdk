@@ -1,10 +1,10 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Resources\Sheets;
+namespace GitlabIt\GoogleWorkspace\Resources\Sheets;
 
 use Exception;
-use Glamstack\GoogleWorkspace\ApiClient;
-use Glamstack\GoogleWorkspace\Models\Resources\Sheets\SheetsModel;
+use GitlabIt\GoogleWorkspace\ApiClient;
+use GitlabIt\GoogleWorkspace\Models\Resources\Sheets\SheetsModel;
 
 class Sheets extends ApiClient
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Glamstack\GoogleWorkspace\Tests\Feature\src\Resources\Gmail;
+namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\Gmail;
 
 use DateTime;
-use Glamstack\GoogleWorkspace\Tests\Fakes\ApiClientFake;
+use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
 test('get() - it can list email messages of a user', function(){
     $api_client = new ApiClientFake('test');
