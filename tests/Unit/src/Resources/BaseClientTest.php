@@ -5,7 +5,7 @@ use GitlabIt\GoogleWorkspace\Tests\Fakes\Resources\Directory\MethodFake;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 
-test('checkForPagination() - it returns true for paginated response from GET request', function(){
+test('checkForPagination() - it returns true for paginated response from GET request', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -27,7 +27,7 @@ test('checkForPagination() - it returns true for paginated response from GET req
     expect($paginated)->toBeTrue();
 });
 
-test('checkForPagination() - it returns false for non-paginated response from GET request', function(){
+test('checkForPagination() - it returns false for non-paginated response from GET request', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -48,7 +48,7 @@ test('checkForPagination() - it returns false for non-paginated response from GE
     expect($paginated)->toBeFalse();
 });
 
-test('getResponseBody() - it can get the response body', function(){
+test('getResponseBody() - it can get the response body', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -72,7 +72,7 @@ test('getResponseBody() - it can get the response body', function(){
     expect(!property_exists($response_object, 'etag'))->toBeTrue();
 });
 
-test('getResponseBody() - it can get the response body and unset nextPageToken', function(){
+test('getResponseBody() - it can get the response body and unset nextPageToken', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -96,7 +96,7 @@ test('getResponseBody() - it can get the response body and unset nextPageToken',
     expect($response_object->attributes->email == 'klibbygroup@exmaple.com');
     expect(!property_exists($response_object, 'nextPageToken'))->toBeTrue();
 });
-test('convertPaginatedResponseToObject() - it can convert paginated response to an object', function(){
+test('convertPaginatedResponseToObject() - it can convert paginated response to an object', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -115,7 +115,7 @@ test('convertPaginatedResponseToObject() - it can convert paginated response to 
     expect(collect($paginated_object)->flatten())->first()->username->toBe('klibby@example.com');
 });
 
-test('parseApiResponse() - it can parse non GET HTTP Responses', function(){
+test('parseApiResponse() - it can parse non GET HTTP Responses', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -140,7 +140,7 @@ test('parseApiResponse() - it can parse non GET HTTP Responses', function(){
     expect($parsed_response->status->code)->toBe(200);
 });
 
-test('parseApiResponse() - it can parse GET HTTP Responses', function(){
+test('parseApiResponse() - it can parse GET HTTP Responses', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -167,8 +167,8 @@ test('parseApiResponse() - it can parse GET HTTP Responses', function(){
     expect($parsed_response->object->attributes->email)->toBe('klibbygroup@example.com');
 });
 
-test('it will throw exception and log if bad initailization', function(){
-        $api_client = new ApiClientFake('test_with_incorrect_permissions');
-        $method_client = new MethodFake($api_client, 'fake_token');
-        $method_client->setUp();
+test('it will throw exception and log if bad initailization', function () {
+    $api_client = new ApiClientFake('test_with_incorrect_permissions');
+    $method_client = new MethodFake($api_client, 'fake_token');
+    $method_client->setUp();
 })->expectExceptionCode(400);

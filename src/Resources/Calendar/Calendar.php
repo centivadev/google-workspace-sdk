@@ -16,7 +16,7 @@ class Calendar extends ApiClient
     {
         $calendar_model = new CalendarModel();
 
-        if(empty($api_client->connection_config)){
+        if (empty($api_client->connection_config)) {
             $this->setConnectionKey($api_client->connection_key);
             $this->connection_config = [];
         } else {
@@ -25,7 +25,7 @@ class Calendar extends ApiClient
         }
 
         // Check if there is an auth_token. If not reauthenticate using the API client construct method.
-        if(!$api_client->auth_token){
+        if (!$api_client->auth_token) {
             parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
 
@@ -150,5 +150,4 @@ class Calendar extends ApiClient
         $method = new Method($this, $this->auth_token);
         return $method->delete(self::BASE_URL . $url, $request_data);
     }
-
 }

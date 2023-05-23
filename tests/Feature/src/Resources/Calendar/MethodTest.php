@@ -4,17 +4,17 @@ namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\Calendar;
 
 use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
-test('get() - it can use GET to list calendars', function() {
+test('get() - it can use GET to list calendars', function () {
     $api_client = new ApiClientFake('test');
     $response = $api_client->calendar()->get('/users/me/calendarList');
     expect($response->status->code)->toBe(200)
         ->and(property_exists($response->object, 'items'))->toBeTrue();
 });
 
-test('post() - it can use POST to create calendar event', function(){
+test('post() - it can use POST to create calendar event', function () {
     $api_client = new ApiClientFake('test');
     $start_date = now()->add('days', 1)->toDateString();
-    $end_date = now()->add('days',2)->toDateString();
+    $end_date = now()->add('days', 2)->toDateString();
     $response = $api_client->calendar()->post(
         '/calendars/' . config('tests.connections.test.subject_email') . '/events',
         [
@@ -31,7 +31,7 @@ test('post() - it can use POST to create calendar event', function(){
         ->and($response->object->end->date)->toBe($end_date);
 });
 
-test('put() - it can update a calendar event', function(){
+test('put() - it can update a calendar event', function () {
     $api_client = new ApiClientFake('test');
 
     $start_date = now()->add('days', 2)->toDateString();
@@ -56,7 +56,7 @@ test('put() - it can update a calendar event', function(){
         ->and($response->object->end->date)->toBe($end_date);
 });
 
-test('delete() - it can delete a calendar event', function(){
+test('delete() - it can delete a calendar event', function () {
     $api_client = new ApiClientFake('test');
     $start_date = now()->add('days', 1)->toDateString();
     $end_date = now()->add('days', 2)->toDateString();

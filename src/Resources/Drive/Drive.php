@@ -16,7 +16,7 @@ class Drive extends ApiClient
     {
         $drive_model = new DriveModel();
 
-        if(empty($api_client->connection_config)){
+        if (empty($api_client->connection_config)) {
             $this->setConnectionKey($api_client->connection_key);
             $this->connection_config = [];
         } else {
@@ -24,7 +24,7 @@ class Drive extends ApiClient
             $this->connection_key = null;
         }
 
-        if(!$api_client->auth_token){
+        if (!$api_client->auth_token) {
             parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
 
@@ -35,7 +35,7 @@ class Drive extends ApiClient
      * GET HTTP Request
      *
      * This will perform a GET request against the provided `url`. There is no
-     * validation for the provided URL or request data in this method. (i.e. 
+     * validation for the provided URL or request data in this method. (i.e.
      * `https://admin.googleapis.com/admin/directory/v1/groups`)
      *
      * @param string $url
@@ -81,7 +81,7 @@ class Drive extends ApiClient
      * PATCH HTTP Request
      *
      * This will perform a PATCH request against the provided `url`. There is no
-     * validation for the provided URL or request data in this method. (i.e 
+     * validation for the provided URL or request data in this method. (i.e
      * `https://admin.googleapis.com/admin/directory/v1/groups`)
      *
      * @param string $url
@@ -127,7 +127,7 @@ class Drive extends ApiClient
      * DELETE HTTP Request
      *
      * This will perform a DELETE request against the provided `url`. There is no
-     * validation for the provided URL or request data in this method. (i.e 
+     * validation for the provided URL or request data in this method. (i.e
      * `https://admin.googleapis.com/admin/directory/v1/groups`)
      *
      * @param string $url

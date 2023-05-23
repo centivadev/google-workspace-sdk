@@ -23,10 +23,7 @@ class Method extends BaseClient
     protected function setCustomerId(): void
     {
         if ($this->connection_key) {
-            $this->customer_id = config(
-                $this->config_path . '.connections.' .
-                $this->connection_key . '.customer_id'
-            );
+            $this->customer_id = config($this->config_path . '.connections.' . $this->connection_key . '.customer_id');
         } else {
             $this->customer_id = $this->api_client->connection_config['customer_id'];
         }
@@ -142,9 +139,8 @@ class Method extends BaseClient
     protected function appendRequiredHeaders(array $request_data, bool $exclude_customer = false): array
     {
 
-        if ($exclude_customer){
-            $required_parameters = [
-            ];
+        if ($exclude_customer) {
+            $required_parameters = [];
         } else {
             $required_parameters = [
                 'customer_id' => $this->customer_id

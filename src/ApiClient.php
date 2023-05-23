@@ -43,11 +43,10 @@ class ApiClient
      *      Default: `workspace`
      * @throws Exception
      */
-    function __construct(
+    public function __construct(
         ?string $connection_key = null,
         ?array  $connection_config = [],
-    )
-    {
+    ) {
         $api_client_model = new ApiClientModel();
 
         $this->setConfigPath();
@@ -94,7 +93,8 @@ class ApiClient
             $this->auth_token = $google_auth->authenticate();
             $this->logInfo('Success - Authenticating with Google Auth SDK');
         } catch (Exception $exception) {
-            $this->logError('Failed - Authenticating with Google Auth SDK',
+            $this->logError(
+                'Failed - Authenticating with Google Auth SDK',
                 [
                     'exception_code' => $exception->getCode(),
                     'exception_message' => $exception->getMessage()
@@ -183,7 +183,7 @@ class ApiClient
         if ($this->connection_key) {
             $this->log_channels = config(
                 $this->config_path . '.connections.' .
-                $this->connection_key . '.log_channels'
+                    $this->connection_key . '.log_channels'
             );
         } else {
             $this->log_channels = $this->connection_config['log_channels'];
@@ -283,7 +283,6 @@ class ApiClient
                 ]);
 
                 return config($config_path . '.json_key_file_path');
-
             } else {
                 $message = 'The configuration file does not contain a json_key_file_path';
                 $this->logError('Failed - ' . $message);
@@ -435,5 +434,3 @@ class ApiClient
         return new Vault($this);
     }
 }
-
-

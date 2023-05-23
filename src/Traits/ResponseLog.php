@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 
 trait ResponseLog
 {
-
     /**
      * Create a log entry for an API call
      *
@@ -48,7 +47,7 @@ trait ResponseLog
     {
         $method = debug_backtrace()[1]['function'];
 
-        $message = $method.' '.$response->status() .' '.$url;
+        $message = $method . ' ' . $response->status() . ' ' . $url;
 
         Log::stack($this->log_channels)
             ->info($message, [
@@ -78,7 +77,7 @@ trait ResponseLog
      */
     public function logResponseInfo(string $method, string $url, object $response): void
     {
-        $message = $method . ' '.$response->status->code.' '.$url;
+        $message = $method . ' ' . $response->status->code . ' ' . $url;
 
         Log::stack($this->log_channels)
             ->info($message, [
@@ -107,7 +106,7 @@ trait ResponseLog
      */
     public function logResponseClientError(string $method, string $url, object $response): void
     {
-        $message = $method.' '.$response->status->code.' '.$url;
+        $message = $method . ' ' . $response->status->code . ' ' . $url;
 
         Log::stack($this->log_channels)
             ->notice($message, [

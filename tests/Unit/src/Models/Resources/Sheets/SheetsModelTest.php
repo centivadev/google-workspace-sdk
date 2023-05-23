@@ -5,8 +5,7 @@ namespace GitlabIt\GoogleWorkspace\Tests\Unit\src\Models\Resources\Sheets;
 use GitlabIt\GoogleWorkspace\Resources\Sheets\Sheets;
 use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
-
-test('verifyConfigArray() - it will set the config array properly', function(){
+test('verifyConfigArray() - it will set the config array properly', function () {
     $api_client = new ApiClientFake(null, [
         'api_scopes' => [
             'https://www.googleapis.com/auth/admin.directory.group',

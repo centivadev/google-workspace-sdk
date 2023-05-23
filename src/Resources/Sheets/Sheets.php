@@ -16,7 +16,7 @@ class Sheets extends ApiClient
     {
         $sheets_model = new SheetsModel();
 
-        if(empty($api_client->connection_config)){
+        if (empty($api_client->connection_config)) {
             $this->setConnectionKey($api_client->connection_key);
             $this->connection_config = [];
         } else {
@@ -24,7 +24,7 @@ class Sheets extends ApiClient
             $this->connection_key = null;
         }
 
-        if(!$api_client->auth_token){
+        if (!$api_client->auth_token) {
             parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
 

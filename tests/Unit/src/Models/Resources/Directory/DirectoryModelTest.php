@@ -6,9 +6,8 @@ use GitlabIt\GoogleWorkspace\ApiClient;
 use GitlabIt\GoogleWorkspace\Resources\Directory\Directory;
 use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
-
-test('verifyConfigArray() - it requires api_scopes to be set', function(){
-    $api_client = new ApiClientFake(null,[
+test('verifyConfigArray() - it requires api_scopes to be set', function () {
+    $api_client = new ApiClientFake(null, [
         'customer_id' => 'fake_id',
         'domain' => 'fake_domain',
         'json_key_file_path' => storage_path('a_file_path')
@@ -17,7 +16,7 @@ test('verifyConfigArray() - it requires api_scopes to be set', function(){
     $directory_client = new Directory($api_client);
 })->expectExceptionMessage('The api scopes field is required.');
 
-test('verifyConfigArray() - it requires customer_id to be set', function(){
+test('verifyConfigArray() - it requires customer_id to be set', function () {
     $api_client = new ApiClientFake(null, [
         'api_scopes' => [
             'https://www.googleapis.com/auth/admin.directory.group',
@@ -31,7 +30,7 @@ test('verifyConfigArray() - it requires customer_id to be set', function(){
     $directory_client = new Directory($api_client);
 })->expectExceptionMessage('The customer id field is required.');
 
-test('verifyConfigArray() - it requires domain to be set', function(){
+test('verifyConfigArray() - it requires domain to be set', function () {
     $api_client = new ApiClientFake(null, [
         'api_scopes' => [
             'https://www.googleapis.com/auth/admin.directory.group',
@@ -46,18 +45,18 @@ test('verifyConfigArray() - it requires domain to be set', function(){
 })->expectExceptionMessage('The domain field is required.');
 
 
-test('verifyConfigArray() - it will set the config array properly', function(){
-        $api_client = new ApiClientFake(null, [
-            'api_scopes' => [
-                'https://www.googleapis.com/auth/admin.directory.group',
-                'https://www.googleapis.com/auth/contacts'
-            ],
-            'customer_id' => config('tests.connections.test.customer_id'),
-            'domain' => config('tests.connections.test.domain'),
-            'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
-            'log_channels' => ['single'],
-            'subject_email' => config('tests.connections.test.subject_email')
-        ]);
+test('verifyConfigArray() - it will set the config array properly', function () {
+    $api_client = new ApiClientFake(null, [
+        'api_scopes' => [
+            'https://www.googleapis.com/auth/admin.directory.group',
+            'https://www.googleapis.com/auth/contacts'
+        ],
+        'customer_id' => config('tests.connections.test.customer_id'),
+        'domain' => config('tests.connections.test.domain'),
+        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'log_channels' => ['single'],
+        'subject_email' => config('tests.connections.test.subject_email')
+    ]);
 
     $directory_client = new Directory($api_client);
     expect($directory_client->connection_config['domain'])->toBe(config('tests.connections.test.domain'))

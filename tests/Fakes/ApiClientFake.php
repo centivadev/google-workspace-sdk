@@ -10,7 +10,7 @@ class ApiClientFake extends ApiClient
 {
     public function __construct(?string $connection_key = null, ?array $connection_config = [], bool $authenticate = false)
     {
-        if(!$authenticate){
+        if (!$authenticate) {
             parent::__construct($connection_key, $connection_config);
         } else {
             $api_client_model = new ApiClientModel();
@@ -29,7 +29,8 @@ class ApiClientFake extends ApiClient
         }
     }
 
-    public function setUp(){
+    public function setUp()
+    {
         $this->request_headers = [
             'User-Agent' => 'google-workspace-sdk/dev/php8.1'
         ];
