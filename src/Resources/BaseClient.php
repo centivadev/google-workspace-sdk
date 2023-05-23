@@ -238,9 +238,9 @@ abstract class BaseClient
 
         // This if statement is to check if we are utilizing a possible paginated
         // end point. If so we remove the `kind` and `etag` properties`
-        if ((count(collect($response_object)) == 3) || count(collect($response_object)) == 4 &&
-            (property_exists($response_object, 'kind') &&
-                property_exists($response_object, 'etag'))
+        if (
+            (count(collect($response_object)) == 3) || count(collect($response_object)) == 4 &&
+            (property_exists($response_object, 'kind') && property_exists($response_object, 'etag'))
         ) {
             // Unset unnecessary elements
             unset($response_object->kind);
