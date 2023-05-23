@@ -28,7 +28,7 @@ class ApiClientModel
         );
 
         if ($validator->fails()) {
-            throw new Exception($validator->messages()->first());
+            throw new \Exception($validator->messages()->first());
         }
 
         return $options;

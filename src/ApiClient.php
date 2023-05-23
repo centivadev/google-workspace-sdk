@@ -227,7 +227,7 @@ class ApiClient
 
             return config($this->config_path . '.connections.' . $connection_key . '.api_scopes');
         } else {
-            throw new Exception('No api_scopes have been set in the configuration file you are using.');
+            throw new \Exception('No api_scopes have been set in the configuration file you are using.');
         }
     }
 
@@ -284,12 +284,12 @@ class ApiClient
             } else {
                 $message = 'The configuration file does not contain a json_key_file_path';
                 $this->logError('Failed - ' . $message);
-                throw new Exception($message);
+                throw new \Exception($message);
             }
         } else {
             $message = 'The configuration file does not contain a json_key_file_path';
             $this->logError('Failed - ' . $message);
-            throw new Exception($message);
+            throw new \Exception($message);
         }
     }
 

@@ -45,7 +45,7 @@ class LicenseManager extends ApiClient
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function get(string $url, array $request_data = []): object|string
     {
@@ -71,7 +71,7 @@ class LicenseManager extends ApiClient
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function post(string $url, ?array $request_data = [], bool $exclude_customer = false): object|string
     {
@@ -94,7 +94,7 @@ class LicenseManager extends ApiClient
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function patch(string $url, array $request_data = []): object|string
     {
@@ -117,7 +117,7 @@ class LicenseManager extends ApiClient
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function put(string $url, array $request_data = []): object|string
     {
@@ -140,7 +140,7 @@ class LicenseManager extends ApiClient
      *
      * @return object|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function delete(string $url, array $request_data = []): object|string
     {
