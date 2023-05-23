@@ -53,8 +53,12 @@ class Directory extends ApiClient
      *
      * @throws Exception
      */
-    public function get(string $uri, array $request_data = [], bool $exclude_domain = false, bool $exclude_customer = false): object|string
-    {
+    public function get(
+        string $uri,
+        array $request_data = [],
+        bool $exclude_domain = false,
+        bool $exclude_customer = false
+    ): object|string {
         $method = new Method($this, $this->auth_token);
         return $method->get(self::BASE_URL . $uri, $request_data, $exclude_domain, $exclude_customer);
     }

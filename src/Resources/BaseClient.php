@@ -73,7 +73,6 @@ abstract class BaseClient
 
         // If it is paginated
         if ($isPaginated) {
-
             // Get the paginated results
             $paginated_results = $this->getPaginatedResults($url, $request_data, $response);
 
@@ -155,11 +154,8 @@ abstract class BaseClient
      *
      * @return array
      */
-    protected function getPaginatedResults(
-        string   $url,
-        array    $request_data,
-        Response $response
-    ): array {
+    protected function getPaginatedResults(string $url, array $request_data, Response $response): array
+    {
         // Initialize $records as an empty array. This is where we will store
         // the returned data from each paginated request.
         $records = [];
@@ -189,7 +185,6 @@ abstract class BaseClient
         $next_page_exists = $this->checkForPagination($next_response);
 
         if ($next_page_exists) {
-
             // If there is an additional (ex. third) page then continue through all
             // data until the API response does not contain the `nextPageToken`
             // element in the returned object
@@ -247,7 +242,6 @@ abstract class BaseClient
             (property_exists($response_object, 'kind') &&
                 property_exists($response_object, 'etag'))
         ) {
-
             // Unset unnecessary elements
             unset($response_object->kind);
             unset($response_object->etag);
@@ -275,12 +269,8 @@ abstract class BaseClient
      *
      * @return Response
      */
-    protected function getNextPageResults(
-        string   $url,
-        array    $request_data,
-        Response $response
-    ): Response {
-
+    protected function getNextPageResults(string $url, array $request_data, Response $response): Response
+    {
         // Set the Google Cloud Query parameter `pageToken` to the
         // responses `nextPageToken` element
         $next_page = [

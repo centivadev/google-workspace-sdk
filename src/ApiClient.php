@@ -45,7 +45,7 @@ class ApiClient
      */
     public function __construct(
         ?string $connection_key = null,
-        ?array  $connection_config = [],
+        ?array $connection_config = [],
     ) {
         $api_client_model = new ApiClientModel();
 
@@ -82,7 +82,7 @@ class ApiClient
             $this->logInfo('Success - Parsing the connection_config array', [
                 'api_scopes' => $config_array['api_scopes'],
                 'subject_email' => $config_array['subject_email'],
-                'json_key_file_path' => $config_array['json_key_file_path'] != null ? $config_array['json_key_file_path'] : null,
+                'json_key_file_path' => $config_array['json_key_file_path'] ?? null,
                 'json_key' => $config_array['json_key'] != null ? 'Json key was utilized' : null
             ]);
         }
@@ -221,7 +221,6 @@ class ApiClient
     {
         $api_scope_path = $this->config_path . '.connections.' . $connection_key . '.api_scopes';
         if (config($api_scope_path)) {
-
             $this->logInfo('Success - Getting configuration file api_scopes value', [
                 'api_scopes' => config($api_scope_path)
             ]);
@@ -277,7 +276,6 @@ class ApiClient
         $config_path = $this->config_path . '.connections.' . $connection_key;
         if (array_key_exists('json_key_file_path', config($config_path))) {
             if (config($config_path . '.json_key_file_path')) {
-
                 $this->logInfo('Success - Getting configuration file json_key_file_path value', [
                     'json_key_file_path' => config($config_path . '.json_key_file_path')
                 ]);
