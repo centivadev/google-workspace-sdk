@@ -17,7 +17,7 @@ class Directory extends ApiClient
     {
         $directory_model = new DirectoryModel();
 
-        if(empty($api_client->connection_config)){
+        if (empty($api_client->connection_config)) {
             $this->setConnectionKey($api_client->connection_key);
             $this->connection_config = [];
         } else {
@@ -25,7 +25,7 @@ class Directory extends ApiClient
             $this->connection_key = null;
         }
 
-        if(!$api_client->auth_token){
+        if (!$api_client->auth_token) {
             parent::__construct($api_client->connection_key, $api_client->connection_config);
         }
 

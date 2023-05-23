@@ -5,14 +5,14 @@ namespace GitlabIt\GoogleWorkspace\Tests\Unit\src\Resources\Directory;
 use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 use GitlabIt\GoogleWorkspace\Tests\Fakes\Resources\Directory\MethodFake;
 
-test('setCustomerId() - it can set a customer ID from a connection key', function(){
+test('setCustomerId() - it can set a customer ID from a connection key', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     expect($method_client->getCustomerId())->toBe(config('tests.connections.test.customer_id'));
 });
 
-test('setCustomerId() - it can set a customer ID from a connection config array', function(){
+test('setCustomerId() - it can set a customer ID from a connection config array', function () {
     $api_client = new ApiClientFake(null, [
         'api_scopes' => [
             'https://www.googleapis.com/auth/admin.directory.group',
@@ -28,14 +28,14 @@ test('setCustomerId() - it can set a customer ID from a connection config array'
     $method_client->setUp();
     expect($method_client->getCustomerId())->toBe(env('GOOGLE_WORKSPACE_TEST_CUSTOMER_ID'));
 });
-test('setDomain() - it can set the domain from connection key', function(){
+test('setDomain() - it can set the domain from connection key', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
     expect($method_client->getDomain())->toBe(config('tests.connections.test.domain'));
 });
 
-test('setDomain() - it can set the domain from connection config array', function(){
+test('setDomain() - it can set the domain from connection config array', function () {
     $api_client = new ApiClientFake(null, [
         'api_scopes' => [
             'https://www.googleapis.com/auth/admin.directory.group',
@@ -53,7 +53,7 @@ test('setDomain() - it can set the domain from connection config array', functio
 });
 
 
-test('appendRequiredHeaders() - it appends required headers', function(){
+test('appendRequiredHeaders() - it appends required headers', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -67,7 +67,7 @@ test('appendRequiredHeaders() - it appends required headers', function(){
     ]);
 });
 
-test('appendRequiredHeaders() - it appends only domain', function(){
+test('appendRequiredHeaders() - it appends only domain', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();
@@ -78,7 +78,7 @@ test('appendRequiredHeaders() - it appends only domain', function(){
     ]);
 });
 
-test('appendRequiredHeaders() - it appends only customer', function(){
+test('appendRequiredHeaders() - it appends only customer', function () {
     $api_client = new ApiClientFake('test');
     $method_client = new MethodFake($api_client, 'fake_token');
     $method_client->setUp();

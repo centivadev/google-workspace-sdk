@@ -5,28 +5,30 @@ namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\Gmail;
 use DateTime;
 use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
-test('get() - it can list email messages of a user', function(){
+test('get() - it can list email messages of a user', function () {
     $api_client = new ApiClientFake('test');
-    $response = $api_client->gmail()->get('/users/' .
-        config('tests.connections.test.subject_email') . '/messages',
-    [
-        'maxResults' => 2
-    ]);
+    $response = $api_client->gmail()->get(
+        '/users/' .
+            config('tests.connections.test.subject_email') . '/messages',
+        [
+            'maxResults' => 2
+        ]
+    );
     expect($response->object)->toBeObject()
         ->and($response->status->successful)->toBeTrue()
         ->and($response->status->code)->toBe(200);
 });
 
-test('get() - it can list all forwarding addresses for a user', function(){
+test('get() - it can list all forwarding addresses for a user', function () {
     $api_clinet = new ApiClientFake('test');
     $response = $api_clinet->gmail()->get(
         '/users/' . config('tests.connections.test.subject_email') .
-        '/settings/forwardingAddresses'
+            '/settings/forwardingAddresses'
     );
     expect($response->status->successful)->toBeTrue();
 });
 
-test('post() - it can create a new forwarding address for a user', function(){
+test('post() - it can create a new forwarding address for a user', function () {
     $api_client = new ApiClientFake('test');
     $response = $api_client->gmail()->post(
         '/users/' . config('tests.connections.test.subject_email') . '/settings/forwardingAddresses',
@@ -38,12 +40,12 @@ test('post() - it can create a new forwarding address for a user', function(){
 
     $remove_response = $api_client->gmail()->delete(
         '/users/' . config('tests.connections.test.subject_email') . '/settings/forwardingAddresses/' .
-        $response->object->forwardingEmail
+            $response->object->forwardingEmail
     );
     expect($remove_response->status->successful)->toBeTrue();
 });
 
-test('put() - it can update a users vacation message' , function(){
+test('put() - it can update a users vacation message', function () {
     $api_client = new ApiClientFake('test');
     $response = $api_client->gmail()->put(
         '/users/' . config('tests.connections.test.subject_email') . '/settings/vacation',
@@ -66,7 +68,7 @@ test('put() - it can update a users vacation message' , function(){
     expect($remove_response->status->successful)->toBeTrue();
 });
 
-test('delete() - it can delete a forwarding address of a user', function(){
+test('delete() - it can delete a forwarding address of a user', function () {
     $api_client = new ApiClientFake('test');
     $response = $api_client->gmail()->post(
         '/users/' . config('tests.connections.test.subject_email') . '/settings/forwardingAddresses',
@@ -78,7 +80,7 @@ test('delete() - it can delete a forwarding address of a user', function(){
 
     $remove_response = $api_client->gmail()->delete(
         '/users/' . config('tests.connections.test.subject_email') . '/settings/forwardingAddresses/' .
-        $response->object->forwardingEmail
+            $response->object->forwardingEmail
     );
     expect($remove_response->status->successful)->toBeTrue();
 });

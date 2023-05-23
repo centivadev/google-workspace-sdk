@@ -10,12 +10,13 @@ class GmailModel
 {
     public function verifyConfigArray(array $options): array
     {
-        $validator = Validator::make($options,
+        $validator = Validator::make(
+            $options,
             [
                 'api_scopes' => 'required|array',
                 'subject_email' => 'nullable|string',
-                'json_key_file_path' => Rule::requiredIf(!array_key_exists('json_key', $options)).'|string',
-                'json_key' => Rule::requiredIf(!array_key_exists('json_key_file_path', $options)).'|string',
+                'json_key_file_path' => Rule::requiredIf(!array_key_exists('json_key', $options)) . '|string',
+                'json_key' => Rule::requiredIf(!array_key_exists('json_key_file_path', $options)) . '|string',
                 'log_channels' => 'nullable|array'
             ],
             [

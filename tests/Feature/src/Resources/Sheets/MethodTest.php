@@ -4,22 +4,22 @@ namespace GitlabIt\GoogleWorkspace\Tests\Feature\src\Resources\Sheets;
 
 use GitlabIt\GoogleWorkspace\Tests\Fakes\ApiClientFake;
 
-test('get() - it can get sheet contents from A1 cell', function(){
+test('get() - it can get sheet contents from A1 cell', function () {
     $api_client = new ApiClientFake('test');
     $response = $api_client->sheets()->get(
         '/' . config('tests.connections.test.test_sheet_id') .
-        '/values/A1',
+            '/values/A1',
     );
     expect($response->status->successful)->toBeTrue()
         ->and($response->object->values)->toBeArray()
         ->and($response->object->majorDimension)->toBe('ROWS');
 });
 
-test('post() - it can clear A2 Cell', function(){
+test('post() - it can clear A2 Cell', function () {
     $api_client = new ApiClientFake('test');
     $response = $api_client->sheets()->post(
         '/' . config('tests.connections.test.test_sheet_id') .
-        '/values:batchClear',
+            '/values:batchClear',
         [
             'ranges' => [
                 'A2'
@@ -30,10 +30,10 @@ test('post() - it can clear A2 Cell', function(){
         ->and($response->object->clearedRanges[0])->toBe('Sheet1!A2');
 });
 
-test('put() - it can update the A2 Cell', function(){
+test('put() - it can update the A2 Cell', function () {
     $api_client = new ApiClientFake('test');
     $response = $api_client->sheets()->put(
-        '/' .config('tests.connections.test.test_sheet_id') . '/values/A2?valueInputOption=USER_ENTERED',
+        '/' . config('tests.connections.test.test_sheet_id') . '/values/A2?valueInputOption=USER_ENTERED',
         [
             'values' => [
                 '0' => [

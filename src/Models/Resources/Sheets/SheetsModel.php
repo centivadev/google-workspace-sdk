@@ -5,11 +5,13 @@ namespace GitlabIt\GoogleWorkspace\Models\Resources\Sheets;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Exception;
+
 class SheetsModel
 {
     public function verifyConfigArray(array $options): array
     {
-        $validator = Validator::make($options,
+        $validator = Validator::make(
+            $options,
             [
                 'api_scopes' => 'required|array',
                 'subject_email' => 'nullable|string',

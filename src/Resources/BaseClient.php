@@ -27,8 +27,7 @@ abstract class BaseClient
     public function __construct(
         ApiClient $api_client,
         string $auth_token
-    )
-    {
+    ) {
         if (empty($api_client->connection_config)) {
             $this->setConnectionKey($api_client->connection_key);
             $this->connection_config = [];
@@ -88,18 +87,19 @@ abstract class BaseClient
             // This if statement will catch if Google is sending back a response
             // for an endpoint that can be paginated but is not.
             // I.E Google Groups list endpoint but there is only a single group
-            if (count(collect($response->object())) == 3 &&
+            if (
+                count(collect($response->object())) == 3 &&
                 property_exists($response->object(), 'kind') &&
-                property_exists($response->object(), 'etag')) {
+                property_exists($response->object(), 'etag')
+            ) {
                 // Due to the formatting of the response, we are flattening the response object and converting it to an array
                 // This is to remove the nested element that would be the list command i.e. `groups` element when listing groups.
                 $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->flatten()->toArray());
-            } else if($response->status() == 204 and $response->successful()){
+            } elseif ($response->status() == 204 and $response->successful()) {
                 // If there is no content and the API was successful then return
                 // an object that is null
                 $response->results = (object) null;
-            }
-            else {
+            } else {
                 // This will catch all GET request that are not possible to be paginated request.
                 $response->results = $this->convertPaginatedResponseToObject(collect($this->getResponseBody($response))->toArray());
             }
@@ -123,7 +123,7 @@ abstract class BaseClient
      */
     protected function checkForPagination(Response $response): bool
     {
-        if($response->object()){
+        if ($response->object()) {
             // Check if Google Cloud GET Request object contains `nextPageToken`
             if (property_exists($response->object(), 'nextPageToken')) {
                 return true;
@@ -155,8 +155,7 @@ abstract class BaseClient
         string   $url,
         array    $request_data,
         Response $response
-    ): array
-    {
+    ): array {
         // Initialize $records as an empty array. This is where we will store
         // the returned data from each paginated request.
         $records = [];
@@ -232,8 +231,8 @@ abstract class BaseClient
         $response_object = $response->object();
 
         // If `resultSizeEstimate` property exists remove it
-        if($response_object){
-            if(property_exists($response->object(), 'resultSizeEstimate')){
+        if ($response_object) {
+            if (property_exists($response->object(), 'resultSizeEstimate')) {
                 unset($response_object->resultSizeEstimate);
             }
         }
@@ -242,13 +241,14 @@ abstract class BaseClient
         // end point. If so we remove the `kind` and `etag` properties`
         if ((count(collect($response_object)) == 3) || count(collect($response_object)) == 4 &&
             (property_exists($response_object, 'kind') &&
-                property_exists($response_object, 'etag'))) {
+                property_exists($response_object, 'etag'))
+        ) {
 
             // Unset unnecessary elements
             unset($response_object->kind);
             unset($response_object->etag);
         }
-        
+
         // If the response contains the `nextPageToken` element unset that
         if ($contains_next_page) {
             unset($response_object->nextPageToken);
@@ -276,8 +276,7 @@ abstract class BaseClient
         string   $url,
         array    $request_data,
         Response $response
-    ): Response
-    {
+    ): Response {
 
         // Set the Google Cloud Query parameter `pageToken` to the
         // responses `nextPageToken` element
@@ -325,8 +324,7 @@ abstract class BaseClient
      */
     protected function convertPaginatedResponseToObject(
         array $paginatedResponse
-    ): object
-    {
+    ): object {
         $results = [];
         foreach ($paginatedResponse as $response_key => $response_value) {
             $results[$response_key] = $response_value;
@@ -442,7 +440,6 @@ abstract class BaseClient
                 'clientError' => $response->clientError(),
             ],
         ];
-
     }
 
     /**
@@ -659,7 +656,7 @@ abstract class BaseClient
         if ($this->api_client->connection_key) {
             $this->log_channels = config(
                 $this->config_path . '.connections.' .
-                $this->connection_key . '.log_channels'
+                    $this->connection_key . '.log_channels'
             );
         } else {
             $this->log_channels = $this->api_client->connection_config['log_channels'];
@@ -715,5 +712,4 @@ abstract class BaseClient
             'User-Agent' => $package . ' ' . $laravel . ' ' . $php
         ];
     }
-
 }

@@ -30,7 +30,7 @@ class Method extends BaseClient
         if ($this->connection_key) {
             $this->domain = config(
                 $this->config_path . '.connections.' .
-                $this->connection_key . '.domain'
+                    $this->connection_key . '.domain'
             );
         } else {
             $this->domain = $this->api_client->connection_config['domain'];
@@ -47,7 +47,7 @@ class Method extends BaseClient
         if ($this->connection_key) {
             $this->customer_id = config(
                 $this->config_path . '.connections.' .
-                $this->connection_key . '.customer_id'
+                    $this->connection_key . '.customer_id'
             );
         } else {
             $this->customer_id = $this->api_client->connection_config['customer_id'];
@@ -161,11 +161,11 @@ class Method extends BaseClient
      */
     protected function appendRequiredHeaders(array $request_data, bool $exclude_domain = false, bool $exclude_customer = false): array
     {
-        if($exclude_customer){
+        if ($exclude_customer) {
             $required_parameters = [
                 'domain' => $this->domain,
             ];
-        } elseif ($exclude_domain){
+        } elseif ($exclude_domain) {
             $required_parameters = [
                 'customer' => $this->customer_id
             ];
