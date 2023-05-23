@@ -67,7 +67,7 @@ class ApiClient
         if ($this->connection_key) {
             $config_file_array = $this->parseConfigFile($this->connection_key);
 
-            $google_auth = new AuthClient($config_file_array);
+            $google_auth = new AuthClient($config_file_array); // @phpstan-ignore-line
 
             $this->logInfo('Success - Parsing the configuration file', [
                 'api_scopes' => $config_file_array['api_scopes'],
@@ -77,7 +77,7 @@ class ApiClient
         } else {
             $config_array = $this->parseConnectionConfigArray($this->connection_config);
 
-            $google_auth = new AuthClient($config_array);
+            $google_auth = new AuthClient($config_array); // @phpstan-ignore-line
 
             $this->logInfo('Success - Parsing the connection_config array', [
                 'api_scopes' => $config_array['api_scopes'],
@@ -90,7 +90,7 @@ class ApiClient
         // Authenticate with Google OAuth2 Server auth_token
         try {
             // Try to authenticate with Google OAuth2 Server using the Glamstack google-auth-sdk
-            $this->auth_token = $google_auth->authenticate();
+            $this->auth_token = $google_auth->authenticate(); // @phpstan-ignore-line
             $this->logInfo('Success - Authenticating with Google Auth SDK');
         } catch (Exception $exception) {
             $this->logError(

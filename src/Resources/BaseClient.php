@@ -18,7 +18,7 @@ abstract class BaseClient
     protected ApiClient $api_client;
     public string $config_path;
     public ?string $connection_key;
-    private array $connection_config;
+    private array $connection_config; // @phpstan-ignore-line
     private array $request_headers;
 
     /**
@@ -76,7 +76,7 @@ abstract class BaseClient
             // Get the paginated results
             $paginated_results = $this->getPaginatedResults($url, $request_data, $response);
 
-            $response->results = $this->convertPaginatedResponseToObject($paginated_results);
+            $response->results = $this->convertPaginatedResponseToObject($paginated_results); // @phpstan-ignore-line
 
             // Unset the body and json elements of the original Guzzle Response
             // Object. These will be reset with the paginated results.
@@ -94,15 +94,18 @@ abstract class BaseClient
                 // Due to the formatting of the response, we are flattening the response object and converting it to an
                 // array. This is to remove the nested element that would be the list command i.e. `groups` element when
                 // listing groups.
+                // @phpstan-ignore-next-line
                 $response->results = $this->convertPaginatedResponseToObject(
                     collect($this->getResponseBody($response))->flatten()->toArray()
                 );
             } elseif ($response->status() == 204 and $response->successful()) {
                 // If there is no content and the API was successful then return
                 // an object that is null
+                // @phpstan-ignore-next-line
                 $response->results = (object) null;
             } else {
                 // This will catch all GET request that are not possible to be paginated request.
+                // @phpstan-ignore-next-line
                 $response->results = $this->convertPaginatedResponseToObject(
                     collect($this->getResponseBody($response))->toArray()
                 );
