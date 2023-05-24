@@ -1,6 +1,18 @@
 {
     "name": "gitlab-it/google-workspace-sdk",
     "description": "Google Workspace API SDK for Laravel",
+    "keywords": [
+        "Gitlab",
+        "google-auth",
+        "google",
+        "workspace",
+        "gsuite",
+        "g-suite",
+        "auth",
+        "laravel",
+        "apiclient"
+    ],
+    "license": "MIT",
     "authors": [
         {
             "name": "Dillon Wheeler",
