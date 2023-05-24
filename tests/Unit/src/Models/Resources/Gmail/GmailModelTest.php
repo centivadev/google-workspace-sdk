@@ -11,7 +11,7 @@ test('verifyConfigArray() - it will set the config array properly', function () 
             'https://www.googleapis.com/auth/admin.directory.group',
             'https://www.googleapis.com/auth/contacts'
         ],
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -20,5 +20,5 @@ test('verifyConfigArray() - it will set the config array properly', function () 
         'https://www.googleapis.com/auth/admin.directory.group',
         'https://www.googleapis.com/auth/contacts'
     ])
-        ->and($directory_client->connection_config['json_key_file_path'])->toBe(storage_path('keys/glamstack-google-workspace/test.json'));
+        ->and($directory_client->connection_config['json_key_file_path'])->toBe(storage_path('keys/google-workspace-sdk/test.json'));
 });

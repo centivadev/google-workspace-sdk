@@ -27,7 +27,7 @@ class ApiClient
 
     /**
      * This function takes care of the initialization of authentication using
-     * the `Glamstack\GoogleAuth\AuthClient` class to connect to Google OAuth2
+     * the `GitlabIt\GoogleAuth\AuthClient` class to connect to Google OAuth2
      * servers to retrieve an API token to be used with Google API endpoints.
      *
      * @see https://gitlab.com/gitlab-com/business-technology/engineering/access-manager/packages/composer/gitlab-sdk/-/blob/main/README.md
@@ -89,7 +89,7 @@ class ApiClient
 
         // Authenticate with Google OAuth2 Server auth_token
         try {
-            // Try to authenticate with Google OAuth2 Server using the Glamstack google-auth-sdk
+            // Try to authenticate with Google OAuth2 Server using gitlab-it/google-auth-sdk
             $this->auth_token = $google_auth->authenticate(); // @phpstan-ignore-line
             $this->logInfo('Success - Authenticating with Google Auth SDK');
         } catch (Exception $exception) {
@@ -109,7 +109,7 @@ class ApiClient
      */
     public function setConfigPath()
     {
-        $this->config_path = env('GLAMSTACK_GOOGLE_WORKSPACE_CONFIG_PATH', 'glamstack-google-workspace');
+        $this->config_path = env('GOOGLE_WORKSPACE_SDK_CONFIG_PATH', 'google-workspace-sdk');
     }
 
     /**
@@ -156,7 +156,7 @@ class ApiClient
         // return the version key. For production, this will show a release
         // number. In development, this will show the branch name.
         $composer_package = collect($composer_lock_json['packages'])
-            ->where('name', 'glamstack/google-workspace-sdk')
+            ->where('name', 'gitlab-it/google-workspace-sdk')
             ->first();
 
         if ($composer_package) {

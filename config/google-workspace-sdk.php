@@ -7,7 +7,7 @@ return [
      * Default Configuration
      * ------------------------------------------------------------------------
      *
-     * @see https://laravel.com/docs/9.x/logging
+     * @see https://laravel.com/docs/10.x/logging
      *
      * @param string $connection
      *      The default connection key (array key) that you want to use if not
@@ -15,7 +15,7 @@ return [
      *      `GOOGLE_WORKSPACE_DEFAULT_CONNECTION` variable in your .env file so you
      *      don't need to pass the connection key into the ApiClient.
      *      ```php
-     *      $google_cloud = new \Glamstack\GoogleCloud\ApiClient();
+     *      $google_api = new \GitlabIt\GoogleWorkspace\ApiClient();
      *      ```
      *
      * @param array  $log_channels
@@ -29,16 +29,16 @@ return [
      *      that is easier to triage without unrelated log messages, you can
      *      create a custom log channel and add the channel name to the
      *      array. For example, we recommend creating a custom channel
-     *      (ex. `glamstack-google-workspace`), however you can choose any
+     *      (ex. `google-workspace-sdk`), however you can choose any
      *      name you would like.
-     *      Ex. ['single', 'glamstack-google-workspace']
+     *      Ex. ['single', 'google-workspace-sdk']
      *
      *      You can also add additional channels that logs should be sent to.
-     *      Ex. ['single', 'glamstack-google-workspace', 'slack']
+     *      Ex. ['single', 'google-workspace-sdk', 'slack']
      */
 
     'default' => [
-        'connection' => env('GOOGLE_WORKSPACE_DEFAULT_CONNECTION', 'organization'),
+        'connection' => env('GOOGLE_WORKSPACE_DEFAULT_CONNECTION', 'prod'),
         'log_channels' => ['single'],
         'log_debug_enabled' => env('GOOGLE_WORKSPACE_LOG_DEBUG_ENABLED', false),
     ],
@@ -60,7 +60,7 @@ return [
      *  ]
      *
      * ```php
-     * $google_auth = new \Glamstack\GoogleWorkspace\ApiClient('test');
+     * $google_auth = new \GitlabIt\GoogleWorkspace\ApiClient('test');
      * ```
      *
      * You can create one or more service accounts in your GCP project(s) with
@@ -87,16 +87,16 @@ return [
      *
      *      If null, the GCP service account JSON API key file that you
      *      generate and download should be added to your locally cloned
-     *      repository in the `storage/keys/glamstack-google-workspace` directory with
+     *      repository in the `storage/keys/google-workspace-sdk` directory with
      *      the filename that matches the connection key.
      *
      *      ```php
-     *      storage('keys/glamstack-google-workspace/test.json')
+     *      storage('keys/google-workspace-sdk/test.json')
      *      ```
      *
      * @param string $customer_id
      *      The customer number of the Google Account that the API's will be
-     *      run on. This will need to match the customer number that the 
+     *      run on. This will need to match the customer number that the
      *      Service Account is under as well or it will not work.
      *
      * @param string $domain
@@ -118,29 +118,29 @@ return [
      *      that is easier to triage without unrelated log messages, you can
      *      create a custom log channel and add the channel name to the
      *      array. For example, we recommend creating a custom channel
-     *      (ex. `glamstack-google-workspace`), however you can choose any
+     *      (ex. `google-workspace-sdk`), however you can choose any
      *      name you would like. You could also use a log file name that
      *      is the name of the GCP project that the logs relate to.
      *      ```php
-     *      ['single', 'glamstack-google-workspace']
+     *      ['single', 'google-workspace-sdk']
      *      ```
      *
      *      You can also add additional channels that logs should be sent to.
      *      ```php
-     *      ['single', 'glamstack-google-workspace', 'slack']
+     *      ['single', 'google-workspace-sdk', 'slack']
      *      ```
      */
     'connections' => [
-        'organization' => [
+        'prod' => [
             'api_scopes' => [
                 'https://www.googleapis.com/auth/admin.directory.group',
                 'https://www.googleapis.com/auth/admin.directory.user'
             ],
-            'json_key_file_path' => storage_path('GOOGLE_WORKSPACE_JSON_KEY_FILE_PATH'),
+            'json_key_file_path' => storage_path('GOOGLE_WORKSPACE_PROD_JSON_KEY_FILE_PATH'),
             'log_channels' => ['single'],
-            'customer_id' => env('GOOGLE_WORKSPACE_CUSTOMER_ID'),
-            'domain' => env('GOOGLE_WORKSPACE_DOMAIN'),
-            'subject_email' => env('GOOGLE_WORKSPACE_SUBJECT_EMAIL')
+            'customer_id' => env('GOOGLE_WORKSPACE_PROD_CUSTOMER_ID'),
+            'domain' => env('GOOGLE_WORKSPACE_PROD_DOMAIN'),
+            'subject_email' => env('GOOGLE_WORKSPACE_PROD_SUBJECT_EMAIL')
         ],
 
     ]

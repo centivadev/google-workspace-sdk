@@ -20,7 +20,7 @@ test('setCustomerId() - it can set a customer ID from a connection config array'
         ],
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -43,7 +43,7 @@ test('setDomain() - it can set the domain from connection config array', functio
         ],
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);

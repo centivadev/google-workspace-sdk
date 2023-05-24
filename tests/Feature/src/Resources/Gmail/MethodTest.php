@@ -50,14 +50,14 @@ test('put() - it can update a users vacation message', function () {
     $response = $api_client->gmail()->put(
         '/users/' . config('tests.connections.test.subject_email') . '/settings/vacation',
         [
-            'responseSubject' => 'Glamstack PUT test',
-            'responseBodyPlainText' => 'This message was set using Glamstack Google Workspace SDK.',
+            'responseSubject' => 'Google Workspace SDK PUT test',
+            'responseBodyPlainText' => 'This message was set using Google Workspace SDK.',
 
         ]
     );
 
-    expect($response->object->responseSubject)->toBe('Glamstack PUT test');
-    expect($response->object->responseBodyPlainText)->toBe('This message was set using Glamstack Google Workspace SDK.');
+    expect($response->object->responseSubject)->toBe('Google Workspace SDK PUT test');
+    expect($response->object->responseBodyPlainText)->toBe('This message was set using Google Workspace SDK.');
 
     $remove_response = $api_client->gmail()->put(
         '/users/' . config('tests.connections.test.subject_email') . '/settings/vacation',

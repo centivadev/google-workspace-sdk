@@ -47,7 +47,7 @@ abstract class BaseClient
      */
     public function setConfigPath()
     {
-        $this->config_path = env('GLAMSTACK_GOOGLE_WORKSPACE_CONFIG_PATH', 'glamstack-google-workspace');
+        $this->config_path = env('GOOGLE_WORKSPACE_SDK_CONFIG_PATH', 'google-workspace-sdk');
     }
     /**
      * Google API GET Request
@@ -112,7 +112,7 @@ abstract class BaseClient
             }
         }
 
-        // Parse the API response and return a Glamstack standardized response
+        // Parse the API response and return a Gitlab IT standardized response
         $parsed_api_response = $this->parseApiResponse($response, true);
 
         $this->logResponse($url, $parsed_api_response);
@@ -535,7 +535,7 @@ abstract class BaseClient
             ->withHeaders($this->request_headers)
             ->post($url, $request_data);
 
-        // Parse the API request's response and return a Glamstack standardized
+        // Parse the API request's response and return a Gitlab IT standardized
         // response
         $response = $this->parseApiResponse($request);
 
@@ -562,7 +562,7 @@ abstract class BaseClient
             ->withHeaders($this->request_headers)
             ->patch($url, $request_data);
 
-        // Parse the API request's response and return a Glamstack standardized
+        // Parse the API request's response and return a Gitlab IT standardized
         // response
         $response = $this->parseApiResponse($request);
 
@@ -592,7 +592,7 @@ abstract class BaseClient
             ->withHeaders($this->request_headers)
             ->put($url, $request_data);
 
-        // Parse the API request's response and return a Glamstack standardized
+        // Parse the API request's response and return a Gitlab IT standardized
         // response
         $response = $this->parseApiResponse($request);
 
@@ -622,7 +622,7 @@ abstract class BaseClient
             ->withHeaders($this->request_headers)
             ->delete($url, $request_data);
 
-        // Parse the API request's response and return a Glamstack standardized
+        // Parse the API request's response and return a Gitlab IT standardized
         // response
         $response = $this->parseApiResponse($request);
 
@@ -691,7 +691,7 @@ abstract class BaseClient
         // return the version key. For production, this will show a release
         // number. In development, this will show the branch name.
         $composer_package = collect($composer_lock_json['packages'])
-            ->where('name', 'glamstack/google-workspace-sdk')
+            ->where('name', 'gitlab-it/google-workspace-sdk')
             ->first();
 
         if ($composer_package) {
