@@ -23,7 +23,7 @@ test('verifyConfigArray() - it requires customer_id to be set', function () {
             'https://www.googleapis.com/auth/contacts'
         ],
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -37,7 +37,7 @@ test('verifyConfigArray() - it requires domain to be set', function () {
             'https://www.googleapis.com/auth/contacts'
         ],
         'customer_id' => config('tests.connections.test.customer_id'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -53,7 +53,7 @@ test('verifyConfigArray() - it will set the config array properly', function () 
         ],
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -65,5 +65,5 @@ test('verifyConfigArray() - it will set the config array properly', function () 
             'https://www.googleapis.com/auth/contacts'
         ])
         ->and($directory_client->connection_config['customer_id'])->toBe(config('tests.connections.test.customer_id'))
-        ->and($directory_client->connection_config['json_key_file_path'])->toBe(storage_path('keys/glamstack-google-workspace/test.json'));
+        ->and($directory_client->connection_config['json_key_file_path'])->toBe(storage_path('keys/google-workspace-sdk/test.json'));
 });

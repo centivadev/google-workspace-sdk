@@ -68,7 +68,7 @@ test('setLogChannels() - it can set log channels from the connection config arra
         ],
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -151,7 +151,7 @@ test('parseConnectionConfigArray() - it can parse the connection config array ap
         'api_scopes' => $api_scopes,
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ];
@@ -159,7 +159,7 @@ test('parseConnectionConfigArray() - it can parse the connection config array ap
     $expected_result = [
         'api_scopes' => $api_scopes,
         'subject_email' => config('tests.connections.test.subject_email'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'json_key' => null
     ];
     $api_client = new ApiClientFake(null, $connnection_array);
@@ -183,7 +183,7 @@ test('getConfigArrayApiScopes() - it will get the api scopes from config array',
         'api_scopes' => $api_scopes,
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -200,7 +200,7 @@ test('getConfigArraySubjectEmail() - it will get the subject email from config a
         'api_scopes' => $api_scopes,
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -217,7 +217,7 @@ test('getConfigArraySubjectEmail() - it will set the subject email to null if pa
         'api_scopes' => $api_scopes,
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
     ]);
     $subject_email = $api_client->getConfigArraySubjectEmail($api_client->connection_config);
@@ -233,7 +233,7 @@ test('getConfigArrayFilePath() - it will get the file path from config array', f
         'api_scopes' => $api_scopes,
         'customer_id' => config('tests.connections.test.customer_id'),
         'domain' => config('tests.connections.test.domain'),
-        'json_key_file_path' => storage_path('keys/glamstack-google-workspace/test.json'),
+        'json_key_file_path' => storage_path('keys/google-workspace-sdk/test.json'),
         'log_channels' => ['single'],
         'subject_email' => config('tests.connections.test.subject_email')
     ]);
@@ -246,8 +246,8 @@ test('getConfigArrayJsonKey() - it will get the json_key from config array', fun
         'https://www.googleapis.com/auth/admin.directory.group',
         'https://www.googleapis.com/auth/contacts'
     ];
-    $json_key = fopen(storage_path('keys/glamstack-google-workspace/test.json'), 'r');
-    $file_contents = fread($json_key, filesize(storage_path('keys/glamstack-google-workspace/test.json')));
+    $json_key = fopen(storage_path('keys/google-workspace-sdk/test.json'), 'r');
+    $file_contents = fread($json_key, filesize(storage_path('keys/google-workspace-sdk/test.json')));
     fclose($json_key);
     $api_client = new ApiClientFake(null, [
         'api_scopes' => $api_scopes,

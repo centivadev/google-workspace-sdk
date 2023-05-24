@@ -20,7 +20,7 @@
     verbose="true"
 >
     <testsuites>
-        <testsuite name="Glamstack\GoogleWorkspace Test Suite">
+        <testsuite name="GitlabIt\GoogleWorkspace Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
